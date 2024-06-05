@@ -71,6 +71,15 @@ class SaveContentsViewController: UIViewController, ConfigureViewProtocol {
         view.backgroundColor = .black
         configureHierarchy()
         configureLayout()
+        
+        settingButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+    }
+    
+    @objc
+    private func buttonClicked() {
+        let loginNavigationContoller = UINavigationController(rootViewController: LoginViewController())
+        loginNavigationContoller.modalPresentationStyle = .fullScreen
+        present(loginNavigationContoller, animated: true)
     }
 
     func configureHierarchy() {
