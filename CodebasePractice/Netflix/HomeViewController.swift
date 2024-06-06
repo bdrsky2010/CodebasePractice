@@ -74,7 +74,6 @@ final class HomeViewController: UIViewController, ConfigureViewProtocol {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 5
         imageView.backgroundColor = .systemRed
-//        imageView.image = UIImage(named: "범죄도시3")
         return imageView
     }()
     
@@ -84,7 +83,6 @@ final class HomeViewController: UIViewController, ConfigureViewProtocol {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 5
         imageView.backgroundColor = .systemGreen
-//        imageView.image = UIImage(named: "범죄도시3")
         return imageView
     }()
     
@@ -94,7 +92,6 @@ final class HomeViewController: UIViewController, ConfigureViewProtocol {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 5
         imageView.backgroundColor = .systemBlue
-//        imageView.image = UIImage(named: "범죄도시3")
         return imageView
     }()
     
@@ -108,11 +105,6 @@ final class HomeViewController: UIViewController, ConfigureViewProtocol {
         configureLayout()
         configureContent()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        configureContent()
-//    }
 
     func configureHierarchy() {
         view.addSubview(titleLabel)

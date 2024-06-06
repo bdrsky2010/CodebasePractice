@@ -20,6 +20,11 @@
 		7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13832C0F02C80096DE9E /* SaveContentsViewController.swift */; };
 		7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13852C0F13200096DE9E /* ConfigureViewProtocol.swift */; };
 		7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13872C0FDE480096DE9E /* LoginViewController.swift */; };
+		7B5C13C32C11B9F30096DE9E /* LottoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13C22C11B9F30096DE9E /* LottoViewController.swift */; };
+		7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */; };
+		7B5C13C92C11DC670096DE9E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7B5C13C82C11DC670096DE9E /* Alamofire */; };
+		7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13CA2C11E2170096DE9E /* APIKey.swift */; };
+		7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13CC2C11F2960096DE9E /* String+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +41,10 @@
 		7B5C13832C0F02C80096DE9E /* SaveContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveContentsViewController.swift; sourceTree = "<group>"; };
 		7B5C13852C0F13200096DE9E /* ConfigureViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureViewProtocol.swift; sourceTree = "<group>"; };
 		7B5C13872C0FDE480096DE9E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7B5C13C22C11B9F30096DE9E /* LottoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoViewController.swift; sourceTree = "<group>"; };
+		7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
+		7B5C13CA2C11E2170096DE9E /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		7B5C13CC2C11F2960096DE9E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B5C13C92C11DC670096DE9E /* Alamofire in Frameworks */,
 				7B5C137B2C0EFED70096DE9E /* Kingfisher in Frameworks */,
 				7B5C13782C0EFECC0096DE9E /* SnapKit in Frameworks */,
 			);
@@ -72,10 +82,15 @@
 			isa = PBXGroup;
 			children = (
 				7B5C13802C0F026C0096DE9E /* Netflix */,
+				7B5C13BF2C11B89D0096DE9E /* Lotto */,
+				7B5C13C02C11B9720096DE9E /* BoxOffice */,
+				7B5C13C12C11B9A60096DE9E /* OpenWeather */,
 				7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */,
 				7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */,
 				7B5C13642C0EFAEB0096DE9E /* ViewController.swift */,
 				7B5C13852C0F13200096DE9E /* ConfigureViewProtocol.swift */,
+				7B5C13CA2C11E2170096DE9E /* APIKey.swift */,
+				7B5C13C62C11D0530096DE9E /* Extension */,
 				7B5C13692C0EFAEC0096DE9E /* Assets.xcassets */,
 				7B5C136B2C0EFAEC0096DE9E /* LaunchScreen.storyboard */,
 				7B5C136E2C0EFAEC0096DE9E /* Info.plist */,
@@ -92,6 +107,37 @@
 				7B5C13872C0FDE480096DE9E /* LoginViewController.swift */,
 			);
 			path = Netflix;
+			sourceTree = "<group>";
+		};
+		7B5C13BF2C11B89D0096DE9E /* Lotto */ = {
+			isa = PBXGroup;
+			children = (
+				7B5C13C22C11B9F30096DE9E /* LottoViewController.swift */,
+			);
+			path = Lotto;
+			sourceTree = "<group>";
+		};
+		7B5C13C02C11B9720096DE9E /* BoxOffice */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BoxOffice;
+			sourceTree = "<group>";
+		};
+		7B5C13C12C11B9A60096DE9E /* OpenWeather */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = OpenWeather;
+			sourceTree = "<group>";
+		};
+		7B5C13C62C11D0530096DE9E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */,
+				7B5C13CC2C11F2960096DE9E /* String+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,6 +159,7 @@
 			packageProductDependencies = (
 				7B5C13772C0EFECC0096DE9E /* SnapKit */,
 				7B5C137A2C0EFED70096DE9E /* Kingfisher */,
+				7B5C13C82C11DC670096DE9E /* Alamofire */,
 			);
 			productName = CodebasePractice;
 			productReference = 7B5C135D2C0EFAEB0096DE9E /* CodebasePractice.app */;
@@ -145,6 +192,7 @@
 			packageReferences = (
 				7B5C13762C0EFECC0096DE9E /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7B5C13792C0EFED70096DE9E /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				7B5C13C72C11DC670096DE9E /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 7B5C135E2C0EFAEB0096DE9E /* Products */;
 			projectDirPath = "";
@@ -173,10 +221,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B5C13C32C11B9F30096DE9E /* LottoViewController.swift in Sources */,
+				7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */,
 				7B5C137F2C0F02670096DE9E /* HomeViewController.swift in Sources */,
 				7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */,
 				7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */,
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
+				7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */,
+				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
 				7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */,
 				7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */,
@@ -423,6 +475,14 @@
 				minimumVersion = 7.11.0;
 			};
 		};
+		7B5C13C72C11DC670096DE9E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -435,6 +495,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B5C13792C0EFED70096DE9E /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		7B5C13C82C11DC670096DE9E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B5C13C72C11DC670096DE9E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
