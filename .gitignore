@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/swift,xcode,cocoapods,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift,xcode,cocoapods,macos
 
+APIKey.swift
+
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
 
