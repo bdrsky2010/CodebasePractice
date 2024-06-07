@@ -293,21 +293,6 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
     @objc private func rootViewTapped() {
         pickerTextField.resignFirstResponder()
     }
-    
-    private func presentAlert() {
-        // 1. alert 창 구성
-        let title = "오류가 발생했어요... 🤔"
-        let alert = UIAlertController(title: title,
-                                      message: nil,
-                                      preferredStyle: .alert)
-        // 2. alert button 구성
-        let dismiss = UIAlertAction(title: "확인", style: .default)
-        
-        // 3. alert에 button 추가
-        alert.addAction(dismiss)
-        
-        self.present(alert, animated: true)
-    }
 }
 
 extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
@@ -321,11 +306,15 @@ extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
         let number = numeberList[row]
         
         requestDecodableCustomTypeResult(urlString: APIURL.lotto(number).urlString,
-                                         type: Lotto.self) { value in
-            self.lotto = value
-            self.configureContent()
-        } failClosure: { error in
-            self.presentAlert()
+                                         type: Lotto.self) { [weak self] value in
+            guard let self else { return }
+            
+            lotto = value
+            configureContent()
+        } failClosure: { [weak self] error in
+            guard let self else { return }
+            
+            presentErrorAlert()
             print(error)
         }
         
