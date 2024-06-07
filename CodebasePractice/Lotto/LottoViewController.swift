@@ -310,7 +310,7 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
     }
 }
 
-extension LottoViewController: UIPickerViewDelegate {
+extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "\(numeberList[row]) 회"
@@ -320,15 +320,13 @@ extension LottoViewController: UIPickerViewDelegate {
         
         let number = numeberList[row]
         
-        AF.request(APIURL.lotto(number).urlString).responseDecodable(of: Lotto.self) { response in
-            switch response.result {
-            case .success(let value):
-                self.lotto = value
-                self.configureContent()
-            case .failure(let error):
-                self.presentAlert()
-                print(error)
-            }
+        requestDecodableCustomTypeResult(urlString: APIURL.lotto(number).urlString,
+                                         type: Lotto.self) { value in
+            self.lotto = value
+            self.configureContent()
+        } failClosure: { error in
+            self.presentAlert()
+            print(error)
         }
         
         pickerTextField.text = "\(number) 회"
