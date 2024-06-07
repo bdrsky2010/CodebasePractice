@@ -117,7 +117,7 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
         var stackViewList: [UIStackView] =  (0..<8).map { _ in
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.spacing = 2
+            stackView.spacing = 4
             return stackView
         }
         return stackViewList
@@ -140,6 +140,7 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         
         numberPicker.delegate = self
@@ -236,25 +237,50 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
         resultTitleLabel.attributedText = "\(pickerTextField.text ?? "??") 당첨결과".changedSearchTextColor("\(pickerTextField.text ?? "??")")
         
         drawNumberLabelList[0].text = "\(lotto.drwtNo1)"
+        changeLableBackgroundColor(drawNumberLabelList[0], drwNo: Int(lotto.drwtNo1))
+        
         drawNumberLabelList[1].text = "\(lotto.drwtNo2)"
+        changeLableBackgroundColor(drawNumberLabelList[1], drwNo: Int(lotto.drwtNo2))
+        
         drawNumberLabelList[2].text = "\(lotto.drwtNo3)"
+        changeLableBackgroundColor(drawNumberLabelList[2], drwNo: Int(lotto.drwtNo3))
+        
         drawNumberLabelList[3].text = "\(lotto.drwtNo4)"
+        changeLableBackgroundColor(drawNumberLabelList[3], drwNo: Int(lotto.drwtNo4))
+        
         drawNumberLabelList[4].text = "\(lotto.drwtNo5)"
+        changeLableBackgroundColor(drawNumberLabelList[4], drwNo: Int(lotto.drwtNo5))
+        
         drawNumberLabelList[5].text = "\(lotto.drwtNo6)"
+        changeLableBackgroundColor(drawNumberLabelList[5], drwNo: Int(lotto.drwtNo6))
+        
         drawNumberLabelList[7].text = "\(lotto.bnusNo)"
+        changeLableBackgroundColor(drawNumberLabelList[7], drwNo: Int(lotto.bnusNo))
+    }
+    
+    private func changeLableBackgroundColor(_ label: UILabel, drwNo: Int?) {
+        guard let drwNo else { return }
+        
+        switch drwNo {
+        case 1...10: label.backgroundColor = .pastelYellow
+        case 11...20: label.backgroundColor = .pastelBlue
+        case 21...30: label.backgroundColor = .pastelRed
+        case 31...40: label.backgroundColor = .systemGray
+        case 41...45: label.backgroundColor = .pastelGreen
+        default: label.backgroundColor = .pastelPurple
+        }
     }
     
     func configureUI() {
         
-        drawNumberLabelList[0].backgroundColor = .pastelYellow
-        drawNumberLabelList[1].backgroundColor = .pastelBlue
-        drawNumberLabelList[2].backgroundColor = .pastelGreen
-        drawNumberLabelList[3].backgroundColor = .pastelRed
-        drawNumberLabelList[4].backgroundColor = .pastelRed
-        drawNumberLabelList[5].backgroundColor = .systemGray
-        drawNumberLabelList[7].backgroundColor = .systemGray
-        
-        drawNumberLabelList.forEach { label in
+        drawNumberLabelList.enumerated().forEach {
+            let index = $0.offset
+            let label = $0.element
+            
+            if index != 6 {
+                label.backgroundColor = .pastelPurple
+            }
+            
             label.clipsToBounds = true
             label.layer.cornerRadius = label.frame.width / 2
         }
@@ -294,10 +320,9 @@ extension LottoViewController: UIPickerViewDelegate {
         
         let number = numeberList[row]
         
-        AF.request(APIURL.lottoURL + "\(number)").responseDecodable(of: Lotto.self) { response in
+        AF.request(APIURL.lotto(number).urlString).responseDecodable(of: Lotto.self) { response in
             switch response.result {
             case .success(let value):
-                print(value)
                 self.lotto = value
                 self.configureContent()
             case .failure(let error):

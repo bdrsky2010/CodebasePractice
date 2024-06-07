@@ -31,12 +31,13 @@ final class ViewController: UIViewController {
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     private let titleList = ["넷플릭스", "로또"]
-    private let viewControllerList: [UIViewController] = [UITabBarController(), LottoViewController()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        
+        navigationItem.title = "코드베이스"
         
         configureHierarchy()
         configureLayout()
@@ -58,11 +59,14 @@ final class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let viewControllerList: [UIViewController] = [UITabBarController(), LottoViewController()]
+        
         let index = indexPath.row
         
         var viewController = viewControllerList[index]
         
-        if index == 0, let tabBarController =  getConfiguredTabBar(viewController) {
+        if index == 0, let tabBarController = getConfiguredTabBar(viewController) {
             
             navigationController?.pushViewController(tabBarController, animated: true)
         } else {
