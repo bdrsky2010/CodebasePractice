@@ -72,6 +72,16 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
         }
     }
     
+    private var yesterdayString: String {
+        let yesterday = Date(timeIntervalSinceNow: -86400)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let yesterdayString = dateFormatter.string(from: yesterday)
+        return yesterdayString
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -128,12 +138,19 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
     
     func configureContent() {
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        
+        requestAPI(date: yesterdayString)
+        searchTextField.text = yesterdayString
     }
     
     @objc
     private func searchButtonTapped() {
         guard let targetDt = searchTextField.text else { return }
         
+        requestAPI(date: targetDt)
+    }
+    
+    private func requestAPI(date targetDt: String) {
         requestDecodableCustomTypeResult(urlString: APIURL.kobis(APIKey.kobisAPIKey, targetDt).urlString,
                                          type: DailyBoxOffice.self) { [weak self] value in
             guard let self else { return }
