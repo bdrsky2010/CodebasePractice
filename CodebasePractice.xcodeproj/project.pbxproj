@@ -25,6 +25,11 @@
 		7B5C13C92C11DC670096DE9E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7B5C13C82C11DC670096DE9E /* Alamofire */; };
 		7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13CA2C11E2170096DE9E /* APIKey.swift */; };
 		7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13CC2C11F2960096DE9E /* String+.swift */; };
+		7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */; };
+		7BD80CAC2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAB2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift */; };
+		7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */; };
+		7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CB02C131340001F8E3F /* UIViewController+.swift */; };
+		7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +50,11 @@
 		7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
 		7B5C13CA2C11E2170096DE9E /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7B5C13CC2C11F2960096DE9E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
+		7BD80CAB2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPIFromAFProtocol.swift; sourceTree = "<group>"; };
+		7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTableViewCell.swift; sourceTree = "<group>"; };
+		7BD80CB02C131340001F8E3F /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +99,7 @@
 				7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */,
 				7B5C13642C0EFAEB0096DE9E /* ViewController.swift */,
 				7B5C13852C0F13200096DE9E /* ConfigureViewProtocol.swift */,
+				7BD80CAB2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift */,
 				7B5C13CA2C11E2170096DE9E /* APIKey.swift */,
 				7B5C13C62C11D0530096DE9E /* Extension */,
 				7B5C13692C0EFAEC0096DE9E /* Assets.xcassets */,
@@ -120,6 +131,8 @@
 		7B5C13C02C11B9720096DE9E /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */,
+				7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -136,6 +149,8 @@
 			children = (
 				7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */,
 				7B5C13CC2C11F2960096DE9E /* String+.swift */,
+				7BD80CB02C131340001F8E3F /* UIViewController+.swift */,
+				7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -226,12 +241,17 @@
 				7B5C137F2C0F02670096DE9E /* HomeViewController.swift in Sources */,
 				7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */,
 				7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */,
+				7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */,
+				7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */,
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
+				7BD80CAC2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift in Sources */,
+				7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */,
 				7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */,
 				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
 				7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */,
 				7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */,
+				7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */,
 				7B5C13632C0EFAEB0096DE9E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
