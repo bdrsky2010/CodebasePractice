@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
 
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    private let titleList = ["넷플릭스", "로또"]
+    private let titleList = ["넷플릭스", "로또", "일간 박스오피스"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +60,11 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let viewControllerList: [UIViewController] = [UITabBarController(), LottoViewController()]
+        let viewControllerList: [UIViewController] = [UITabBarController(), LottoViewController(), BoxOfficeViewController()]
         
         let index = indexPath.row
         
-        var viewController = viewControllerList[index]
+        let viewController = viewControllerList[index]
         
         if index == 0, let tabBarController = getConfiguredTabBar(viewController) {
             
