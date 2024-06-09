@@ -83,8 +83,6 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
             }
             label.font = .systemFont(ofSize: 14, weight: .bold)
             label.textAlignment = .center
-//            label.layer.borderWidth = 1
-//            label.layer.borderColor = UIColor.blue.cgColor
             return label
         }
         return labelList
@@ -98,15 +96,11 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
                 label.font = .systemFont(ofSize: 13, weight: .bold)
                 label.textColor = .systemGray
                 label.textAlignment = .center
-//                label.layer.borderWidth = 1
-//                label.layer.borderColor = UIColor.green.cgColor
             } else {
                 label.text = "없음"
                 label.font = .systemFont(ofSize: 13, weight: .bold)
                 label.textColor = .clear
                 label.textAlignment = .center
-//                label.layer.borderWidth = 1
-//                label.layer.borderColor = UIColor.green.cgColor
             }
             return label
         }
@@ -128,12 +122,11 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 2
-//        stackView.layer.borderWidth = 1
-//        stackView.layer.borderColor = UIColor.red.cgColor
         return stackView
     }()
     
-    private let numeberList = (1...1123).reversed().map { Int($0) }
+    lazy var numeberList: [Int] = (1...calculateRecentNumber()).reversed().map { Int($0) }
+    
     private let pastelColorList: [UIColor] = [.pastelRed, .pastelGreen, .pastelBlue, .pastelYellow, .systemGray]
     
     private var lotto: Lotto?
@@ -157,6 +150,10 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
         let rootViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(rootViewTapped))
         view.isUserInteractionEnabled = true
         view.addGestureRecognizer(rootViewTapGesture)
+        
+        if let recentNumber = numeberList.first {
+            requestAPI(recentNumber)
+        }
     }
     
     func configureHierarchy() {
@@ -293,6 +290,22 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
     @objc private func rootViewTapped() {
         pickerTextField.resignFirstResponder()
     }
+    
+    // MARK: 날짜를 초단위로 계산해서 최신회차 구하기
+    private func calculateRecentNumber() -> Int {
+        let firstDateString = "20021207"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        
+        let firstDate = dateFormatter.date(from: firstDateString) ?? Date()
+        
+        let nowDate = Date()
+        
+        return Int(nowDate.timeIntervalSince(firstDate)) / 86400 / 7 + 1
+    }
 }
 
 extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
@@ -305,6 +318,10 @@ extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
         
         let number = numeberList[row]
         
+        requestAPI(number)
+    }
+    
+    private func requestAPI(_ number: Int) {
         requestDecodableCustomTypeResult(urlString: APIURL.lotto(number).urlString,
                                          type: Lotto.self) { [weak self] value in
             guard let self else { return }
