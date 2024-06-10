@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */; };
+		7B1BF5412C16DC0800FC02AC /* MediaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5402C16DC0800FC02AC /* MediaModel.swift */; };
+		7B1BF5452C17078700FC02AC /* MovieTrendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */; };
+		7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5462C171F2900FC02AC /* UIImageView+.swift */; };
 		7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */; };
 		7B5C13632C0EFAEB0096DE9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */; };
 		7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13642C0EFAEB0096DE9E /* ViewController.swift */; };
@@ -33,6 +37,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
+		7B1BF5402C16DC0800FC02AC /* MediaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModel.swift; sourceTree = "<group>"; };
+		7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTrendTableViewCell.swift; sourceTree = "<group>"; };
+		7B1BF5462C171F2900FC02AC /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		7B5C135D2C0EFAEB0096DE9E /* CodebasePractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodebasePractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +79,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1BF53B2C16CFDF00FC02AC /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				7B1BF5402C16DC0800FC02AC /* MediaModel.swift */,
+				7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */,
+				7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		7B5C13542C0EFAEB0096DE9E = {
 			isa = PBXGroup;
 			children = (
@@ -94,7 +112,7 @@
 				7B5C13802C0F026C0096DE9E /* Netflix */,
 				7B5C13BF2C11B89D0096DE9E /* Lotto */,
 				7B5C13C02C11B9720096DE9E /* BoxOffice */,
-				7B5C13C12C11B9A60096DE9E /* OpenWeather */,
+				7B1BF53B2C16CFDF00FC02AC /* Media */,
 				7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */,
 				7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */,
 				7B5C13642C0EFAEB0096DE9E /* ViewController.swift */,
@@ -137,13 +155,6 @@
 			path = BoxOffice;
 			sourceTree = "<group>";
 		};
-		7B5C13C12C11B9A60096DE9E /* OpenWeather */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = OpenWeather;
-			sourceTree = "<group>";
-		};
 		7B5C13C62C11D0530096DE9E /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +162,7 @@
 				7B5C13CC2C11F2960096DE9E /* String+.swift */,
 				7BD80CB02C131340001F8E3F /* UIViewController+.swift */,
 				7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */,
+				7B1BF5462C171F2900FC02AC /* UIImageView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -243,13 +255,17 @@
 				7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */,
 				7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */,
 				7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */,
+				7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */,
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
+				7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */,
 				7BD80CAC2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift in Sources */,
 				7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */,
 				7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */,
+				7B1BF5452C17078700FC02AC /* MovieTrendTableViewCell.swift in Sources */,
 				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
 				7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */,
+				7B1BF5412C16DC0800FC02AC /* MediaModel.swift in Sources */,
 				7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */,
 				7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */,
 				7B5C13632C0EFAEB0096DE9E /* SceneDelegate.swift in Sources */,

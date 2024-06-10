@@ -19,4 +19,20 @@ extension String {
         
         return attributedString
     }
+    
+    var movieTrendConvertDateToString: String {
+        let originDateFormatter = DateFormatter()
+        originDateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let originDate = originDateFormatter.date(from: self) else { return "" }
+        
+        let newDateFormatter = DateFormatter()
+        newDateFormatter.dateFormat = "MM/dd/yyyy"
+        newDateFormatter.locale = Locale(identifier: "ko_KR")
+        let convertDate = newDateFormatter.string(from: originDate)
+        return convertDate
+    }
+    
+    var stringToURL: URL? {
+        return URL(string: self)
+    }
 }

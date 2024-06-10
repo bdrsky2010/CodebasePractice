@@ -85,10 +85,15 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavigation()
         configureHierarchy()
         configureLayout()
         configureContent()
         configureTableView()
+    }
+    
+    func configureNavigation() {
+        navigationController?.navigationBar.tintColor = .white
     }
     
     func configureHierarchy() {
@@ -152,7 +157,9 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
     
     private func requestAPI(date targetDt: String) {
         requestDecodableCustomTypeResult(urlString: APIURL.kobis(APIKey.kobisAPIKey, targetDt).urlString,
-                                         type: DailyBoxOffice.self) { [weak self] value in
+                                         encoding: URLEncoding.queryString,
+                                         type: DailyBoxOffice.self
+        ) { [weak self] value in
             guard let self else { return }
             boxOfficeList = value.boxOfficeResult.dailyBoxOfficeList
         } failClosure: { [weak self] error in

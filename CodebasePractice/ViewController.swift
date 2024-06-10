@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
 
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    private let titleList = ["넷플릭스", "로또", "일간 박스오피스"]
+    private let titleList = ["넷플릭스", "로또", "일간 박스오피스", "TMDB Movie Trend"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +60,9 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let viewControllerList: [UIViewController] = [UITabBarController(), LottoViewController(), BoxOfficeViewController()]
+        let viewControllerList = [
+            UITabBarController(), LottoViewController(), BoxOfficeViewController(), MediaViewController()
+        ]
         
         let index = indexPath.row
         
@@ -69,8 +71,9 @@ extension ViewController: UITableViewDelegate {
         if index == 0, let tabBarController = getConfiguredTabBar(viewController) {
             
             navigationController?.pushViewController(tabBarController, animated: true)
+            navigationController?.navigationBar.tintColor = .white
         } else {
-            
+            navigationController?.navigationBar.tintColor = .label
             navigationController?.pushViewController(viewController, animated: true)
         }
         
@@ -85,7 +88,9 @@ extension ViewController: UITableViewDelegate {
         tabBarController.tabBar.tintColor = .white
         tabBarController.tabBar.barTintColor = .white
         
-        tabBarController.setViewControllers([HomeViewController(), NewAndHotViewController(), SaveContentsViewController()],
+        tabBarController.setViewControllers([
+            HomeViewController(), NewAndHotViewController(), SaveContentsViewController()
+        ],
                                             animated: true)
         guard let items = tabBarController.tabBar.items else { return nil }
         

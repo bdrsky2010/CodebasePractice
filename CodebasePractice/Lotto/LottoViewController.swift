@@ -299,12 +299,13 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.dateFormat = "yyyyMMdd"
         
-        
         let firstDate = dateFormatter.date(from: firstDateString) ?? Date()
         
         let nowDate = Date()
         
-        return Int(nowDate.timeIntervalSince(firstDate)) / 86400 / 7 + 1
+        let recentNumber = Int(nowDate.timeIntervalSince(firstDate)) / 86400 / 7 + 1
+        
+        return recentNumber
     }
 }
 
@@ -323,7 +324,9 @@ extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
     
     private func requestAPI(_ number: Int) {
         requestDecodableCustomTypeResult(urlString: APIURL.lotto(number).urlString,
-                                         type: Lotto.self) { [weak self] value in
+                                         encoding: URLEncoding.queryString,
+                                         type: Lotto.self
+        ) { [weak self] value in
             guard let self else { return }
             
             lotto = value
