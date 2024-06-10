@@ -27,20 +27,23 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        requestTMDBMovieTrendAPI(timeWindow: .week)
         requestTMDBMovieGenreAPI()
+        requestTMDBMovieTrendAPI(timeWindow: .week)
+        
         
         configureNavigation()
         configureHierarchy()
         configureLayout()
         configureTableView()
     }
-
-    func configureNavigation() {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         navigationController?.navigationBar.tintColor = .systemBlue
-        
+    }
+
+    func configureNavigation() {
         view.backgroundColor = .systemBackground
         
         let menu = UIMenu(title: "Select Time Window Type", children: [
@@ -94,6 +97,22 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
 extension MediaViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.reloadRows(at: [indexPath], with: .automatic)
+        
+        let movieTrendDetailViewController = MovieTrendDetailViewController()
+        let index = indexPath.row
+        let tmdbMovie = tmdbTrendMovieList[index]
+        let castList = tmdbMovieCreditCastList[tmdbMovie.id] ?? []
+        movieTrendDetailViewController.overView = tmdbMovie.overview
+        movieTrendDetailViewController.castList = castList
+        
+        let backdropImageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
+        let posterImageUrl = ImageURL.tmdbMovie(tmdbMovie.poster_path).urlString.stringToURL
+        let movieTitle = tmdbMovie.title
+        
+        movieTrendDetailViewController.configureContent(backdropImageUrl: backdropImageUrl,
+                                                        posterImageUrl: posterImageUrl, movieTitle: movieTitle)
+        
+        navigationController?.pushViewController(movieTrendDetailViewController, animated: true)
     }
 }
 
@@ -114,7 +133,7 @@ extension MediaViewController: UITableViewDataSource {
         
         let releaseDate = tmdbMovie.release_date
         let genre = tmdbMovie.genre_ids.map { "#\(tmdbMovieGenreList[$0] ?? "")" }.joined(separator: " ")
-        let imageUrl = ImageURL.tmdbMovie(tmdbMovie.poster_path).urlString.stringToURL
+        let imageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
         let voteAverage = roundTwo(num: tmdbMovie.vote_average)
         let movieTitle = tmdbMovie.title
         let cast = (tmdbMovieCreditCastList[tmdbMovie.id] ?? []).map { $0.name }.joined(separator: ", ")
@@ -154,6 +173,7 @@ extension MediaViewController: RequestAPIFromAFProtocol {
             guard let self else { return }
             tmdbTrendMovieList = value.results
             movieTrendTableView.reloadData()
+            movieTrendTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         } failClosure: { error in
             print(error)
         }

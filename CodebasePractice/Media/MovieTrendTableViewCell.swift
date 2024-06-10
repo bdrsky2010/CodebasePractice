@@ -32,9 +32,9 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
         let view = UIView()
         view.layer.cornerRadius = 10
         view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOpacity = 1
         view.layer.shadowRadius = 4
-        view.layer.shadowOffset = .init(width: 1, height: 1)
+        view.layer.shadowOffset = .init(width: 3, height: 3)
         return view
     }()
     
@@ -47,7 +47,7 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
         return view
     }()
     
-    private let posterImageView: UIImageView = {
+    private let backdropImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.lightGray
         imageView.contentMode = .scaleAspectFill
@@ -139,7 +139,7 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
         contentView.addSubview(shadowBackgoundView)
         contentView.addSubview(mainCellView)
         
-        mainCellView.addSubview(posterImageView)
+        mainCellView.addSubview(backdropImageView)
         mainCellView.addSubview(voteAverageStackView)
         
         voteAverageStackView.addArrangedSubview(voteAverageTitleLable)
@@ -177,20 +177,20 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
             make.edges.equalTo(shadowBackgoundView)
         }
         
-        posterImageView.snp.makeConstraints { make in
+        backdropImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(mainCellView).multipliedBy(0.6)
         }
         
         voteAverageStackView.snp.makeConstraints { make in
-            make.leading.bottom.equalTo(posterImageView).inset(16)
+            make.leading.bottom.equalTo(backdropImageView).inset(16)
             make.width.equalTo(60)
             make.height.equalTo(20)
         }
         
         movieTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(posterImageView.snp.bottom).offset(16)
+            make.top.equalTo(backdropImageView.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
         }
         
@@ -227,7 +227,7 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
         genreLabel.text = genre
         
         if let imageUrl {
-            posterImageView.configureImageWithKF(url: imageUrl)
+            backdropImageView.configureImageWithKF(url: imageUrl)
         }
         voteAverageLable.text = "\(voteAverage)"
         movieTitleLabel.text = movieTitle
