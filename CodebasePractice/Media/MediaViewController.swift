@@ -151,7 +151,6 @@ extension MediaViewController: RequestAPIFromAFProtocol {
                                          headers: headers,
                                          type: TMDBMovieTrend.self
         ) { [weak self] value in
-//            print(value)
             guard let self else { return }
             tmdbTrendMovieList = value.results
             movieTrendTableView.reloadData()
@@ -168,7 +167,6 @@ extension MediaViewController: RequestAPIFromAFProtocol {
                                          encoding: URLEncoding.queryString,
                                          type: TMDBMovieGenre.self
         ) { value in
-//            print(value)
             value.genres.forEach { [weak self] genre in
                 guard let self else { return }
                 tmdbMovieGenreList[genre.id] = genre.name
@@ -196,7 +194,6 @@ extension MediaViewController: RequestAPIFromAFProtocol {
                                          headers: headers,
                                          type: TMDBMovieCredit.self
         ) { [weak self] value in
-//            print(value)
             guard let self else { return }
             tmdbMovieCreditCastList[id] = value.cast
         } failClosure: { error in
