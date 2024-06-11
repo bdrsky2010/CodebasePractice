@@ -95,7 +95,7 @@ final class MovieTrendDetailViewController: UIViewController, ConfigureViewProto
             make.leading.equalTo(backdropImageCoverView.snp.leading).offset(24)
             make.height.equalTo(backdropImageCoverView.snp.height).multipliedBy(0.6)
             make.width.equalTo(posterImageView.snp.height).multipliedBy(0.7)
-            make.bottom.equalTo(backdropImageCoverView.snp.bottom).offset(-8)
+            make.bottom.equalTo(backdropImageCoverView.snp.bottom).offset(-12)
         }
         
         movieTitleLabel.snp.makeConstraints { make in
