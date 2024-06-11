@@ -23,7 +23,12 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
             }
         }
     }
-    private var tmdbMovieCreditCastList: [Int: [Cast]] = [:]
+    private var tmdbMovieCreditCastList: [Int: [Cast]] = [:] {
+        didSet {
+            movieTrendTableView.reloadData()
+            movieTrendTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
     private var tmdbMovieGenreList: [Int: String] = [:]
     
     override func viewDidLoad() {
@@ -39,7 +44,6 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.navigationBar.tintColor = .systemBlue
     }
 
@@ -239,8 +243,6 @@ extension MediaViewController: RequestAPIFromAFProtocol {
         ) { [weak self] value in
             guard let self else { return }
             tmdbMovieCreditCastList[id] = value.cast
-            movieTrendTableView.reloadData()
-            movieTrendTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         } failClosure: { error in
             print(error)
         }
