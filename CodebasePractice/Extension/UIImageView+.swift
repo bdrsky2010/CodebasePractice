@@ -15,9 +15,10 @@ extension UIImageView {
             options: [.cacheOriginalImage]) { result in
                 switch result {
                 case .success(let value):
-                    print(value.image)
+                    break
                 case .failure(let error):
-                    print(error.localizedDescription)
+//                    print(error.localizedDescription)
+                    break
                 }
             }
     }
