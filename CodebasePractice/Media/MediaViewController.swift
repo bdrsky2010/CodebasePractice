@@ -18,6 +18,7 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     private var tmdbTrendMovieList: [TMDBMovie] = [] {
         didSet {
             tmdbTrendMovieList.forEach { tmdbMovie in
+                requestTMDBMovieGenreAPI()
                 requestTMDBMovieCreditAPI(tmdbMovie.id)
             }
         }
@@ -27,7 +28,6 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestTMDBMovieGenreAPI()
         requestTMDBMovieTrendAPI(timeWindow: .week)
         
         
