@@ -46,28 +46,20 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     func configureNavigation() {
         view.backgroundColor = .systemBackground
         
+        let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(rightBarButtonClicked))
+        
         let firstLeftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.triangle"),
                                                      style: .plain,
                                                      target: self,
                                                      action: #selector(firstLeftBarButtonClicked))
         
-        let menu = UIMenu(title: "Select Time Window Type", children: [
-            UIAction(title: "Day", handler: { [weak self] _ in
-                guard let self else { return }
-                navigationItem.leftBarButtonItem?.title = "Day"
-                requestTMDBMovieTrendAPI(timeWindow: .day)
-            }),
-            UIAction(title: "Week", handler: { [weak self] _ in
-                guard let self else { return }
-                navigationItem.leftBarButtonItem?.title = "Week"
-                requestTMDBMovieTrendAPI(timeWindow: .week)
-            })
-        ])
+        let menuActionList = configureMenuAction()
+        let menu = UIMenu(title: "Select Time Window Type", children: menuActionList)
         let secondLeftBarButtonItem = UIBarButtonItem(title: "Week", menu: menu)
-        let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(rightBarButtonClicked))
+        
         navigationItem.leftBarButtonItems = [firstLeftBarButtonItem, secondLeftBarButtonItem]
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
@@ -80,6 +72,24 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     @objc
     private func rightBarButtonClicked() {
         print(#function)
+    }
+    
+    private func configureMenuAction() -> [UIMenuElement] {
+        
+        let dayAction = UIAction(title: "Day", handler: { [weak self] _ in
+            guard let self else { return }
+            navigationItem.leftBarButtonItem?.title = "Day"
+            requestTMDBMovieTrendAPI(timeWindow: .day)
+        })
+        let weekAction = UIAction(title: "Week", handler: { [weak self] _ in
+            guard let self else { return }
+            navigationItem.leftBarButtonItem?.title = "Week"
+            requestTMDBMovieTrendAPI(timeWindow: .week)
+        })
+        
+        let menuActionList = [dayAction, weekAction]
+        
+        return menuActionList
     }
     
     func configureHierarchy() {
