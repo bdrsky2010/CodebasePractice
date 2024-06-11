@@ -70,12 +70,13 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
     
     @objc
     private func firstLeftBarButtonClicked() {
-        print(#function)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc
     private func rightBarButtonClicked() {
-        print(#function)
+        let movieSearchViewController = MovieSearchViewController()
+        navigationController?.pushViewController(movieSearchViewController, animated: true)
     }
     
     private func configureMenuAction() -> [UIMenuElement] {
@@ -153,7 +154,7 @@ extension MediaViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTrendTableViewCell.identifier, for: indexPath) as? MovieTrendTableViewCell else {
-            print("aaa")
+            
             return UITableViewCell()
         }
         
