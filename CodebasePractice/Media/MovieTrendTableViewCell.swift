@@ -30,19 +30,18 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
     
     private let shadowBackgoundView: UIView = {
         let view = UIView()
+        view.backgroundColor = .white
         view.layer.cornerRadius = 10
         view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = .init(width: 3, height: 3)
+        view.layer.shadowOpacity = 0.8
+        view.layer.shadowRadius = 10
+        view.layer.shadowOffset = .init(width: 1, height: 1)
         return view
     }()
     
     private let mainCellView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray6.cgColor
         view.clipsToBounds = true
         return view
     }()
@@ -51,7 +50,6 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.lightGray
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         return imageView
     }()
     

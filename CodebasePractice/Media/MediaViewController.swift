@@ -172,8 +172,6 @@ extension MediaViewController: RequestAPIFromAFProtocol {
         ) { [weak self] value in
             guard let self else { return }
             tmdbTrendMovieList = value.results
-            movieTrendTableView.reloadData()
-            movieTrendTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         } failClosure: { error in
             print(error)
         }
@@ -216,6 +214,8 @@ extension MediaViewController: RequestAPIFromAFProtocol {
         ) { [weak self] value in
             guard let self else { return }
             tmdbMovieCreditCastList[id] = value.cast
+            movieTrendTableView.reloadData()
+            movieTrendTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         } failClosure: { error in
             print(error)
         }
