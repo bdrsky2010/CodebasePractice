@@ -134,6 +134,11 @@ extension MediaViewController: UITableViewDelegate {
         
         navigationController?.pushViewController(movieTrendDetailViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? MovieTrendTableViewCell else { return }
+        cell.cancelDownloadImageWithKF()
+    }
 }
 
 extension MediaViewController: UITableViewDataSource {

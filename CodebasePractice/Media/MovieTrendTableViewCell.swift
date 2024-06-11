@@ -231,4 +231,8 @@ class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
         movieTitleLabel.text = movieTitle
         castLabel.text = cast
     }
+    
+    func cancelDownloadImageWithKF() {
+        backdropImageView.kf.cancelDownloadTask()
+    }
 }
