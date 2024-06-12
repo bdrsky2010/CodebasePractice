@@ -166,7 +166,7 @@ extension MovieSearchViewController: UITextFieldDelegate {
 extension MovieSearchViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            if tmdbMovieSearch.results.count - 11 == indexPath.item, !isEnd {
+            if tmdbMovieSearch.results.count - 2 == indexPath.item, !isEnd {
                 page += 1
                 requestMovieSearchAPI(originQuery, page: page)
             }
