@@ -209,7 +209,7 @@ extension MediaViewController: RequestAPIFromAFProtocol {
     
     private func requestTMDBMovieGenreAPI() {
         
-        let urlString = APIURL.tmdbMovieGenre(APIKey.tmdbAPIKey).urlString
+        let urlString = APIURL.tmdbMovieGenre(APIKey.tmdb).urlString
         
         requestDecodableCustomTypeResult(urlString: urlString,
                                          encoding: URLEncoding.queryString,
