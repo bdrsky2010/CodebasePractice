@@ -12,14 +12,6 @@ extension UIImageView {
         self.kf.indicatorType = .activity
         self.kf.setImage(
             with: url,
-            options: [.cacheOriginalImage]) { result in
-                switch result {
-                case .success(let value):
-                    break
-                case .failure(let error):
-//                    print(error.localizedDescription)
-                    break
-                }
-            }
+            options: [.cacheOriginalImage])
     }
 }
