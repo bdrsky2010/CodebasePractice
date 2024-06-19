@@ -9,6 +9,7 @@ import Foundation
 
 @objc
 protocol ConfigureViewProtocol {
+    @objc optional func configureView()
     @objc optional func configureNavigation()
     @objc optional func configureHierarchy()
     @objc optional func configureLayout()
