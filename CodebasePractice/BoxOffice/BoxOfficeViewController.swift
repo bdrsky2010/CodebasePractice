@@ -156,7 +156,7 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
     }
     
     private func requestAPI(date targetDt: String) {
-        requestDecodableCustomTypeResult(urlString: APIURL.kobis(APIKey.kobisAPIKey, targetDt).urlString,
+        requestDecodableCustomTypeResult(urlString: APIURL.kobis(APIKey.kobis, targetDt).urlString,
                                          encoding: URLEncoding.queryString,
                                          type: DailyBoxOffice.self
         ) { [weak self] value in
