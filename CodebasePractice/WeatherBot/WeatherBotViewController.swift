@@ -201,6 +201,56 @@ extension WeatherBotViewController {
     
     private func requestWeatherAPI(coordinate: CLLocationCoordinate2D) {
         
+        var urlComponents = URLComponents(string: APIURL.openWeather.urlString)
+        let latQuery = URLQueryItem(name: "lat", value: String(coordinate.latitude))
+        let lonQuery = URLQueryItem(name: "lon", value: String(coordinate.longitude))
+        let langQuery = URLQueryItem(name: "lang", value: "kr")
+        let unitsQuery = URLQueryItem(name: "units", value: "metric")
+        let appidQuery = URLQueryItem(name: "appid", value: APIKey.openWeather)
+        urlComponents?.queryItems = [latQuery, lonQuery, langQuery, unitsQuery, appidQuery]
+        
+        if let urlRequest = urlComponents?.url {
+            DispatchQueue.global().async {
+                let urlSession = URLSession(configuration: .default)
+                urlSession.dataTask(with: urlRequest) { data, response, error in
+                    guard error == nil else {
+                        print(error!.localizedDescription)
+                        return
+                    }
+                    guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
+                    guard (200..<300).contains(statusCode) else {
+                        print(statusCode)
+                        return
+                    }
+                    guard let data else { return }
+                    
+                    let decoder = JSONDecoder()
+                    do {
+                        let openWeather = try decoder.decode(OpenWeather.self, from: data)
+                        if let weather = openWeather.weather.first {
+                            DispatchQueue.main.async { [weak self] in
+                                guard let self else { return }
+                                messageList[0] = "지금은 \(openWeather.detail.temp)°C에요"
+                                messageList[1] = "\(openWeather.detail.humidity)% 만큼 습해요"
+                                messageList[2] = "\(openWeather.wind.integerSpeed)m/s의 바람이 불어요"
+                                messageList[3] = weather.icon
+                                messageList[4] = "오늘도 행복한 하루 보내세요"
+                                
+                                dateTimeLabel.text = Date.dateTime
+                                messageTableView.reloadData()
+                                
+                                if let type = WeatherCondition(rawValue: weather.type) {
+                                    backgroundImageView.image = UIImage(named: type.rawValue)
+                                }
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }.resume()
+            }
+        }
+        
         let parameters: Parameters = [
             "lat": coordinate.latitude,
             "lon": coordinate.longitude,
@@ -209,28 +259,28 @@ extension WeatherBotViewController {
             "appid": APIKey.openWeather
         ]
         
-        AF.request(APIURL.openWeather.urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).responseDecodable(of: OpenWeather.self) { [weak self] response in
-            guard let self else { return }
-            switch response.result {
-            case .success(let value):
-                if let weather = value.weather.first {
-                    messageList[0] = "지금은 \(value.detail.temp)°C에요"
-                    messageList[1] = "\(value.detail.humidity)% 만큼 습해요"
-                    messageList[2] = "\(value.wind.integerSpeed)m/s의 바람이 불어요"
-                    messageList[3] = weather.icon
-                    messageList[4] = "오늘도 행복한 하루 보내세요"
-                    
-                    dateTimeLabel.text = Date.dateTime
-                    messageTableView.reloadData()
-                    
-                    if let type = WeatherCondition(rawValue: weather.type) {
-                        backgroundImageView.image = UIImage(named: type.rawValue)
-                    }
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        AF.request(APIURL.openWeather.urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).responseDecodable(of: OpenWeather.self) { [weak self] response in
+//            guard let self else { return }
+//            switch response.result {
+//            case .success(let value):
+//                if let weather = value.weather.first {
+//                    messageList[0] = "지금은 \(value.detail.temp)°C에요"
+//                    messageList[1] = "\(value.detail.humidity)% 만큼 습해요"
+//                    messageList[2] = "\(value.wind.integerSpeed)m/s의 바람이 불어요"
+//                    messageList[3] = weather.icon
+//                    messageList[4] = "오늘도 행복한 하루 보내세요"
+//                    
+//                    dateTimeLabel.text = Date.dateTime
+//                    messageTableView.reloadData()
+//                    
+//                    if let type = WeatherCondition(rawValue: weather.type) {
+//                        backgroundImageView.image = UIImage(named: type.rawValue)
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
 }
 
@@ -239,22 +289,25 @@ extension WeatherBotViewController {
     
     // 1) 사용자에게 권한 요청을 하기 위해, iOS 위치 서비스 활성화 여부 체크
     private func checkDeviceLocationAuthorization() {
-        if CLLocationManager.locationServicesEnabled() {
-            checkCurrentLocationAuthorization()
-        } else {
-            // 1. alert 창 구성
-            let title = "위치 권한 요청 에러"
-            let message = "사용자의 위치 서비스가 꺼져 있어 위치 권한 요청을 할 수 없어요"
-            let alert = UIAlertController(title: title,
-                                          message: message,
-                                          preferredStyle: .alert)
-            // 2. alert button 구성
-            let check = UIAlertAction(title: "확인", style: .default)
-            
-            // 3. alert에 button 추가
-            alert.addAction(check)
-            
-            present(alert, animated: true)
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            if CLLocationManager.locationServicesEnabled() {
+                checkCurrentLocationAuthorization()
+            } else {
+                // 1. alert 창 구성
+                let title = "위치 권한 요청 에러"
+                let message = "사용자의 위치 서비스가 꺼져 있어 위치 권한 요청을 할 수 없어요"
+                let alert = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: .alert)
+                // 2. alert button 구성
+                let check = UIAlertAction(title: "확인", style: .default)
+                
+                // 3. alert에 button 추가
+                alert.addAction(check)
+                
+                present(alert, animated: true)
+            }
         }
     }
     
