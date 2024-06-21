@@ -42,7 +42,6 @@ final class WeatherBotViewController: UIViewController, ConfigureViewProtocol {
     
     private let locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "ㅁㅁ, ㅁㅁ동"
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .white
         return label
