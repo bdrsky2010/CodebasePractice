@@ -26,7 +26,6 @@ final class WeatherBotViewController: UIViewController, ConfigureViewProtocol {
     
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00월 00일 00시 00분"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .white
         return label
@@ -206,9 +205,9 @@ extension WeatherBotViewController {
         let lonQuery = URLQueryItem(name: "lon", value: String(coordinate.longitude))
         let langQuery = URLQueryItem(name: "lang", value: "kr")
         let unitsQuery = URLQueryItem(name: "units", value: "metric")
-        let appidQuery = URLQueryItem(name: "appid", value: APIKey.openWeather)
+        let appidQuery = URLQueryItem(name: "appi", value: APIKey.openWeather)
         urlComponents?.queryItems = [latQuery, lonQuery, langQuery, unitsQuery, appidQuery]
-        
+
         if let urlRequest = urlComponents?.url {
             DispatchQueue.global().async {
                 let urlSession = URLSession(configuration: .default)
@@ -219,7 +218,34 @@ extension WeatherBotViewController {
                     }
                     guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
                     guard (200..<300).contains(statusCode) else {
-                        print(statusCode)
+                        var title: String
+                        var message: String
+                        
+                        switch statusCode {
+                        case 401..<500:
+                            title = "클라이언트 요청 에러"
+                            message = "클라이언트에서의 네트워크 연결 혹은 입력값이 잘못되어 데이터를 받아오지 못하였습니다"
+                        case 501..<600:
+                            title = "서버 에러"
+                            message = "서버의 문제가 생겨 데이터를 받아오지 못하였습니다"
+                        default:
+                            title = "알 수 없는 에러"
+                            message = "알 수 없는 에러로 데이터를 받아오지 못하였습니다"
+                        }
+                        
+                        // 1. alert 창 구성
+                        let alert = UIAlertController(title: title,
+                                                      message: message,
+                                                      preferredStyle: .alert)
+                        // 2. alert button 구성
+                        let check = UIAlertAction(title: "확인", style: .default)
+                        
+                        // 3. alert에 button 추가
+                        alert.addAction(check)
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self else { return }
+                            present(alert, animated: true)
+                        }
                         return
                     }
                     guard let data else { return }
@@ -251,13 +277,13 @@ extension WeatherBotViewController {
             }
         }
         
-        let parameters: Parameters = [
-            "lat": coordinate.latitude,
-            "lon": coordinate.longitude,
-            "lang": "kr",
-            "units": "metric",
-            "appid": APIKey.openWeather
-        ]
+//        let parameters: Parameters = [
+//            "lat": coordinate.latitude,
+//            "lon": coordinate.longitude,
+//            "lang": "kr",
+//            "units": "metric",
+//            "appid": APIKey.openWeather
+//        ]
         
 //        AF.request(APIURL.openWeather.urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).responseDecodable(of: OpenWeather.self) { [weak self] response in
 //            guard let self else { return }
