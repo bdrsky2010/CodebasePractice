@@ -210,7 +210,8 @@ extension WeatherBotViewController {
         if let urlRequest = urlComponents?.url {
             DispatchQueue.global().async {
                 let urlSession = URLSession(configuration: .default)
-                urlSession.dataTask(with: urlRequest) { data, response, error in
+                urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                    guard let self else { return }
                     guard error == nil else {
                         print(error!.localizedDescription)
                         return
@@ -232,17 +233,20 @@ extension WeatherBotViewController {
                             message = "알 수 없는 에러로 데이터를 받아오지 못하였습니다"
                         }
                         
-                        // 1. alert 창 구성
-                        let alert = UIAlertController(title: title,
-                                                      message: message,
-                                                      preferredStyle: .alert)
-                        // 2. alert button 구성
-                        let check = UIAlertAction(title: "확인", style: .default)
                         
-                        // 3. alert에 button 추가
-                        alert.addAction(check)
                         DispatchQueue.main.async { [weak self] in
                             guard let self else { return }
+                            
+                            // 1. alert 창 구성
+                            let alert = UIAlertController(title: title,
+                                                          message: message,
+                                                          preferredStyle: .alert)
+                            // 2. alert button 구성
+                            let check = UIAlertAction(title: "확인", style: .default)
+                            
+                            // 3. alert에 button 추가
+                            alert.addAction(check)
+                            
                             present(alert, animated: true)
                         }
                         return
