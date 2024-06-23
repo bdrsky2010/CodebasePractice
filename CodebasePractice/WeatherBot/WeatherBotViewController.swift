@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreLocation
-import MapKit
 
 import Alamofire
 import Kingfisher
@@ -199,12 +198,12 @@ extension WeatherBotViewController {
     
     private func requestWeatherAPI(coordinate: CLLocationCoordinate2D) {
         
-        var urlComponents = URLComponents(string: APIURL.openWeather.urlString)
         let latQuery = URLQueryItem(name: "lat", value: String(coordinate.latitude))
         let lonQuery = URLQueryItem(name: "lon", value: String(coordinate.longitude))
         let langQuery = URLQueryItem(name: "lang", value: "kr")
         let unitsQuery = URLQueryItem(name: "units", value: "metric")
         let appidQuery = URLQueryItem(name: "appi", value: APIKey.openWeather)
+        var urlComponents = URLComponents(string: APIURL.openWeather.urlString)
         urlComponents?.queryItems = [latQuery, lonQuery, langQuery, unitsQuery, appidQuery]
 
         if let urlRequest = urlComponents?.url {
@@ -232,7 +231,6 @@ extension WeatherBotViewController {
                             title = "알 수 없는 에러"
                             message = "알 수 없는 에러로 데이터를 받아오지 못하였습니다"
                         }
-                        
                         
                         DispatchQueue.main.async { [weak self] in
                             guard let self else { return }
@@ -352,31 +350,34 @@ extension WeatherBotViewController {
             
         case .denied:
             print("iOS 설정 창으로 이동하라는 얼럿을 띄워주기")
-            // 1. alert 창 구성
-            let title = "위치 권한 설정"
-            let message = "설정 창으로 이동하시겠습니까?"
-            let alert = UIAlertController(title: title,
-                                          message: message,
-                                          preferredStyle: .alert)
-            
-            let moveSetting: (UIAlertAction) -> Void = { _ in
-                guard let settingURL = URL(string: UIApplication.openSettingsURLString) else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                // 1. alert 창 구성
+                let title = "위치 권한 설정"
+                let message = "설정 창으로 이동하시겠습니까?"
+                let alert = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: .alert)
                 
-                if UIApplication.shared.canOpenURL(settingURL) {
-                    UIApplication.shared.open(settingURL)
+                let moveSetting: (UIAlertAction) -> Void = { _ in
+                    guard let settingURL = URL(string: UIApplication.openSettingsURLString) else { return }
+                    
+                    if UIApplication.shared.canOpenURL(settingURL) {
+                        UIApplication.shared.open(settingURL)
+                    }
                 }
+                
+                // 2. alert button 구성
+                let move = UIAlertAction(title: "이동", style: .default, handler: moveSetting)
+                let cancel = UIAlertAction(title: "취소", style: .cancel)
+                
+                // 3. alert에 button 추가
+                alert.addAction(move)
+                alert.addAction(cancel)
+                
+                present(alert, animated: true)
             }
             
-            // 2. alert button 구성
-            let move = UIAlertAction(title: "이동", style: .default, handler: moveSetting)
-            let cancel = UIAlertAction(title: "취소", style: .cancel)
-            
-            // 3. alert에 button 추가
-            alert.addAction(move)
-            alert.addAction(cancel)
-            
-            present(alert, animated: true)
-
         case .authorizedWhenInUse:
             print("위치 정보 알려달라고 로직을 구성할 수 있음")
             locationManager.startUpdatingLocation()
