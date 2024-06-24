@@ -71,7 +71,7 @@ class MovieSearchViewController: UIViewController, ConfigureViewProtocol {
     private var page = 1
     private var originQuery = ""
     private var isEnd = false
-    
+    private var castList: [Cast] = []
     private var tmdbMovieSearch: TMDBMovieSearch = TMDBMovieSearch(page: 0, results: [], total_pages: 0, total_results: 0) {
         didSet {
             movieCollectionView.reloadData()
@@ -88,6 +88,11 @@ class MovieSearchViewController: UIViewController, ConfigureViewProtocol {
         configureTextField()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
@@ -95,12 +100,12 @@ class MovieSearchViewController: UIViewController, ConfigureViewProtocol {
     
     func configureNavigation() {
         
-        navigationController?.navigationBar.tintColor = .label
-        
-        let leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: nil)
-        
-        navigationItem.leftBarButtonItem = leftBarButtonItem
+//        navigationController?.navigationBar.tintColor = .label
+//        
+//        let leftBarButtonItem = UIBarButtonItem(
+//            image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: nil)
+//        
+//        navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -183,15 +188,34 @@ extension MovieSearchViewController: UICollectionViewDataSourcePrefetching {
 }
 
 extension MovieSearchViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index = indexPath.row
+        let tmdbMovie = tmdbMovieSearch.results[index]
+        requestTMDBMovieCreditAPI(tmdbMovie.id)
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let movieTrendDetailViewController = MovieTrendDetailViewController()
+            movieTrendDetailViewController.tmdbMovie = tmdbMovie
+            movieTrendDetailViewController.castList = castList
+            
+            let backdropImageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
+            let posterImageUrl = ImageURL.tmdbMovie(tmdbMovie.poster_path).urlString.stringToURL
+            let movieTitle = tmdbMovie.title
+            
+            movieTrendDetailViewController.configureContent(backdropImageUrl: backdropImageUrl,
+                                                            posterImageUrl: posterImageUrl, movieTitle: movieTitle)
+            
+            navigationController?.pushViewController(movieTrendDetailViewController, animated: true)
+            castList = []
+        }
+    }
 }
 
 extension MovieSearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tmdbMovieSearch.results.count
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -238,6 +262,30 @@ extension MovieSearchViewController: RequestAPIFromAFProtocol {
         } failClosure: { error in
             print(error)
         }
-
+    }
+    
+    private func requestTMDBMovieCreditAPI(_ id: Int) {
+        
+        let urlString = APIURL.tmdbMovieCredit(id).urlString
+        let parameters: Parameters = [
+            "language": "ko-KR"
+        ]
+        let headers: HTTPHeaders = [
+            "accept": "application/json",
+            "Authorization": APIKey.tmdbAccessToken
+        ]
+        
+        requestDecodableCustomTypeResult(urlString: urlString,
+                                         method: .get,
+                                         parameters: parameters,
+                                         encoding: URLEncoding.queryString,
+                                         headers: headers,
+                                         type: TMDBMovieCredit.self
+        ) { [weak self] value in
+            guard let self else { return }
+            castList = value.cast
+        } failClosure: { error in
+            print(error)
+        }
     }
 }
