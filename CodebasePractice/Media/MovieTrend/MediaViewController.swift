@@ -243,6 +243,7 @@ extension MediaViewController: RequestAPIFromAFProtocol {
         ) { [weak self] value in
             guard let self else { return }
             tmdbMovieCreditCastList[id] = value.cast
+            movieTrendTableView.reloadData()
         } failClosure: { error in
             print(error)
         }
