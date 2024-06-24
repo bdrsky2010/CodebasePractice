@@ -164,7 +164,7 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
             boxOfficeList = value.boxOfficeResult.dailyBoxOfficeList
         } failClosure: { [weak self] error in
             guard let self else { return }
-            presentErrorAlert()
+            presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
             print(error)
         }
     }

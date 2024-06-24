@@ -234,18 +234,7 @@ extension WeatherBotViewController {
                         
                         DispatchQueue.main.async { [weak self] in
                             guard let self else { return }
-                            
-                            // 1. alert 창 구성
-                            let alert = UIAlertController(title: title,
-                                                          message: message,
-                                                          preferredStyle: .alert)
-                            // 2. alert button 구성
-                            let check = UIAlertAction(title: "확인", style: .default)
-                            
-                            // 3. alert에 button 추가
-                            alert.addAction(check)
-                            
-                            present(alert, animated: true)
+                            presentAlert(option: .oneButton, title: title, message: message, checkAlertTitle: "확인")
                         }
                         return
                     }
@@ -321,19 +310,9 @@ extension WeatherBotViewController {
             if CLLocationManager.locationServicesEnabled() {
                 checkCurrentLocationAuthorization()
             } else {
-                // 1. alert 창 구성
                 let title = "위치 권한 요청 에러"
                 let message = "사용자의 위치 서비스가 꺼져 있어 위치 권한 요청을 할 수 없어요"
-                let alert = UIAlertController(title: title,
-                                              message: message,
-                                              preferredStyle: .alert)
-                // 2. alert button 구성
-                let check = UIAlertAction(title: "확인", style: .default)
-                
-                // 3. alert에 button 추가
-                alert.addAction(check)
-                
-                present(alert, animated: true)
+                presentAlert(option: .oneButton, title: title, message: message, checkAlertTitle: "확인")
             }
         }
     }
@@ -352,13 +331,9 @@ extension WeatherBotViewController {
             print("iOS 설정 창으로 이동하라는 얼럿을 띄워주기")
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                // 1. alert 창 구성
+                
                 let title = "위치 권한 설정"
                 let message = "설정 창으로 이동하시겠습니까?"
-                let alert = UIAlertController(title: title,
-                                              message: message,
-                                              preferredStyle: .alert)
-                
                 let moveSetting: (UIAlertAction) -> Void = { _ in
                     guard let settingURL = URL(string: UIApplication.openSettingsURLString) else { return }
                     
@@ -367,15 +342,11 @@ extension WeatherBotViewController {
                     }
                 }
                 
-                // 2. alert button 구성
-                let move = UIAlertAction(title: "이동", style: .default, handler: moveSetting)
-                let cancel = UIAlertAction(title: "취소", style: .cancel)
-                
-                // 3. alert에 button 추가
-                alert.addAction(move)
-                alert.addAction(cancel)
-                
-                present(alert, animated: true)
+                presentAlert(option: .twoButton,
+                             title: title,
+                             message: message,
+                             checkAlertTitle: "이동",
+                             completionHandler: moveSetting)
             }
             
         case .authorizedWhenInUse:
@@ -385,27 +356,6 @@ extension WeatherBotViewController {
         default:
             print(status)
         }
-    }
-    
-    private func locationDataErrorAlert() {
-        // 1. alert 창 구성
-        let title = "위치 데이터를 가져오는데 실패하였습니다"
-        let message = "다시 요청하시겠습니까?"
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        // 2. alert button 구성
-        let check = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            guard let self else { return }
-            checkDeviceLocationAuthorization()
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        
-        // 3. alert에 button 추가
-        alert.addAction(check)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true)
     }
     
     private func convertLocationToAddress(coordinate: CLLocationCoordinate2D) {
@@ -444,7 +394,18 @@ extension WeatherBotViewController: CLLocationManagerDelegate {
     
     // 6. 사용자 위치를 가지고 오지 못했거나
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print(#function)
+        
+        let title = "위치 데이터를 가져오는데 실패하였습니다"
+        let message = "다시 요청하시겠습니까?"
+        
+        presentAlert(option: .twoButton,
+                     title: title,
+                     message: message,
+                     checkAlertTitle: "확인"
+        ) { [weak self] _ in
+            guard let self else { return }
+            checkDeviceLocationAuthorization()
+        }
     }
     
     // 7. 사용자 권한 상태가 변경될 때(iOS14) + 인스턴스가 생성이 될 때도 호출이 된다.
