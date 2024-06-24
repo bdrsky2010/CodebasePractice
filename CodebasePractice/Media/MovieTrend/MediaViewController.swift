@@ -35,7 +35,6 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
         super.viewDidLoad()
         requestTMDBMovieTrendAPI(timeWindow: .week)
         
-        
         configureNavigation()
         configureHierarchy()
         configureLayout()
@@ -61,8 +60,8 @@ class MediaViewController: UIViewController, ConfigureViewProtocol {
                                                      action: #selector(firstLeftBarButtonClicked))
         
         let menuActionList = configureMenuAction()
-        let menu = UIMenu(title: "Select Time Window Type", children: menuActionList)
-        let secondLeftBarButtonItem = UIBarButtonItem(title: "Week", menu: menu)
+        let menu = UIMenu(title: "Select Time Window Type\n(default: week)", children: menuActionList)
+        let secondLeftBarButtonItem = UIBarButtonItem(title: "sort", menu: menu)
         
         navigationItem.leftBarButtonItems = [firstLeftBarButtonItem, secondLeftBarButtonItem]
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -127,7 +126,7 @@ extension MediaViewController: UITableViewDelegate {
         let index = indexPath.row
         let tmdbMovie = tmdbTrendMovieList[index]
         let castList = tmdbMovieCreditCastList[tmdbMovie.id] ?? []
-        movieTrendDetailViewController.overView = tmdbMovie.overview
+        movieTrendDetailViewController.tmdbMovie = tmdbMovie
         movieTrendDetailViewController.castList = castList
         
         let backdropImageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
