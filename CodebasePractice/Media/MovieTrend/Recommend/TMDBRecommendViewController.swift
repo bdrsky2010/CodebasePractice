@@ -79,7 +79,7 @@ extension TMDBRecommendViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        
+        view.backgroundColor = .systemBackground
         let label = UILabel()
         label.text = headers[section]
         label.font = UIFont.boldSystemFont(ofSize: 18)
