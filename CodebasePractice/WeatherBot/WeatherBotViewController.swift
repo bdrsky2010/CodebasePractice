@@ -202,7 +202,7 @@ extension WeatherBotViewController {
         let lonQuery = URLQueryItem(name: "lon", value: String(coordinate.longitude))
         let langQuery = URLQueryItem(name: "lang", value: "kr")
         let unitsQuery = URLQueryItem(name: "units", value: "metric")
-        let appidQuery = URLQueryItem(name: "appi", value: APIKey.openWeather)
+        let appidQuery = URLQueryItem(name: "appid", value: APIKey.openWeather)
         var urlComponents = URLComponents(string: APIURL.openWeather.urlString)
         urlComponents?.queryItems = [latQuery, lonQuery, langQuery, unitsQuery, appidQuery]
 
