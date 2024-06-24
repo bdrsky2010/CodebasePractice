@@ -28,6 +28,7 @@ struct TMDBMovie: Decodable {
     let overview: String
     let poster_path: String
     let title: String
+    let original_title: String
     let genre_ids: [Int]
     let release_date: String
     let vote_average: Double
@@ -38,6 +39,7 @@ struct TMDBMovie: Decodable {
         case overview
         case poster_path
         case title
+        case original_title
         case genre_ids
         case release_date
         case vote_average
@@ -50,6 +52,7 @@ struct TMDBMovie: Decodable {
         self.overview = try container.decode(String.self, forKey: .overview)
         self.poster_path = try container.decode(String.self, forKey: .poster_path)
         self.title = try container.decode(String.self, forKey: .title)
+        self.original_title = try container.decode(String.self, forKey: .original_title)
         self.genre_ids = try container.decode([Int].self, forKey: .genre_ids)
         self.release_date = try container.decode(String.self, forKey: .release_date)
         self.vote_average = try container.decode(Double.self, forKey: .vote_average)
@@ -77,6 +80,14 @@ struct Cast: Decodable {
     let profile_path: String?
     let character: String? // 역할
 }
+
+struct TMDBMovieSearch: Decodable {
+    let page: Int
+    var results: [TMDBMovie]
+    let total_pages: Int
+    let total_results: Int
+}
+
 
 // MARK: TMDB Movie Poster Model
 struct TMDBMoviePoster: Decodable {
