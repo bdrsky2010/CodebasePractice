@@ -11,18 +11,33 @@ extension UIViewController {
     static var identifier: String {
         return String(describing: self)
     }
+}
+
+extension UIViewController {
     
-    public func presentErrorAlert() {
-        // 1. alert 창 구성
-        let title = "오류가 발생했어요... 🤔"
-        let alert = UIAlertController(title: title,
-                                      message: nil,
-                                      preferredStyle: .alert)
-        // 2. alert button 구성
-        let dismiss = UIAlertAction(title: "확인", style: .default)
+    enum AlertActionType {
+        case oneButton
+        case twoButton
+    }
+    
+    func presentAlert(option alertActionType: AlertActionType,
+                      title: String,
+                      message: String? = nil,
+                      checkAlertTitle: String,
+                      completionHandler: ((UIAlertAction) -> Void)? = nil) {
         
-        // 3. alert에 button 추가
-        alert.addAction(dismiss)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        switch alertActionType {
+        case .oneButton:
+            let check = UIAlertAction(title: checkAlertTitle, style: .default)
+            alert.addAction(check)
+        case .twoButton:
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
+            let check = UIAlertAction(title: checkAlertTitle, style: .default, handler: completionHandler)
+            alert.addAction(cancel)
+            alert.addAction(check)
+        }
         
         present(alert, animated: true)
     }
