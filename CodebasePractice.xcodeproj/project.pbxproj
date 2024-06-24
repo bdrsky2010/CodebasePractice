@@ -43,6 +43,10 @@
 		7B823D552C22DFB1009567EE /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D542C22DFB1009567EE /* MessageTableViewCell.swift */; };
 		7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D562C22E285009567EE /* ImageTableViewCell.swift */; };
 		7B823D592C22ECF5009567EE /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D582C22ECF5009567EE /* Date+.swift */; };
+		7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */; };
+		7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */; };
+		7B9BCB782C297A4D0082AE38 /* RecommendMovieCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB772C297A4D0082AE38 /* RecommendMovieCollectionView.swift */; };
+		7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */; };
 		7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */; };
 		7BD80CAC2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAB2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift */; };
 		7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */; };
@@ -86,6 +90,10 @@
 		7B823D542C22DFB1009567EE /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		7B823D562C22E285009567EE /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		7B823D582C22ECF5009567EE /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBRecommendViewController.swift; sourceTree = "<group>"; };
+		7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B9BCB772C297A4D0082AE38 /* RecommendMovieCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieCollectionView.swift; sourceTree = "<group>"; };
+		7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieTableViewCell.swift; sourceTree = "<group>"; };
 		7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 		7BD80CAB2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPIFromAFProtocol.swift; sourceTree = "<group>"; };
 		7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,6 +139,8 @@
 			children = (
 				7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */,
 				7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */,
+				7B1BF55F2C18450500FC02AC /* Credit */,
+				7B9BCB722C2960A50082AE38 /* Recommend */,
 				7B1BF5602C18454700FC02AC /* MovieSearch */,
 			);
 			path = MovieTrend;
@@ -197,7 +207,6 @@
 				7B5C13C62C11D0530096DE9E /* Extension */,
 				7B5C13692C0EFAEC0096DE9E /* Assets.xcassets */,
 				7B5C136B2C0EFAEC0096DE9E /* LaunchScreen.storyboard */,
-				7B1BF55F2C18450500FC02AC /* Credit */,
 				7B5C136E2C0EFAEC0096DE9E /* Info.plist */,
 			);
 			path = CodebasePractice;
@@ -263,6 +272,17 @@
 				7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7B9BCB722C2960A50082AE38 /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */,
+				7B9BCB772C297A4D0082AE38 /* RecommendMovieCollectionView.swift */,
+				7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */,
+				7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */,
+			);
+			path = Recommend;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,8 +368,10 @@
 			files = (
 				7B5C13C32C11B9F30096DE9E /* LottoViewController.swift in Sources */,
 				7B1BF5622C18458300FC02AC /* MovieSearchCollectionViewCell.swift in Sources */,
+				7B9BCB782C297A4D0082AE38 /* RecommendMovieCollectionView.swift in Sources */,
 				7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */,
 				7B1BF5512C17615500FC02AC /* MediaDelegate.swift in Sources */,
+				7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */,
 				7B5C137F2C0F02670096DE9E /* HomeViewController.swift in Sources */,
 				7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */,
 				7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */,
@@ -360,12 +382,14 @@
 				7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */,
 				7B1BF54F2C1754B800FC02AC /* CastTableViewCell.swift in Sources */,
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
+				7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */,
 				7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */,
 				7B823D592C22ECF5009567EE /* Date+.swift in Sources */,
 				7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */,
 				7BD80CAC2C13034E001F8E3F /* RequestAPIFromAFProtocol.swift in Sources */,
 				7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */,
 				7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */,
+				7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */,
 				7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */,
 				7B1BF5452C17078700FC02AC /* MovieTrendTableViewCell.swift in Sources */,
 				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
