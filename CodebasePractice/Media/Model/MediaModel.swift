@@ -31,6 +31,29 @@ struct TMDBMovie: Decodable {
     let genre_ids: [Int]
     let release_date: String
     let vote_average: Double
+    
+    enum CodingKeys: CodingKey {
+        case backdrop_path
+        case id
+        case overview
+        case poster_path
+        case title
+        case genre_ids
+        case release_date
+        case vote_average
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.backdrop_path = try container.decodeIfPresent(String.self, forKey: .backdrop_path) ?? ""
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.overview = try container.decode(String.self, forKey: .overview)
+        self.poster_path = try container.decode(String.self, forKey: .poster_path)
+        self.title = try container.decode(String.self, forKey: .title)
+        self.genre_ids = try container.decode([Int].self, forKey: .genre_ids)
+        self.release_date = try container.decode(String.self, forKey: .release_date)
+        self.vote_average = try container.decode(Double.self, forKey: .vote_average)
+    }
 }
 
 // MARK: TMDB Movie Genre Model
@@ -53,4 +76,26 @@ struct Cast: Decodable {
     let name: String
     let profile_path: String?
     let character: String? // 역할
+}
+
+// MARK: TMDB Movie Poster Model
+struct TMDBMoviePoster: Decodable {
+    let backdrops: [FilePath]
+    
+//    enum CodingKeys: CodingKey {
+//        case backdrops
+//    }
+//    
+//    init(from decoder: any Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.backdrops = try container.decodeIfPresent([FilePath].self, forKey: .backdrops) ?? []
+//    }
+}
+
+struct FilePath: Decodable {
+    let filePath: String
+    
+    enum CodingKeys: String, CodingKey {
+        case filePath = "file_path"
+    }
 }
