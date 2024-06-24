@@ -62,15 +62,30 @@ final class MovieTrendDetailViewController: UIViewController, ConfigureViewProto
         navigationController?.navigationBar.tintColor = .label
         navigationItem.title = "출연/제작"
         
-        let leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(dismissButtonClicked))
+        let leftBarButtonItem = UIBarButtonItem( image: UIImage(systemName: "chevron.backward"),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(dismissButtonClicked))
+        
+        let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "movieclapper"),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(rightButtonClicked))
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     @objc
     private func dismissButtonClicked() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func rightButtonClicked() {
+        let tmdbRecommendViewController = TMDBRecommendViewController()
+        tmdbRecommendViewController.tmdbMovie = tmdbMovie
+        navigationController?.pushViewController(tmdbRecommendViewController, animated: true)
     }
     
     func configureHierarchy() {
