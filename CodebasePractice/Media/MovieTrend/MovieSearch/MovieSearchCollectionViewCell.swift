@@ -140,9 +140,8 @@ class MovieSearchCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol
         return round(num * digit) / digit
     }
     
-    func configureContent(_ movie: MovieSearch) {
-        if let posterPath = movie.poster_path,
-           let url = ImageURL.tmdbMovie(posterPath).urlString.stringToURL {
+    func configureContent(_ movie: TMDBMovie) {
+        if let url = ImageURL.tmdbMovie(movie.poster_path).urlString.stringToURL {
             posterImageView.configureImageWithKF(url: url)
         }
         
