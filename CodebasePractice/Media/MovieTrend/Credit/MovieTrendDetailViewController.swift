@@ -45,7 +45,7 @@ final class MovieTrendDetailViewController: UIViewController, ConfigureViewProto
     
     private var isMore = false
     
-    var overView: String = ""
+    var tmdbMovie: TMDBMovie?
     var castList: [Cast] = []
     
     override func viewDidLoad() {
@@ -158,8 +158,9 @@ extension MovieTrendDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewTableViewCell.identifier, for: indexPath) as? OverViewTableViewCell else { return UITableViewCell() }
             cell.mediaDelegate = self
             cell.configureCell(isMore: isMore)
-            cell.configureContent(overView: overView)
-            
+            if let overView = tmdbMovie?.overview {
+                cell.configureContent(overView: overView)
+            }
             return cell
         }
         
