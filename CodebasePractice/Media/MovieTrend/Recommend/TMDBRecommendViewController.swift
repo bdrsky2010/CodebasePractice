@@ -78,6 +78,7 @@ extension TMDBRecommendViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         let view = UIView()
         view.backgroundColor = .systemBackground
         let label = UILabel()
@@ -127,7 +128,7 @@ extension TMDBRecommendViewController: UITableViewDelegate, UITableViewDataSourc
     }
 }
 
-extension TMDBRecommendViewController: RequestAPIFromAFProtocol {
+extension TMDBRecommendViewController {
     
     private func requestAPI() {
         guard let tmdbMovie else { return }
@@ -141,61 +142,65 @@ extension TMDBRecommendViewController: RequestAPIFromAFProtocol {
             "Authorization": APIKey.tmdbAccessToken
         ]
         
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          parameters: parameters,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMovieTrend.self
-        ) { [weak self] value in
+                                         of: TMDBMovieTrend.self) { [weak self] result in
             guard let self else { return }
-            similiarMovieList = value.results
-            movieTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        } failClosure: { [weak self] _ in
-            guard let self else { return }
-            presentAlert(option: .oneButton,
-                         title: "네트워크 통신 에러",
-                         message: "추천 영화 리스트를 가져오는데 실패하였습니다",
-                         checkAlertTitle: "확인")
+            switch result {
+            case .success(let value):
+                similiarMovieList = value.results
+                movieTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            case .failure(let error):
+                print(error)
+                presentAlert(option: .oneButton,
+                             title: "네트워크 통신 에러",
+                             message: "추천 영화 리스트를 가져오는데 실패하였습니다",
+                             checkAlertTitle: "확인")
+            }
         }
         
         urlString = APIURL.tmdbMovieRecommendations(tmdbMovie.id).urlString
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          parameters: parameters,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMovieTrend.self
-        ) { [weak self] value in
+                                         of: TMDBMovieTrend.self) { [weak self] result in
             guard let self else { return }
-            recommendationMovieList = value.results
-            movieTableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
-        } failClosure: { [weak self] error in
-            print(error)
-            guard let self else { return }
-            presentAlert(option: .oneButton,
-                         title: "네트워크 통신 에러",
-                         message: "비슷한 영화 리스트를 가져오는데 실패하였습니다",
-                         checkAlertTitle: "확인")
+            switch result {
+            case .success(let value):
+                recommendationMovieList = value.results
+                movieTableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
+            case .failure(let error):
+                print(error)
+                presentAlert(option: .oneButton,
+                             title: "네트워크 통신 에러",
+                             message: "비슷한 영화 리스트를 가져오는데 실패하였습니다",
+                             checkAlertTitle: "확인")
+            }
         }
         
         urlString = APIURL.tmdbMovieImages(tmdbMovie.id).urlString
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMoviePoster.self
-        ) { [weak self] value in
+                                         of: TMDBMoviePoster.self) { [weak self] result in
             guard let self else { return }
-            tmdbMoviePosterPathList = value.backdrops.map { $0.filePath }
-            movieTableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
-        } failClosure: { [weak self] error in
-            print(error)
-            guard let self else { return }
-            presentAlert(option: .oneButton,
-                         title: "네트워크 통신 에러",
-                         message: "영화 포스터를 가져오는데 실패하였습니다",
-                         checkAlertTitle: "확인")
+            switch result {
+            case .success(let value):
+                tmdbMoviePosterPathList = value.backdrops.map { $0.filePath }
+                movieTableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
+            case .failure(let error):
+                print(error)
+                presentAlert(option: .oneButton,
+                             title: "네트워크 통신 에러",
+                             message: "영화 포스터를 가져오는데 실패하였습니다",
+                             checkAlertTitle: "확인")
+            }
         }
     }
 }

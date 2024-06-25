@@ -179,7 +179,7 @@ extension MediaViewController: UITableViewDataSource {
     }
 }
 
-extension MediaViewController: RequestAPIFromAFProtocol {
+extension MediaViewController {
     
     private func requestTMDBMovieTrendAPI(timeWindow: TimeWindowType) {
         
@@ -192,17 +192,19 @@ extension MediaViewController: RequestAPIFromAFProtocol {
             "Authorization": APIKey.tmdbAccessToken
         ]
         
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          parameters: parameters,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMovieTrend.self
-        ) { [weak self] value in
+                                         of: TMDBMovieTrend.self) { [weak self] result in
             guard let self else { return }
-            tmdbTrendMovieList = value.results
-        } failClosure: { error in
-            print(error)
+            switch result {
+            case .success(let value):
+                tmdbTrendMovieList = value.results
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -210,16 +212,20 @@ extension MediaViewController: RequestAPIFromAFProtocol {
         
         let urlString = APIURL.tmdbMovieGenre(APIKey.tmdb).urlString
         
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
+                                         method: .get,
                                          encoding: URLEncoding.queryString,
-                                         type: TMDBMovieGenre.self
-        ) { value in
-            value.genres.forEach { [weak self] genre in
-                guard let self else { return }
-                tmdbMovieGenreList[genre.id] = genre.name
+                                         of: TMDBMovieGenre.self) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let value):
+                value.genres.forEach { [weak self] genre in
+                    guard let self else { return }
+                    tmdbMovieGenreList[genre.id] = genre.name
+                }
+            case .failure(let error):
+                print(error)
             }
-        } failClosure: { error in
-            print(error)
         }
     }
     
@@ -234,18 +240,20 @@ extension MediaViewController: RequestAPIFromAFProtocol {
             "Authorization": APIKey.tmdbAccessToken
         ]
         
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          parameters: parameters,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMovieCredit.self
-        ) { [weak self] value in
+                                         of: TMDBMovieCredit.self) { [weak self] result in
             guard let self else { return }
-            tmdbMovieCreditCastList[id] = value.cast
-            movieTrendTableView.reloadData()
-        } failClosure: { error in
-            print(error)
+            switch result {
+            case .success(let value):
+                tmdbMovieCreditCastList[id] = value.cast
+                movieTrendTableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

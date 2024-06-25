@@ -92,15 +92,6 @@ struct TMDBMovieSearch: Decodable {
 // MARK: TMDB Movie Poster Model
 struct TMDBMoviePoster: Decodable {
     let backdrops: [FilePath]
-    
-//    enum CodingKeys: CodingKey {
-//        case backdrops
-//    }
-//    
-//    init(from decoder: any Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        self.backdrops = try container.decodeIfPresent([FilePath].self, forKey: .backdrops) ?? []
-//    }
 }
 
 struct FilePath: Decodable {

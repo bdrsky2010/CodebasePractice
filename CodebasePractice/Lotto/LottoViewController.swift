@@ -309,7 +309,7 @@ class LottoViewController: UIViewController, ConfigureViewProtocol {
     }
 }
 
-extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
+extension LottoViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "\(numeberList[row]) 회"
@@ -323,21 +323,20 @@ extension LottoViewController: UIPickerViewDelegate, RequestAPIFromAFProtocol {
     }
     
     private func requestAPI(_ number: Int) {
-        requestDecodableCustomTypeResult(urlString: APIURL.lotto(number).urlString,
+        NetworkManager.shared.requestAPI(urlString: APIURL.lotto(number).urlString,
+                                         method: .get,
                                          encoding: URLEncoding.queryString,
-                                         type: Lotto.self
-        ) { [weak self] value in
+                                         of: Lotto.self) { [weak self] result in
             guard let self else { return }
-            
-            lotto = value
-            configureContent()
-        } failClosure: { [weak self] error in
-            guard let self else { return }
-            
-            presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
-            print(error)
+            switch result {
+            case .success(let value):
+                lotto = value
+                configureContent()
+            case .failure(let error):
+                presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
+                print(error)
+            }
         }
-        
         pickerTextField.text = "\(number) 회"
     }
 }

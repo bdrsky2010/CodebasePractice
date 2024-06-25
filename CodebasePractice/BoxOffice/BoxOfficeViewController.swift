@@ -23,7 +23,7 @@ struct BoxOffice: Decodable {
     let openDt: String
 }
 
-final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, RequestAPIFromAFProtocol {
+final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol {
 
     let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -156,16 +156,18 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol, Re
     }
     
     private func requestAPI(date targetDt: String) {
-        requestDecodableCustomTypeResult(urlString: APIURL.kobis(APIKey.kobis, targetDt).urlString,
+        NetworkManager.shared.requestAPI(urlString: APIURL.kobis(APIKey.kobis, targetDt).urlString,
+                                         method: .get,
                                          encoding: URLEncoding.queryString,
-                                         type: DailyBoxOffice.self
-        ) { [weak self] value in
+                                         of: DailyBoxOffice.self) { [weak self] result in
             guard let self else { return }
-            boxOfficeList = value.boxOfficeResult.dailyBoxOfficeList
-        } failClosure: { [weak self] error in
-            guard let self else { return }
-            presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
-            print(error)
+            switch result {
+            case .success(let value):
+                boxOfficeList = value.boxOfficeResult.dailyBoxOfficeList
+            case .failure(let error):
+                presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
+                print(error)
+            }
         }
     }
 }
