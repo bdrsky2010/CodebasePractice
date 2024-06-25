@@ -44,7 +44,6 @@
 		7B823D592C22ECF5009567EE /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D582C22ECF5009567EE /* Date+.swift */; };
 		7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */; };
 		7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */; };
-		7B9BCB782C297A4D0082AE38 /* RecommendMovieCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB772C297A4D0082AE38 /* RecommendMovieCollectionView.swift */; };
 		7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */; };
 		7B9BCB9B2C2AA5FC0082AE38 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB9A2C2AA5FC0082AE38 /* NetworkManager.swift */; };
 		7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */; };
@@ -90,7 +89,6 @@
 		7B823D582C22ECF5009567EE /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBRecommendViewController.swift; sourceTree = "<group>"; };
 		7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieCollectionViewCell.swift; sourceTree = "<group>"; };
-		7B9BCB772C297A4D0082AE38 /* RecommendMovieCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieCollectionView.swift; sourceTree = "<group>"; };
 		7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieTableViewCell.swift; sourceTree = "<group>"; };
 		7B9BCB9A2C2AA5FC0082AE38 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */,
-				7B9BCB772C297A4D0082AE38 /* RecommendMovieCollectionView.swift */,
 				7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */,
 				7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */,
 			);
@@ -373,7 +370,6 @@
 			files = (
 				7B5C13C32C11B9F30096DE9E /* LottoViewController.swift in Sources */,
 				7B1BF5622C18458300FC02AC /* MovieSearchCollectionViewCell.swift in Sources */,
-				7B9BCB782C297A4D0082AE38 /* RecommendMovieCollectionView.swift in Sources */,
 				7B9BCB9B2C2AA5FC0082AE38 /* NetworkManager.swift in Sources */,
 				7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */,
 				7B1BF5512C17615500FC02AC /* MediaDelegate.swift in Sources */,
