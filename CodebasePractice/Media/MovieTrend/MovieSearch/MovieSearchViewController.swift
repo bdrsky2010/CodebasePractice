@@ -227,7 +227,7 @@ extension MovieSearchViewController: UICollectionViewDataSource {
     }
 }
 
-extension MovieSearchViewController: RequestAPIFromAFProtocol {
+extension MovieSearchViewController {
     private func requestMovieSearchAPI(_ query: String, page: Int) {
         
         let urlString = APIURL.tmdbMovieSearch.urlString
@@ -241,26 +241,26 @@ extension MovieSearchViewController: RequestAPIFromAFProtocol {
             "Authorization": APIKey.tmdbAccessToken
         ]
         
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          parameters: parameters,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMovieSearch.self
-        ) { [weak self] value in
+                                         of: TMDBMovieSearch.self) { [weak self] result in
             guard let self else { return }
-            isEnd = page == value.total_pages
-            
-            if page > 1 {
-                tmdbMovieSearch.results.append(contentsOf: value.results)
-            } else {
-                tmdbMovieSearch = value
-                movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            switch result {
+            case .success(let value):
+                isEnd = page == value.total_pages
+                
+                if page > 1 {
+                    tmdbMovieSearch.results.append(contentsOf: value.results)
+                } else {
+                    tmdbMovieSearch = value
+                    movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                }
+            case .failure(let error):
+                print(error)
             }
-            
-            
-        } failClosure: { error in
-            print(error)
         }
     }
     
@@ -275,17 +275,19 @@ extension MovieSearchViewController: RequestAPIFromAFProtocol {
             "Authorization": APIKey.tmdbAccessToken
         ]
         
-        requestDecodableCustomTypeResult(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: urlString,
                                          method: .get,
                                          parameters: parameters,
                                          encoding: URLEncoding.queryString,
                                          headers: headers,
-                                         type: TMDBMovieCredit.self
-        ) { [weak self] value in
+                                         of: TMDBMovieCredit.self) { [weak self] result in
             guard let self else { return }
-            castList = value.cast
-        } failClosure: { error in
-            print(error)
+            switch result {
+            case .success(let value):
+                castList = value.cast
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }
