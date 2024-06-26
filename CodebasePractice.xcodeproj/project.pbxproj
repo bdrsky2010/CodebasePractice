@@ -46,6 +46,11 @@
 		7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */; };
 		7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */; };
 		7B9BCB9B2C2AA5FC0082AE38 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB9A2C2AA5FC0082AE38 /* NetworkManager.swift */; };
+		7B9BCB9E2C2ABC410082AE38 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB9D2C2ABC410082AE38 /* BaseViewController.swift */; };
+		7B9BCBA02C2ABC5A0082AE38 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB9F2C2ABC5A0082AE38 /* BaseTableViewCell.swift */; };
+		7B9BCBA22C2ABC610082AE38 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBA12C2ABC610082AE38 /* BaseCollectionViewCell.swift */; };
+		7B9BCBA42C2ABC670082AE38 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBA32C2ABC670082AE38 /* BaseView.swift */; };
+		7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */; };
 		7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */; };
 		7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */; };
 		7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CB02C131340001F8E3F /* UIViewController+.swift */; };
@@ -91,6 +96,11 @@
 		7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieTableViewCell.swift; sourceTree = "<group>"; };
 		7B9BCB9A2C2AA5FC0082AE38 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		7B9BCB9D2C2ABC410082AE38 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		7B9BCB9F2C2ABC5A0082AE38 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		7B9BCBA12C2ABC610082AE38 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B9BCBA32C2ABC670082AE38 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
 		7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 		7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTableViewCell.swift; sourceTree = "<group>"; };
 		7BD80CB02C131340001F8E3F /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -188,6 +198,7 @@
 		7B5C135F2C0EFAEB0096DE9E /* CodebasePractice */ = {
 			isa = PBXGroup;
 			children = (
+				7B9BCB9C2C2ABC280082AE38 /* Base */,
 				7B5C13802C0F026C0096DE9E /* Netflix */,
 				7B5C13BF2C11B89D0096DE9E /* Lotto */,
 				7B5C13C02C11B9720096DE9E /* BoxOffice */,
@@ -229,6 +240,7 @@
 		7B5C13C02C11B9720096DE9E /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */,
 				7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */,
 				7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */,
 			);
@@ -285,6 +297,17 @@
 				7B9BCB9A2C2AA5FC0082AE38 /* NetworkManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		7B9BCB9C2C2ABC280082AE38 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCB9D2C2ABC410082AE38 /* BaseViewController.swift */,
+				7B9BCB9F2C2ABC5A0082AE38 /* BaseTableViewCell.swift */,
+				7B9BCBA12C2ABC610082AE38 /* BaseCollectionViewCell.swift */,
+				7B9BCBA32C2ABC670082AE38 /* BaseView.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,11 +410,15 @@
 				7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */,
 				7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */,
 				7B823D592C22ECF5009567EE /* Date+.swift in Sources */,
+				7B9BCBA42C2ABC670082AE38 /* BaseView.swift in Sources */,
 				7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */,
 				7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */,
 				7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */,
+				7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */,
 				7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */,
+				7B9BCB9E2C2ABC410082AE38 /* BaseViewController.swift in Sources */,
 				7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */,
+				7B9BCBA22C2ABC610082AE38 /* BaseCollectionViewCell.swift in Sources */,
 				7B1BF5452C17078700FC02AC /* MovieTrendTableViewCell.swift in Sources */,
 				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
@@ -404,6 +431,7 @@
 				7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */,
 				7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */,
 				7B5C13632C0EFAEB0096DE9E /* SceneDelegate.swift in Sources */,
+				7B9BCBA02C2ABC5A0082AE38 /* BaseTableViewCell.swift in Sources */,
 				7B823D4E2C22AF1E009567EE /* WeatherBotViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
