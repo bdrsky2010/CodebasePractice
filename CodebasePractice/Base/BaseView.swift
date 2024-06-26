@@ -16,7 +16,7 @@ class BaseView: UIView, ConfigureViewProtocol {
         configureLayout()
     }
     
-    func configureView() { }
+    func configureView() { backgroundColor = .systemBackground }
     func configureHierarchy() { }
     func configureLayout() { }
     
