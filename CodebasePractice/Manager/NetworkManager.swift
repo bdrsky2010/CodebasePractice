@@ -16,9 +16,9 @@ final class NetworkManager {
     
     func requestAPI<T: Decodable>(urlString: String,
                                   method: HTTPMethod,
-                                  parameters: Parameters? = nil,
+                                  parameters: Parameters?,
                                   encoding: URLEncoding,
-                                  headers: HTTPHeaders? = nil,
+                                  headers: HTTPHeaders?,
                                   of type: T.Type,
                                   completionHandler: @escaping(Result<T, Error>) -> Void) {
         AF.request(urlString, method: .get, parameters: parameters, encoding: encoding, headers: headers)
