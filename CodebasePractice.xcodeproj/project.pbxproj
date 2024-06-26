@@ -51,6 +51,14 @@
 		7B9BCBA22C2ABC610082AE38 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBA12C2ABC610082AE38 /* BaseCollectionViewCell.swift */; };
 		7B9BCBA42C2ABC670082AE38 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBA32C2ABC670082AE38 /* BaseView.swift */; };
 		7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */; };
+		7B9BCBCE2C2C06290082AE38 /* Lotto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBCD2C2C06290082AE38 /* Lotto.swift */; };
+		7B9BCBDA2C2C08970082AE38 /* LottoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBD92C2C08970082AE38 /* LottoView.swift */; };
+		7B9BCBDC2C2C0ED70082AE38 /* BoxOfficeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBDB2C2C0ED70082AE38 /* BoxOfficeView.swift */; };
+		7B9BCBDE2C2C4F7D0082AE38 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBDD2C2C4F7D0082AE38 /* WeatherView.swift */; };
+		7B9BCBE02C2C50190082AE38 /* PopupMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBDF2C2C50190082AE38 /* PopupMapView.swift */; };
+		7B9BCBE72C2C55000082AE38 /* MovieTrendDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBE62C2C55000082AE38 /* MovieTrendDetailView.swift */; };
+		7B9BCBEB2C2C55170082AE38 /* MovieSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBEA2C2C55170082AE38 /* MovieSearchView.swift */; };
+		7B9BCBED2C2C583A0082AE38 /* UIButton.Configuration+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBEC2C2C583A0082AE38 /* UIButton.Configuration+.swift */; };
 		7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */; };
 		7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */; };
 		7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CB02C131340001F8E3F /* UIViewController+.swift */; };
@@ -101,6 +109,14 @@
 		7B9BCBA12C2ABC610082AE38 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		7B9BCBA32C2ABC670082AE38 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOffice.swift; sourceTree = "<group>"; };
+		7B9BCBCD2C2C06290082AE38 /* Lotto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lotto.swift; sourceTree = "<group>"; };
+		7B9BCBD92C2C08970082AE38 /* LottoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoView.swift; sourceTree = "<group>"; };
+		7B9BCBDB2C2C0ED70082AE38 /* BoxOfficeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeView.swift; sourceTree = "<group>"; };
+		7B9BCBDD2C2C4F7D0082AE38 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		7B9BCBDF2C2C50190082AE38 /* PopupMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMapView.swift; sourceTree = "<group>"; };
+		7B9BCBE62C2C55000082AE38 /* MovieTrendDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTrendDetailView.swift; sourceTree = "<group>"; };
+		7B9BCBEA2C2C55170082AE38 /* MovieSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchView.swift; sourceTree = "<group>"; };
+		7B9BCBEC2C2C583A0082AE38 /* UIButton.Configuration+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton.Configuration+.swift"; sourceTree = "<group>"; };
 		7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 		7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTableViewCell.swift; sourceTree = "<group>"; };
 		7BD80CB02C131340001F8E3F /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -125,7 +141,9 @@
 			isa = PBXGroup;
 			children = (
 				7B1BF55C2C18445800FC02AC /* Model */,
-				7B1BF55D2C1844AF00FC02AC /* MovieTrend */,
+				7B9BCBD32C2C07D70082AE38 /* View */,
+				7B9BCBD42C2C07DE0082AE38 /* ViewController */,
+				7B9BCBD52C2C080D0082AE38 /* Component */,
 				7B1BF55E2C1844E300FC02AC /* Delegate */,
 			);
 			path = Media;
@@ -137,18 +155,6 @@
 				7B1BF5402C16DC0800FC02AC /* MediaModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		7B1BF55D2C1844AF00FC02AC /* MovieTrend */ = {
-			isa = PBXGroup;
-			children = (
-				7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */,
-				7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */,
-				7B1BF55F2C18450500FC02AC /* Credit */,
-				7B9BCB722C2960A50082AE38 /* Recommend */,
-				7B1BF5602C18454700FC02AC /* MovieSearch */,
-			);
-			path = MovieTrend;
 			sourceTree = "<group>";
 		};
 		7B1BF55E2C1844E300FC02AC /* Delegate */ = {
@@ -163,8 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				7B1BF54A2C17388D00FC02AC /* MovieTrendDetailViewController.swift */,
-				7B1BF54C2C1754AD00FC02AC /* OverViewTableViewCell.swift */,
-				7B1BF54E2C1754B800FC02AC /* CastTableViewCell.swift */,
 			);
 			path = Credit;
 			sourceTree = "<group>";
@@ -173,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				7B1BF5632C18462500FC02AC /* MovieSearchViewController.swift */,
-				7B1BF5612C18458300FC02AC /* MovieSearchCollectionViewCell.swift */,
 			);
 			path = MovieSearch;
 			sourceTree = "<group>";
@@ -232,7 +235,9 @@
 		7B5C13BF2C11B89D0096DE9E /* Lotto */ = {
 			isa = PBXGroup;
 			children = (
-				7B5C13C22C11B9F30096DE9E /* LottoViewController.swift */,
+				7B9BCBCA2C2C05F70082AE38 /* Model */,
+				7B9BCBCB2C2C05FF0082AE38 /* View */,
+				7B9BCBCC2C2C06060082AE38 /* ViewController */,
 			);
 			path = Lotto;
 			sourceTree = "<group>";
@@ -240,9 +245,10 @@
 		7B5C13C02C11B9720096DE9E /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */,
-				7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */,
-				7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */,
+				7B9BCBD12C2C07860082AE38 /* Model */,
+				7B9BCBD02C2C07700082AE38 /* View */,
+				7B9BCBCF2C2C06550082AE38 /* ViewController */,
+				7B9BCBD22C2C07A90082AE38 /* Component */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
@@ -257,6 +263,7 @@
 				7B1BF5652C18473F00FC02AC /* UICollectionViewCell+.swift */,
 				7B1BF5462C171F2900FC02AC /* UIImageView+.swift */,
 				7B823D582C22ECF5009567EE /* Date+.swift */,
+				7B9BCBEC2C2C583A0082AE38 /* UIButton.Configuration+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -265,10 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				7B823D512C22B554009567EE /* Model */,
-				7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */,
-				7B823D542C22DFB1009567EE /* MessageTableViewCell.swift */,
-				7B823D562C22E285009567EE /* ImageTableViewCell.swift */,
-				7B823D522C22D8B1009567EE /* PopupMapViewController.swift */,
+				7B9BCBD72C2C08690082AE38 /* View */,
+				7B9BCBD62C2C08610082AE38 /* ViewController */,
 			);
 			path = WeatherBot;
 			sourceTree = "<group>";
@@ -285,8 +290,6 @@
 			isa = PBXGroup;
 			children = (
 				7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */,
-				7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */,
-				7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */,
 			);
 			path = Recommend;
 			sourceTree = "<group>";
@@ -308,6 +311,139 @@
 				7B9BCBA32C2ABC670082AE38 /* BaseView.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		7B9BCBCA2C2C05F70082AE38 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBCD2C2C06290082AE38 /* Lotto.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7B9BCBCB2C2C05FF0082AE38 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBD92C2C08970082AE38 /* LottoView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B9BCBCC2C2C06060082AE38 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7B5C13C22C11B9F30096DE9E /* LottoViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B9BCBCF2C2C06550082AE38 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B9BCBD02C2C07700082AE38 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBDB2C2C0ED70082AE38 /* BoxOfficeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B9BCBD12C2C07860082AE38 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBC82C2BF4270082AE38 /* BoxOffice.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7B9BCBD22C2C07A90082AE38 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		7B9BCBD32C2C07D70082AE38 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBE32C2C54A50082AE38 /* Credit */,
+				7B9BCBE12C2C549F0082AE38 /* MovieSearch */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B9BCBD42C2C07DE0082AE38 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */,
+				7B1BF55F2C18450500FC02AC /* Credit */,
+				7B9BCB722C2960A50082AE38 /* Recommend */,
+				7B1BF5602C18454700FC02AC /* MovieSearch */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B9BCBD52C2C080D0082AE38 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */,
+				7B1BF54C2C1754AD00FC02AC /* OverViewTableViewCell.swift */,
+				7B1BF54E2C1754B800FC02AC /* CastTableViewCell.swift */,
+				7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */,
+				7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */,
+				7B1BF5612C18458300FC02AC /* MovieSearchCollectionViewCell.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		7B9BCBD62C2C08610082AE38 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */,
+				7B823D522C22D8B1009567EE /* PopupMapViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B9BCBD72C2C08690082AE38 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBD82C2C08760082AE38 /* Component */,
+				7B9BCBDD2C2C4F7D0082AE38 /* WeatherView.swift */,
+				7B9BCBDF2C2C50190082AE38 /* PopupMapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B9BCBD82C2C08760082AE38 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				7B823D542C22DFB1009567EE /* MessageTableViewCell.swift */,
+				7B823D562C22E285009567EE /* ImageTableViewCell.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		7B9BCBE12C2C549F0082AE38 /* MovieSearch */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBEA2C2C55170082AE38 /* MovieSearchView.swift */,
+			);
+			path = MovieSearch;
+			sourceTree = "<group>";
+		};
+		7B9BCBE32C2C54A50082AE38 /* Credit */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBE62C2C55000082AE38 /* MovieTrendDetailView.swift */,
+			);
+			path = Credit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -391,12 +527,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9BCBEB2C2C55170082AE38 /* MovieSearchView.swift in Sources */,
 				7B5C13C32C11B9F30096DE9E /* LottoViewController.swift in Sources */,
 				7B1BF5622C18458300FC02AC /* MovieSearchCollectionViewCell.swift in Sources */,
 				7B9BCB9B2C2AA5FC0082AE38 /* NetworkManager.swift in Sources */,
 				7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */,
+				7B9BCBCE2C2C06290082AE38 /* Lotto.swift in Sources */,
 				7B1BF5512C17615500FC02AC /* MediaDelegate.swift in Sources */,
 				7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */,
+				7B9BCBDA2C2C08970082AE38 /* LottoView.swift in Sources */,
 				7B5C137F2C0F02670096DE9E /* HomeViewController.swift in Sources */,
 				7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */,
 				7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */,
@@ -416,17 +555,22 @@
 				7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */,
 				7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */,
 				7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */,
+				7B9BCBDC2C2C0ED70082AE38 /* BoxOfficeView.swift in Sources */,
 				7B9BCB9E2C2ABC410082AE38 /* BaseViewController.swift in Sources */,
+				7B9BCBE02C2C50190082AE38 /* PopupMapView.swift in Sources */,
 				7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */,
 				7B9BCBA22C2ABC610082AE38 /* BaseCollectionViewCell.swift in Sources */,
 				7B1BF5452C17078700FC02AC /* MovieTrendTableViewCell.swift in Sources */,
+				7B9BCBE72C2C55000082AE38 /* MovieTrendDetailView.swift in Sources */,
 				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
 				7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */,
+				7B9BCBDE2C2C4F7D0082AE38 /* WeatherView.swift in Sources */,
 				7B1BF54D2C1754AD00FC02AC /* OverViewTableViewCell.swift in Sources */,
 				7B1BF5662C18473F00FC02AC /* UICollectionViewCell+.swift in Sources */,
 				7B823D552C22DFB1009567EE /* MessageTableViewCell.swift in Sources */,
 				7B1BF5412C16DC0800FC02AC /* MediaModel.swift in Sources */,
+				7B9BCBED2C2C583A0082AE38 /* UIButton.Configuration+.swift in Sources */,
 				7B1BF54B2C17388D00FC02AC /* MovieTrendDetailViewController.swift in Sources */,
 				7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */,
 				7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */,
