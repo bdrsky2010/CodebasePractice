@@ -9,7 +9,7 @@ import UIKit
 
 import Alamofire
 
-class LottoViewController: UIViewController {
+class LottoViewController: BaseViewController {
     
     private let lottoView = LottoView()
     
@@ -94,7 +94,7 @@ class LottoViewController: UIViewController {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         
         lottoView.drawNumberLabelList.enumerated().forEach {
             let index = $0.offset
