@@ -229,23 +229,13 @@ extension MovieSearchViewController: UICollectionViewDataSource {
 
 extension MovieSearchViewController {
     private func requestMovieSearchAPI(_ query: String, page: Int) {
+        let api = APIURL.tmdbMovieSearch(query, page)
         
-        let urlString = APIURL.tmdbMovieSearch.urlString
-        let parameters: Parameters = [
-            "language": "ko-KR",
-            "page": page,
-            "query": query
-        ]
-        let headers: HTTPHeaders = [
-            "accept": "application/json",
-            "Authorization": APIKey.tmdbAccessToken
-        ]
-        
-        NetworkManager.shared.requestAPI(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: api.endpoint,
                                          method: .get,
-                                         parameters: parameters,
+                                         parameters: api.parameters,
                                          encoding: URLEncoding.queryString,
-                                         headers: headers,
+                                         headers: api.headers,
                                          of: TMDBMovieSearch.self) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -265,21 +255,13 @@ extension MovieSearchViewController {
     }
     
     private func requestTMDBMovieCreditAPI(_ id: Int) {
+        let api = APIURL.tmdbMovieCredit(id)
         
-        let urlString = APIURL.tmdbMovieCredit(id).urlString
-        let parameters: Parameters = [
-            "language": "ko-KR"
-        ]
-        let headers: HTTPHeaders = [
-            "accept": "application/json",
-            "Authorization": APIKey.tmdbAccessToken
-        ]
-        
-        NetworkManager.shared.requestAPI(urlString: urlString,
+        NetworkManager.shared.requestAPI(urlString: api.endpoint,
                                          method: .get,
-                                         parameters: parameters,
+                                         parameters: api.parameters,
                                          encoding: URLEncoding.queryString,
-                                         headers: headers,
+                                         headers: api.headers,
                                          of: TMDBMovieCredit.self) { [weak self] result in
             guard let self else { return }
             switch result {

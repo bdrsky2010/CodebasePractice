@@ -168,24 +168,16 @@ extension TMDBRecommendViewController {
     private func requestAPI() {
         guard let tmdbMovie else { return }
         
-        let parameters: Parameters = [
-            "language": "ko-KR"
-        ]
-        let headers: HTTPHeaders = [
-            "accept": "application/json",
-            "Authorization": APIKey.tmdbAccessToken
-        ]
-        
         let group = DispatchGroup()
         
         group.enter()
         DispatchQueue.global().async {
-            let urlString = APIURL.tmdbMovieSimiliar(tmdbMovie.id).urlString
-            NetworkManager.shared.requestAPI(urlString: urlString,
+            let api = APIURL.tmdbMovieSimiliar(tmdbMovie.id)
+            NetworkManager.shared.requestAPI(urlString: api.endpoint,
                                              method: .get,
-                                             parameters: parameters,
+                                             parameters: api.parameters,
                                              encoding: URLEncoding.queryString,
-                                             headers: headers,
+                                             headers: api.headers,
                                              of: TMDBMovieTrend.self) { [weak self] result in
                 guard let self else { return }
                 switch result {
@@ -207,12 +199,12 @@ extension TMDBRecommendViewController {
         
         group.enter()
         DispatchQueue.global().async {
-            let urlString = APIURL.tmdbMovieRecommendations(tmdbMovie.id).urlString
-            NetworkManager.shared.requestAPI(urlString: urlString,
+            let api = APIURL.tmdbMovieRecommendations(tmdbMovie.id)
+            NetworkManager.shared.requestAPI(urlString: api.endpoint,
                                              method: .get,
-                                             parameters: parameters,
+                                             parameters: api.parameters,
                                              encoding: URLEncoding.queryString,
-                                             headers: headers,
+                                             headers: api.headers,
                                              of: TMDBMovieTrend.self) { [weak self] result in
                 guard let self else { return }
                 switch result {
@@ -234,11 +226,12 @@ extension TMDBRecommendViewController {
         
         group.enter()
         DispatchQueue.global().async {
-            let urlString = APIURL.tmdbMovieImages(tmdbMovie.id).urlString
-            NetworkManager.shared.requestAPI(urlString: urlString,
+            let api = APIURL.tmdbMovieImages(tmdbMovie.id)
+            NetworkManager.shared.requestAPI(urlString: api.endpoint,
                                              method: .get,
+                                             parameters: api.parameters,
                                              encoding: URLEncoding.queryString,
-                                             headers: headers,
+                                             headers: api.headers,
                                              of: TMDBMoviePoster.self) { [weak self] result in
                 guard let self else { return }
                 switch result {

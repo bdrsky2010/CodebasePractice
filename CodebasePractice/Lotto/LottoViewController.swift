@@ -323,9 +323,13 @@ extension LottoViewController: UIPickerViewDelegate {
     }
     
     private func requestAPI(_ number: Int) {
-        NetworkManager.shared.requestAPI(urlString: APIURL.lotto(number).urlString,
+        let api = APIURL.lotto(number)
+        
+        NetworkManager.shared.requestAPI(urlString: APIURL.lotto(number).endpoint,
                                          method: .get,
+                                         parameters: api.parameters,
                                          encoding: URLEncoding.queryString,
+                                         headers: api.headers,
                                          of: Lotto.self) { [weak self] result in
             guard let self else { return }
             switch result {
