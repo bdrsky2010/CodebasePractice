@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-final class TMDBRecommendViewController: UIViewController, ConfigureViewProtocol {
+final class TMDBRecommendViewController: BaseViewController {
     
     private let movieTableView = UITableView()
     private let headers = ["비슷한 영화", "추천 영화", "포스터"]
@@ -27,11 +27,9 @@ final class TMDBRecommendViewController: UIViewController, ConfigureViewProtocol
         configureTableView()
     }
     
-    func configureView() {
-        view.backgroundColor = .systemBackground
+    override func configureView() {
+        super.configureView()
         configureNavigation()
-        configureHierarchy()
-        configureLayout()
     }
     
     func configureNavigation() {
@@ -50,11 +48,11 @@ final class TMDBRecommendViewController: UIViewController, ConfigureViewProtocol
         navigationController?.popViewController(animated: true)
     }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         view.addSubview(movieTableView)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         movieTableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }

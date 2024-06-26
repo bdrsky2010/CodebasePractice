@@ -10,55 +10,30 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-final class MovieTrendDetailViewController: UIViewController {
+final class MovieTrendDetailViewController: BaseViewController {
     
-    private let backdropImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.backgroundColor = .systemIndigo
-        return imageView
-    }()
-    
-    private let backdropImageCoverView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.layer.opacity = 0.2
-        return view
-    }()
-    
-    private let movieTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        label.text = "Squid Game"
-        label.textColor = .white
-        return label
-    }()
-    
-    private let posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .pastelGreen
-        return imageView
-    }()
-    
-    private let tmdbMovieInfoTableView = UITableView()
+    private let movieTrendDetailView = MovieTrendDetailView()
     
     private var isMore = false
     
     var tmdbMovie: TMDBMovie?
     var castList: [Cast] = []
     
+    override func loadView() {
+        view = movieTrendDetailView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
         configureTableView()
     }
     
+    override func configureView() {
+        configureNavigation()
+    }
+    
     func configureNavigation() {
-        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.tintColor = .label
         navigationItem.title = "출연/제작"
         
@@ -88,58 +63,22 @@ final class MovieTrendDetailViewController: UIViewController {
         navigationController?.pushViewController(tmdbRecommendViewController, animated: true)
     }
     
-    func configureHierarchy() {
-        view.addSubview(backdropImageView)
-        view.addSubview(backdropImageCoverView)
-        view.addSubview(posterImageView)
-        view.addSubview(movieTitleLabel)
-        view.addSubview(tmdbMovieInfoTableView)
-    }
-    
-    func configureLayout() {
-        backdropImageView.snp.makeConstraints { make in
-            make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalToSuperview().multipliedBy(0.25)
-        }
-        
-        backdropImageCoverView.snp.makeConstraints { make in
-            make.horizontalEdges.verticalEdges.equalTo(backdropImageView)
-        }
-        
-        posterImageView.snp.makeConstraints { make in
-            make.leading.equalTo(backdropImageCoverView.snp.leading).offset(24)
-            make.height.equalTo(backdropImageCoverView.snp.height).multipliedBy(0.6)
-            make.width.equalTo(posterImageView.snp.height).multipliedBy(0.7)
-            make.bottom.equalTo(backdropImageCoverView.snp.bottom).offset(-12)
-        }
-        
-        movieTitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(posterImageView.snp.leading)
-            make.bottom.equalTo(posterImageView.snp.top).offset(-8)
-        }
-        
-        tmdbMovieInfoTableView.snp.makeConstraints { make in
-            make.top.equalTo(backdropImageCoverView.snp.bottom)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     private func configureTableView() {
-        tmdbMovieInfoTableView.delegate = self
-        tmdbMovieInfoTableView.dataSource = self
+        movieTrendDetailView.tmdbMovieInfoTableView.delegate = self
+        movieTrendDetailView.tmdbMovieInfoTableView.dataSource = self
         
-        tmdbMovieInfoTableView.register(OverViewTableViewCell.self, forCellReuseIdentifier: OverViewTableViewCell.identifier)
-        tmdbMovieInfoTableView.register(CastTableViewCell.self, forCellReuseIdentifier: CastTableViewCell.identifier)
+        movieTrendDetailView.tmdbMovieInfoTableView.register(OverViewTableViewCell.self, forCellReuseIdentifier: OverViewTableViewCell.identifier)
+        movieTrendDetailView.tmdbMovieInfoTableView.register(CastTableViewCell.self, forCellReuseIdentifier: CastTableViewCell.identifier)
         
-        tmdbMovieInfoTableView.allowsSelection = false
-        tmdbMovieInfoTableView.rowHeight = UITableView.automaticDimension
+        movieTrendDetailView.tmdbMovieInfoTableView.allowsSelection = false
+        movieTrendDetailView.tmdbMovieInfoTableView.rowHeight = UITableView.automaticDimension
     }
     
     func configureContent(backdropImageUrl: URL?, posterImageUrl: URL?, movieTitle: String) {
         
-        if let backdropImageUrl { backdropImageView.configureImageWithKF(url: backdropImageUrl) }
-        if let posterImageUrl { posterImageView.configureImageWithKF(url: posterImageUrl) }
-        movieTitleLabel.text = movieTitle
+        if let backdropImageUrl { movieTrendDetailView.backdropImageView.configureImageWithKF(url: backdropImageUrl) }
+        if let posterImageUrl { movieTrendDetailView.posterImageView.configureImageWithKF(url: posterImageUrl) }
+        movieTrendDetailView.movieTitleLabel.text = movieTitle
     }
 }
 
@@ -147,7 +86,7 @@ extension MovieTrendDetailViewController: UITableViewDelegate, MediaDelegate {
     
     func reloadOverViewCell() {
         isMore.toggle()
-        tmdbMovieInfoTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        movieTrendDetailView.tmdbMovieInfoTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
 }
 

@@ -11,62 +11,9 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-class MovieSearchViewController: UIViewController {
+class MovieSearchViewController: BaseViewController {
 
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.configuration = buttonConfiguration
-        button.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-        return button
-    }()
-    
-    let buttonConfiguration: UIButton.Configuration = {
-        var configuration = UIButton.Configuration.plain()
-        configuration.image = UIImage(systemName: "chevron.backward")
-        configuration.baseForegroundColor = .label
-        return configuration
-    }()
-    
-    @objc
-    private func backButtonClicked() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    private let searchView: UIView = {
-        let view = UIView()
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray6.cgColor
-        view.layer.cornerRadius = 25
-        
-        view.layer.shadowColor = UIColor.systemGray.cgColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = .init(width: 1, height: 1)
-        return view
-    }()
-    
-    private let searchTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .none
-        textField.textAlignment = .center
-        textField.attributedPlaceholder = NSAttributedString(string: "영화를 검색해보세요", attributes: [NSAttributedString.Key.foregroundColor: UIColor.label])
-        return textField
-    }()
-    
-    private lazy var movieCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
-    
-    func collectionViewLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewFlowLayout()
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let width = windowScene.screen.bounds.width - 60
-            layout.itemSize = CGSize(width: width / 2, height: width / 1.5)
-            layout.scrollDirection = .vertical
-            layout.minimumLineSpacing = 10
-            layout.minimumInteritemSpacing = 10
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-        }
-        return layout
-    }
+    private let movieSearchView = MovieSearchView()
     
     private var page = 1
     private var originQuery = ""
@@ -74,18 +21,20 @@ class MovieSearchViewController: UIViewController {
     private var castList: [Cast] = []
     private var tmdbMovieSearch: TMDBMovieSearch = TMDBMovieSearch(page: 0, results: [], total_pages: 0, total_results: 0) {
         didSet {
-            movieCollectionView.reloadData()
+            movieSearchView.movieCollectionView.reloadData()
         }
+    }
+    
+    override func loadView() {
+        view = movieSearchView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
+
         configureCollectionView()
         configureTextField()
+        configureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,61 +47,33 @@ class MovieSearchViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
     }
     
+    override func configureView() {
+        configureNavigation()
+    }
+    
     func configureNavigation() {
-        
-//        navigationController?.navigationBar.tintColor = .label
-//        
-//        let leftBarButtonItem = UIBarButtonItem(
-//            image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: nil)
-//        
-//        navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationController?.navigationBar.isHidden = true
     }
     
     private func configureCollectionView() {
-        movieCollectionView.delegate = self
-        movieCollectionView.dataSource = self
-        movieCollectionView.prefetchDataSource = self
-        movieCollectionView.register(MovieSearchCollectionViewCell.self,
+        movieSearchView.movieCollectionView.delegate = self
+        movieSearchView.movieCollectionView.dataSource = self
+        movieSearchView.movieCollectionView.prefetchDataSource = self
+        movieSearchView.movieCollectionView.register(MovieSearchCollectionViewCell.self,
                                      forCellWithReuseIdentifier: MovieSearchCollectionViewCell.identifier)
     }
     
-    func configureHierarchy() {
-        view.addSubview(backButton)
-        view.addSubview(searchView)
-        searchView.addSubview(searchTextField)
-        
-        view.addSubview(movieCollectionView)
-    }
-    
-    func configureLayout() {
-        
-        backButton.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.width.equalTo(20)
-            make.centerY.equalTo(searchView.snp.centerY)
-        }
-        
-        searchView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(8)
-            make.leading.equalTo(backButton.snp.trailing).offset(20)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            make.height.equalTo(50)
-        }
-        
-        searchTextField.snp.makeConstraints { make in
-            make.centerY.equalTo(searchView.snp.centerY)
-            make.horizontalEdges.equalToSuperview().inset(20)
-        }
-        
-        movieCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchView.snp.bottom).offset(20)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     private func configureTextField() {
-        searchTextField.delegate = self
+        movieSearchView.searchTextField.delegate = self
+    }
+    
+    private func configureButton() {
+        movieSearchView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc
+    private func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -246,7 +167,7 @@ extension MovieSearchViewController {
                     tmdbMovieSearch.results.append(contentsOf: value.results)
                 } else {
                     tmdbMovieSearch = value
-                    movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                    movieSearchView.movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
                 }
             case .failure(let error):
                 print(error)

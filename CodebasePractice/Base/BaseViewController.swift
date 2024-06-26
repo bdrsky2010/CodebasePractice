@@ -16,7 +16,7 @@ class BaseViewController: UIViewController, ConfigureViewProtocol {
         configureLayout()
     }
     
-    func configureView() { }
+    func configureView() { view.backgroundColor = .systemBackground }
     func configureHierarchy() { }
     func configureLayout() { }
 }

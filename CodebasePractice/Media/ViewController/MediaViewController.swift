@@ -11,7 +11,7 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-class MediaViewController: UIViewController {
+class MediaViewController: BaseViewController {
 
     private let movieTrendTableView = UITableView()
     
@@ -33,11 +33,8 @@ class MediaViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestTMDBMovieTrendAPI(timeWindow: .week)
         
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
+        requestTMDBMovieTrendAPI(timeWindow: .week)
         configureTableView()
     }
     
@@ -45,10 +42,13 @@ class MediaViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.tintColor = .systemBlue
     }
+    
+    override func configureView() {
+        super.configureView()
+        configureNavigation()
+    }
 
     func configureNavigation() {
-        view.backgroundColor = .systemBackground
-        
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
                                                 style: .plain,
                                                 target: self,
@@ -96,11 +96,11 @@ class MediaViewController: UIViewController {
         return menuActionList
     }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         view.addSubview(movieTrendTableView)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         movieTrendTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
