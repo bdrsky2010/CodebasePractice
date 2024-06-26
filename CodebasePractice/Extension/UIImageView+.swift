@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Kingfisher
+
 extension UIImageView {
     func configureImageWithKF(url: URL) {
         self.kf.indicatorType = .activity
