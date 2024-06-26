@@ -9,136 +9,34 @@ import UIKit
 import CoreLocation
 
 import Alamofire
-import Kingfisher
 import SnapKit
 
 
-final class WeatherBotViewController: UIViewController, ConfigureViewProtocol {
+final class WeatherBotViewController: BaseViewController {
     
-    private let backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: WeatherCondition.allCases.randomElement()!.rawValue)
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    private let dateTimeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .white
-        return label
-    }()
-    
-    private let locationButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configuration = .plain()
-        button.configuration?.image = UIImage(systemName: "location.fill")
-        button.configuration?.baseForegroundColor = UIColor.white
-        button.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 20)
-        return button
-    }()
-    
-    private let locationLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = .white
-        return label
-    }()
-    
-    private let sharedButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configuration = .plain()
-        button.configuration?.image = UIImage(systemName: "square.and.arrow.up")
-        button.configuration?.baseForegroundColor = UIColor.white
-        button.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 14)
-        return button
-    }()
-    
-    private let refreshButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configuration = .plain()
-        button.configuration?.image = UIImage(systemName: "arrow.clockwise")
-        button.configuration?.baseForegroundColor = UIColor.white
-        button.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 14)
-        return button
-    }()
-    
-    private let messageTableView = UITableView()
+    private let weatherView = WeatherView()
     
     private let locationManager = CLLocationManager()
     
     private var coordinate: CLLocationCoordinate2D?
     private var messageList = Array(repeating: "", count: 5)
     
+    override func loadView() {
+        view = weatherView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
         configureButton()
-        locationManager.delegate = self
-        
-    }
-    
-    func configureView() {
-        view.backgroundColor = .white
-        configureHierarchy()
-        configureLayout()
         configureTableView()
+        locationManager.delegate = self
     }
     
-    func configureHierarchy() {
-        view.addSubview(backgroundImageView)
-        view.addSubview(dateTimeLabel)
-        view.addSubview(locationButton)
-        view.addSubview(locationLabel)
-        view.addSubview(refreshButton)
-        view.addSubview(sharedButton)
-        view.addSubview(messageTableView)
-    }
     
-    func configureLayout() {
-        backgroundImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-        dateTimeLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(28)
-        }
-        
-        locationButton.snp.makeConstraints { make in
-            make.top.equalTo(dateTimeLabel.snp.bottom).offset(16)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.width.equalTo(30)
-        }
-        
-        locationLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(locationButton.snp.centerY)
-            make.leading.equalTo(locationButton.snp.trailing).offset(20)
-            make.trailing.equalTo(refreshButton.snp.leading).offset(-20)
-        }
-        
-        refreshButton.snp.makeConstraints { make in
-            make.centerY.equalTo(locationButton.snp.centerY)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            make.width.equalTo(20)
-        }
-        
-        sharedButton.snp.makeConstraints { make in
-            make.centerY.equalTo(locationButton.snp.centerY)
-            make.trailing.equalTo(refreshButton.snp.leading).offset(-20)
-            make.width.equalTo(20)
-        }
-        
-        messageTableView.snp.makeConstraints { make in
-            make.top.equalTo(locationButton.snp.bottom).offset(8)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
     
     private func configureButton() {
-        locationButton.addTarget(self, action: #selector(locationButtonClicked), for: .touchUpInside)
-        refreshButton.addTarget(self, action: #selector(refreshButtonClicked), for: .touchUpInside)
+        weatherView.locationButton.addTarget(self, action: #selector(locationButtonClicked), for: .touchUpInside)
+        weatherView.refreshButton.addTarget(self, action: #selector(refreshButtonClicked), for: .touchUpInside)
     }
     
     @objc
@@ -157,15 +55,15 @@ final class WeatherBotViewController: UIViewController, ConfigureViewProtocol {
     }
     
     private func configureTableView() {
-        messageTableView.delegate = self
-        messageTableView.dataSource = self
-        messageTableView.register(MessageTableViewCell.self, forCellReuseIdentifier: MessageTableViewCell.identifier)
-        messageTableView.register(ImageTableViewCell.self, forCellReuseIdentifier: ImageTableViewCell.identifier)
+        weatherView.messageTableView.delegate = self
+        weatherView.messageTableView.dataSource = self
+        weatherView.messageTableView.register(MessageTableViewCell.self, forCellReuseIdentifier: MessageTableViewCell.identifier)
+        weatherView.messageTableView.register(ImageTableViewCell.self, forCellReuseIdentifier: ImageTableViewCell.identifier)
         
-        messageTableView.backgroundColor = UIColor.clear
-        messageTableView.rowHeight = UITableView.automaticDimension
-        messageTableView.separatorStyle = .none
-        messageTableView.allowsSelection = false
+        weatherView.messageTableView.backgroundColor = UIColor.clear
+        weatherView.messageTableView.rowHeight = UITableView.automaticDimension
+        weatherView.messageTableView.separatorStyle = .none
+        weatherView.messageTableView.allowsSelection = false
     }
     
     
@@ -252,11 +150,11 @@ extension WeatherBotViewController {
                                 messageList[3] = weather.icon
                                 messageList[4] = "오늘도 행복한 하루 보내세요"
                                 
-                                dateTimeLabel.text = Date.dateTime
-                                messageTableView.reloadData()
+                                weatherView.dateTimeLabel.text = Date.dateTime
+                                weatherView.messageTableView.reloadData()
                                 
                                 if let type = WeatherCondition(rawValue: weather.type) {
-                                    backgroundImageView.image = UIImage(named: type.rawValue)
+                                    weatherView.backgroundImageView.image = UIImage(named: type.rawValue)
                                 }
                             }
                         }
@@ -266,37 +164,6 @@ extension WeatherBotViewController {
                 }.resume()
             }
         }
-        
-//        let parameters: Parameters = [
-//            "lat": coordinate.latitude,
-//            "lon": coordinate.longitude,
-//            "lang": "kr",
-//            "units": "metric",
-//            "appid": APIKey.openWeather
-//        ]
-        
-//        AF.request(APIURL.openWeather.urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).responseDecodable(of: OpenWeather.self) { [weak self] response in
-//            guard let self else { return }
-//            switch response.result {
-//            case .success(let value):
-//                if let weather = value.weather.first {
-//                    messageList[0] = "지금은 \(value.detail.temp)°C에요"
-//                    messageList[1] = "\(value.detail.humidity)% 만큼 습해요"
-//                    messageList[2] = "\(value.wind.integerSpeed)m/s의 바람이 불어요"
-//                    messageList[3] = weather.icon
-//                    messageList[4] = "오늘도 행복한 하루 보내세요"
-//                    
-//                    dateTimeLabel.text = Date.dateTime
-//                    messageTableView.reloadData()
-//                    
-//                    if let type = WeatherCondition(rawValue: weather.type) {
-//                        backgroundImageView.image = UIImage(named: type.rawValue)
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
     }
 }
 
@@ -366,7 +233,7 @@ extension WeatherBotViewController {
             
             if let placemark = placemarks?.first {
                 let location = "\(placemark.locality ?? ""), \(placemark.subLocality ?? "")"
-                locationLabel.text = location
+                weatherView.locationLabel.text = location
             }
         }
     }
