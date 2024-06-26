@@ -9,20 +9,6 @@ import UIKit
 import Alamofire
 import SnapKit
 
-struct DailyBoxOffice: Decodable {
-    let boxOfficeResult: BoxOfficeResult
-}
-
-struct BoxOfficeResult: Decodable {
-    let dailyBoxOfficeList: [BoxOffice]
-}
-
-struct BoxOffice: Decodable {
-    let rank: String
-    let movieNm: String
-    let openDt: String
-}
-
 final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol {
 
     let backgroundImageView: UIImageView = {
@@ -156,9 +142,13 @@ final class BoxOfficeViewController: UIViewController, ConfigureViewProtocol {
     }
     
     private func requestAPI(date targetDt: String) {
-        NetworkManager.shared.requestAPI(urlString: APIURL.kobis(APIKey.kobis, targetDt).urlString,
+        let api = APIURL.kobis(APIKey.kobis, targetDt)
+        
+        NetworkManager.shared.requestAPI(urlString: api.endpoint,
                                          method: .get,
+                                         parameters: api.parameters,
                                          encoding: URLEncoding.queryString,
+                                         headers: api.headers,
                                          of: DailyBoxOffice.self) { [weak self] result in
             guard let self else { return }
             switch result {
