@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieSearchCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol {
+class MovieSearchCollectionViewCell: UICollectionViewCell {
     
     private let shadowBackgoundView: UIView = {
         let view = UIView()

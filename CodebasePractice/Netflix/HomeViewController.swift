@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class HomeViewController: UIViewController, ConfigureViewProtocol {
+final class HomeViewController: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()

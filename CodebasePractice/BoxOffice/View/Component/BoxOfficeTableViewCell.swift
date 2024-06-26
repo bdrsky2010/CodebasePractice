@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BoxOfficeTableViewCell: UITableViewCell, ConfigureViewProtocol {
+class BoxOfficeTableViewCell: UITableViewCell {
     
     let cellView: UIView = {
         let view = UIView()

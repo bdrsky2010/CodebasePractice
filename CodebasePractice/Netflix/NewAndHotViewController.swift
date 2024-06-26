@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class NewAndHotViewController: UIViewController, ConfigureViewProtocol {
+final class NewAndHotViewController: UIViewController {
 
     let titleLabel: UILabel = {
         let label = UILabel()

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class OverViewTableViewCell: UITableViewCell, ConfigureViewProtocol {
+final class OverViewTableViewCell: UITableViewCell {
 
     private let overViewLabel: UILabel = {
         let label = UILabel()

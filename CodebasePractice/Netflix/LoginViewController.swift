@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, ConfigureViewProtocol {
+class LoginViewController: UIViewController {
 
     let titleLabel: UILabel = {
         let label = UILabel()

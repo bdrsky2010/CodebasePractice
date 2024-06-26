@@ -11,7 +11,7 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-class MediaViewController: UIViewController, ConfigureViewProtocol {
+class MediaViewController: UIViewController {
 
     private let movieTrendTableView = UITableView()
     

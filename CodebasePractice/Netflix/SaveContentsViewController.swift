@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SaveContentsViewController: UIViewController, ConfigureViewProtocol {
+class SaveContentsViewController: UIViewController {
 
     let titleLabel: UILabel = {
         let label = UILabel()

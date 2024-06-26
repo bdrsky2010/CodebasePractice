@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-final class MovieTrendDetailViewController: UIViewController, ConfigureViewProtocol {
+final class MovieTrendDetailViewController: UIViewController {
     
     private let backdropImageView: UIImageView = {
         let imageView = UIImageView()

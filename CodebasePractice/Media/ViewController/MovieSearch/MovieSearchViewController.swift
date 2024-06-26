@@ -11,7 +11,7 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-class MovieSearchViewController: UIViewController, ConfigureViewProtocol {
+class MovieSearchViewController: UIViewController {
 
     private lazy var backButton: UIButton = {
         let button = UIButton()

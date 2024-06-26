@@ -42,7 +42,7 @@ final class BoxOfficeViewController: BaseViewController {
         configureTableView()
     }
     
-    override func configureNavigation() {
+    func configureNavigation() {
         navigationController?.navigationBar.tintColor = .white
     }
     

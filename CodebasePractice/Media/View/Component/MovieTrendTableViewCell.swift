@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class MovieTrendTableViewCell: UITableViewCell, ConfigureViewProtocol {
+class MovieTrendTableViewCell: UITableViewCell {
 
     private let releaseDateLabel: UILabel = {
         let label = UILabel()
