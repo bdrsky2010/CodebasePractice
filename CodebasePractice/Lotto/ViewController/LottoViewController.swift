@@ -17,8 +17,6 @@ class LottoViewController: BaseViewController {
     
     private let pastelColorList: [UIColor] = [.pastelRed, .pastelGreen, .pastelBlue, .pastelYellow, .systemGray]
     
-//    private var lotto: Lotto?
-    
     override func loadView() {
         view = lottoView
     }
