@@ -108,31 +108,15 @@ extension WeatherBotViewController {
     
     private func requestWeatherAPI(coordinate: CLLocationCoordinate2D) {
         let api = APIURL.openWeather(coordinate.latitude, coordinate.longitude, "kr", "metric")
-        var urlComponents = URLComponents(string: api.endpoint)
-        urlComponents?.queryItems = api.query?.map { key, value in
-            URLQueryItem(name: key, value: value)
-        }
         
-        guard let url = urlComponents?.url else { return }
-        
-        do {
-            let request = try URLRequest(url: url, method: .get, headers: api.headers)
-            
-            DispatchQueue.global().async {
-                NetworkManager.shared.requestAPI(request: request,
-                                                 of: OpenWeather.self) { [weak self] result in
-                    guard let self else { return }
-                    switch result {
-                    case .success(let openWeather):
-                        configureContent(openWeather: openWeather)
-                    case .failure(let error):
-                        presentNetworkErrorAlert(error: error)
-                    }
-                }
-            }
-        } catch {
-            presentNetworkErrorAlert(error: .failedRequest)
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (openWeather: OpenWeather) in
+            guard let self else { return }
+            configureContent(openWeather: openWeather)
         }
+//        requestAPI(api: api) { [weak self] (openWeather: OpenWeather) in
+//            guard let self else { return }
+//            configureContent(openWeather: openWeather)
+//        }
     }
 }
 
