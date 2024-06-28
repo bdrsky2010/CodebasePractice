@@ -49,7 +49,6 @@ class LottoViewController: BaseViewController {
     private func configureContent(lotto: Lotto) {
         
         lottoView.drawDateLabel.text = "\(lotto.drwNoDate) 추첨"
-        lottoView.resultTitleLabel.attributedText = "\(lottoView.pickerTextField.text ?? "??") 당첨결과".changedSearchTextColor("\(lottoView.pickerTextField.text ?? "??")")
         
         lottoView.drawNumberLabelList[0].text = "\(lotto.drwtNo1)"
         changeLableBackgroundColor(lottoView.drawNumberLabelList[0], drwNo: Int(lotto.drwtNo1))
@@ -134,31 +133,25 @@ extension LottoViewController: UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
         let number = numeberList[row]
-        
         requestAPI(number)
     }
     
     private func requestAPI(_ number: Int) {
         let api = APIURL.lotto(number)
         
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: Lotto.self) { [weak self] result in
+        guard let url = URL(string: api.endpoint) else { return }
+        NetworkManager.shared.requestAPI(url: url, of: Lotto.self) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success(let value):
-                configureContent(lotto: value)
+            case .success(let lotto):
+                configureContent(lotto: lotto)
+                lottoView.pickerTextField.text = "\(number) 회"
+                lottoView.resultTitleLabel.attributedText = "\(lottoView.pickerTextField.text ?? "??") 당첨결과".changedSearchTextColor("\(lottoView.pickerTextField.text ?? "??")")
             case .failure(let error):
-                presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
-                print(error)
+                presentNetworkErrorAlert(error: error)
             }
         }
-        lottoView.pickerTextField.text = "\(number) 회"
     }
 }
 
