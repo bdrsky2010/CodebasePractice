@@ -41,4 +41,11 @@ extension UIViewController {
         
         present(alert, animated: true)
     }
+    
+    func presentNetworkErrorAlert(error: NetworkError) {
+        let title = error.alertTitle
+        let message = error.alertMessage
+        
+        presentAlert(option: .oneButton, title: title, message: message, checkAlertTitle: "확인")
+    }
 }
