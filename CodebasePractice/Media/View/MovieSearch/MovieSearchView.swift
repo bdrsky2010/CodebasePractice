@@ -58,7 +58,7 @@ final class MovieSearchView: BaseView {
     }
     
     override func configureView() {
-        super.configureView()
+        backgroundColor = .systemBackground
     }
     
     override func configureHierarchy() {

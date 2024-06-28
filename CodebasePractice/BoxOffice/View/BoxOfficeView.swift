@@ -56,7 +56,7 @@ final class BoxOfficeView: BaseView {
     }
     
     override func configureView() {
-        super.configureView()
+        backgroundColor = .systemBackground
     }
     
     override func configureHierarchy() {

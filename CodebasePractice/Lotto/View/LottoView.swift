@@ -115,7 +115,7 @@ final class LottoView: BaseView {
     }
     
     override func configureView() {
-        super.configureView()
+        backgroundColor = .systemBackground
     }
     
     override func configureHierarchy() {
