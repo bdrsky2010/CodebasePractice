@@ -184,41 +184,19 @@ extension MediaViewController {
     private func requestTMDBMovieTrendAPI(timeWindow: TimeWindowType) {
         let api = APIURL.tmdbMovie(timeWindow.string)
         
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: TMDBMovieTrend.self) { [weak self] result in
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieTrend: TMDBMovieTrend) in
             guard let self else { return }
-            switch result {
-            case .success(let value):
-                tmdbTrendMovieList = value.results
-            case .failure(let error):
-                print(error)
-            }
+            tmdbTrendMovieList = movieTrend.results
         }
     }
     
     private func requestTMDBMovieGenreAPI() {
+        let api = APIURL.tmdbMovieGenre
         
-        let api = APIURL.tmdbMovieGenre(APIKey.tmdb)
-        
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: TMDBMovieGenre.self) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let value):
-                value.genres.forEach { [weak self] genre in
-                    guard let self else { return }
-                    tmdbMovieGenreList[genre.id] = genre.name
-                }
-            case .failure(let error):
-                print(error)
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieGenre: TMDBMovieGenre) in
+            movieGenre.genres.forEach { [weak self] genre in
+                guard let self else { return }
+                tmdbMovieGenreList[genre.id] = genre.name
             }
         }
     }
@@ -226,20 +204,10 @@ extension MediaViewController {
     private func requestTMDBMovieCreditAPI(_ id: Int) {
         let api = APIURL.tmdbMovieCredit(id)
         
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: TMDBMovieCredit.self) { [weak self] result in
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieCredit: TMDBMovieCredit) in
             guard let self else { return }
-            switch result {
-            case .success(let value):
-                tmdbMovieCreditCastList[id] = value.cast
-                movieTrendTableView.reloadData()
-            case .failure(let error):
-                print(error)
-            }
+            tmdbMovieCreditCastList[id] = movieCredit.cast
+            movieTrendTableView.reloadData()
         }
     }
 }
