@@ -17,7 +17,7 @@ class LottoViewController: BaseViewController {
     
     private let pastelColorList: [UIColor] = [.pastelRed, .pastelGreen, .pastelBlue, .pastelYellow, .systemGray]
     
-    private var lotto: Lotto?
+//    private var lotto: Lotto?
     
     override func loadView() {
         view = lottoView
@@ -46,15 +46,7 @@ class LottoViewController: BaseViewController {
         }
     }
     
-    private func configureContent() {
-        guard let lotto else {
-            lottoView.drawNumberLabelList.enumerated().forEach {
-                if $0.offset != 6 {
-                    $0.element.text = "??"
-                }
-            }
-            return
-        }
+    private func configureContent(lotto: Lotto) {
         
         lottoView.drawDateLabel.text = "\(lotto.drwNoDate) 추첨"
         lottoView.resultTitleLabel.attributedText = "\(lottoView.pickerTextField.text ?? "??") 당첨결과".changedSearchTextColor("\(lottoView.pickerTextField.text ?? "??")")
@@ -160,8 +152,7 @@ extension LottoViewController: UIPickerViewDelegate {
             guard let self else { return }
             switch result {
             case .success(let value):
-                lotto = value
-                configureContent()
+                configureContent(lotto: value)
             case .failure(let error):
                 presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
                 print(error)
