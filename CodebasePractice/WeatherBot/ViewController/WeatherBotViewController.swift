@@ -66,7 +66,21 @@ final class WeatherBotViewController: BaseViewController {
         weatherView.messageTableView.allowsSelection = false
     }
     
-    
+    private func configureContent(openWeather: OpenWeather) {
+        guard let weather = openWeather.weather.first else { return }
+        messageList[0] = "지금은 \(openWeather.detail.temp)°C에요"
+        messageList[1] = "\(openWeather.detail.humidity)% 만큼 습해요"
+        messageList[2] = "\(openWeather.wind.integerSpeed)m/s의 바람이 불어요"
+        messageList[3] = weather.icon
+        messageList[4] = "오늘도 행복한 하루 보내세요"
+        
+        weatherView.dateTimeLabel.text = Date.dateTime
+        weatherView.messageTableView.reloadData()
+        
+        if let type = WeatherCondition(rawValue: weather.type) {
+            weatherView.backgroundImageView.image = UIImage(named: type.rawValue)
+        }
+    }
 }
 
 extension WeatherBotViewController: UITableViewDelegate, UITableViewDataSource {
@@ -95,14 +109,14 @@ extension WeatherBotViewController: UITableViewDelegate, UITableViewDataSource {
 extension WeatherBotViewController {
     
     private func requestWeatherAPI(coordinate: CLLocationCoordinate2D) {
-        
-        let latQuery = URLQueryItem(name: "lat", value: String(coordinate.latitude))
-        let lonQuery = URLQueryItem(name: "lon", value: String(coordinate.longitude))
-        let langQuery = URLQueryItem(name: "lang", value: "kr")
-        let unitsQuery = URLQueryItem(name: "units", value: "metric")
-        let appidQuery = URLQueryItem(name: "appid", value: APIKey.openWeather)
         var urlComponents = URLComponents(string: APIURL.openWeather.endpoint)
-        urlComponents?.queryItems = [latQuery, lonQuery, langQuery, unitsQuery, appidQuery]
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "lat", value: String(coordinate.latitude)),
+            URLQueryItem(name: "lon", value: String(coordinate.longitude)),
+            URLQueryItem(name: "lang", value: "kr"),
+            URLQueryItem(name: "units", value: "metric"),
+            URLQueryItem(name: "appid", value: APIKey.openWeather),
+        ]
 
         DispatchQueue.global().async {
             NetworkManager.shared.requestAPI(url: urlComponents?.url,
@@ -110,90 +124,12 @@ extension WeatherBotViewController {
                 guard let self else { return }
                 switch result {
                 case .success(let openWeather):
-                    
-                    if let weather = openWeather.weather.first {
-                        messageList[0] = "지금은 \(openWeather.detail.temp)°C에요"
-                        messageList[1] = "\(openWeather.detail.humidity)% 만큼 습해요"
-                        messageList[2] = "\(openWeather.wind.integerSpeed)m/s의 바람이 불어요"
-                        messageList[3] = weather.icon
-                        messageList[4] = "오늘도 행복한 하루 보내세요"
-                        
-                        weatherView.dateTimeLabel.text = Date.dateTime
-                        weatherView.messageTableView.reloadData()
-                        
-                        if let type = WeatherCondition(rawValue: weather.type) {
-                            weatherView.backgroundImageView.image = UIImage(named: type.rawValue)
-                        }
-                    }
+                    configureContent(openWeather: openWeather)
                 case .failure(let error):
-                    let title = error.alertTitle
-                    let message = error.alertMessage
-                    
-                    presentAlert(option: .oneButton, title: title, message: message, checkAlertTitle: "확인")
+                    presentNetworkErrorAlert(error: error)
                 }
             }
         }
-        
-//        if let url = urlComponents?.url {
-//            DispatchQueue.global().async {
-//                let urlSession = URLSession(configuration: .default)
-//                urlSession.dataTask(with: url) { [weak self] data, response, error in
-//                    guard let self else { return }
-//                    guard error == nil else {
-//                        print(error!.localizedDescription)
-//                        return
-//                    }
-//                    guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
-//                    guard (200..<300).contains(statusCode) else {
-//                        var title: String
-//                        var message: String
-//                        
-//                        switch statusCode {
-//                        case 401..<500:
-//                            title = "클라이언트 요청 에러"
-//                            message = "클라이언트에서의 네트워크 연결 혹은 입력값이 잘못되어 데이터를 받아오지 못하였습니다"
-//                        case 501..<600:
-//                            title = "서버 에러"
-//                            message = "서버의 문제가 생겨 데이터를 받아오지 못하였습니다"
-//                        default:
-//                            title = "알 수 없는 에러"
-//                            message = "알 수 없는 에러로 데이터를 받아오지 못하였습니다"
-//                        }
-//                        
-//                        DispatchQueue.main.async { [weak self] in
-//                            guard let self else { return }
-//                            presentAlert(option: .oneButton, title: title, message: message, checkAlertTitle: "확인")
-//                        }
-//                        return
-//                    }
-//                    guard let data else { return }
-//                    
-//                    let decoder = JSONDecoder()
-//                    do {
-//                        let openWeather = try decoder.decode(OpenWeather.self, from: data)
-//                        if let weather = openWeather.weather.first {
-//                            DispatchQueue.main.async { [weak self] in
-//                                guard let self else { return }
-//                                messageList[0] = "지금은 \(openWeather.detail.temp)°C에요"
-//                                messageList[1] = "\(openWeather.detail.humidity)% 만큼 습해요"
-//                                messageList[2] = "\(openWeather.wind.integerSpeed)m/s의 바람이 불어요"
-//                                messageList[3] = weather.icon
-//                                messageList[4] = "오늘도 행복한 하루 보내세요"
-//                                
-//                                weatherView.dateTimeLabel.text = Date.dateTime
-//                                weatherView.messageTableView.reloadData()
-//                                
-//                                if let type = WeatherCondition(rawValue: weather.type) {
-//                                    weatherView.backgroundImageView.image = UIImage(named: type.rawValue)
-//                                }
-//                            }
-//                        }
-//                    } catch {
-//                        print(error)
-//                    }
-//                }.resume()
-//            }
-//        }
     }
 }
 
