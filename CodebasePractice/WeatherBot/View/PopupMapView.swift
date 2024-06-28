@@ -38,10 +38,6 @@ final class PopupMapView: BaseView {
         super.init(frame: frame)
     }
     
-    override func configureView() {
-        super.configureView()
-    }
-    
     override func configureHierarchy() {
         addSubview(backgroundView)
         addSubview(mapView)

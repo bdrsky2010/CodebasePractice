@@ -12,8 +12,11 @@ final class PopupMapViewController: BaseViewController {
     
     private let popupMapView = PopupMapView()
     
+    override func loadView() {
+        view = popupMapView
+    }
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         configureButton()
     }
     
