@@ -49,7 +49,7 @@ final class BoxOfficeViewController: BaseViewController {
     func configureContent() {
         boxOfficeView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
-        requestAPI(date: yesterdayString)
+        requestKobisAPI(date: yesterdayString)
         boxOfficeView.searchTextField.text = yesterdayString
     }
     
@@ -57,27 +57,21 @@ final class BoxOfficeViewController: BaseViewController {
     private func searchButtonTapped() {
         guard let targetDt = boxOfficeView.searchTextField.text else { return }
         
-        requestAPI(date: targetDt)
+        requestKobisAPI(date: targetDt)
     }
     
-    private func requestAPI(date targetDt: String) {
-        let api = APIURL.kobis(APIKey.kobis, targetDt)
+    private func requestKobisAPI(date targetDt: String) {
+        let api = APIURL.kobis(targetDt)
         
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: DailyBoxOffice.self) { [weak self] result in
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (boxOffice: DailyBoxOffice) in
             guard let self else { return }
-            switch result {
-            case .success(let value):
-                boxOfficeList = value.boxOfficeResult.dailyBoxOfficeList
-            case .failure(let error):
-                presentAlert(option: .oneButton, title: "오류가 발생했어요... 🤔", checkAlertTitle: "확인")
-                print(error)
-            }
+            boxOfficeList = boxOffice.boxOfficeResult.dailyBoxOfficeList
         }
+        
+//        requestAPI(api: api) { [weak self] (boxOffice: DailyBoxOffice) in
+//            guard let self else { return }
+//            boxOfficeList = boxOffice.boxOfficeResult.dailyBoxOfficeList
+//        }
     }
 }
 
