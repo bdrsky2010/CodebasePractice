@@ -123,4 +123,52 @@ final class NetworkManager {
             }
         }.resume()
     }
+    
+    func requestAPI<T: Decodable>(request: URLRequest, of type: T.Type, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard error == nil else {
+                    print("Failed Request")
+                    completionHandler(.failure(.failedRequest))
+                    return
+                }
+                
+                guard let data else {
+                    completionHandler(.failure(.noData))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse else {
+                    print("Unable Response")
+                    completionHandler(.failure(.invalidClientResponse))
+                    return
+                }
+                
+                switch response.statusCode {
+                case 200..<300:
+                    break
+                case 400..<500:
+                    print("failed response")
+                    completionHandler(.failure(.invalidClientResponse))
+                    return
+                case 500..<600:
+                    print("failed response")
+                    completionHandler(.failure(.invalidServerResponse))
+                    return
+                default:
+                    print("failed response")
+                    completionHandler(.failure(.unknown))
+                    return
+                }
+                
+                let decoder = JSONDecoder()
+                do {
+                    let result = try decoder.decode(T.self, from: data)
+                    completionHandler(.success(result))
+                } catch {
+                    completionHandler(.failure(.invalidData))
+                }
+            }
+        }.resume()
+    }
 }
