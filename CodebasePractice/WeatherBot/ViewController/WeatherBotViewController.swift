@@ -32,8 +32,6 @@ final class WeatherBotViewController: BaseViewController {
         locationManager.delegate = self
     }
     
-    
-    
     private func configureButton() {
         weatherView.locationButton.addTarget(self, action: #selector(locationButtonClicked), for: .touchUpInside)
         weatherView.refreshButton.addTarget(self, action: #selector(refreshButtonClicked), for: .touchUpInside)
@@ -109,26 +107,31 @@ extension WeatherBotViewController: UITableViewDelegate, UITableViewDataSource {
 extension WeatherBotViewController {
     
     private func requestWeatherAPI(coordinate: CLLocationCoordinate2D) {
-        var urlComponents = URLComponents(string: APIURL.openWeather.endpoint)
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "lat", value: String(coordinate.latitude)),
-            URLQueryItem(name: "lon", value: String(coordinate.longitude)),
-            URLQueryItem(name: "lang", value: "kr"),
-            URLQueryItem(name: "units", value: "metric"),
-            URLQueryItem(name: "appid", value: APIKey.openWeather),
-        ]
-
-        DispatchQueue.global().async {
-            NetworkManager.shared.requestAPI(url: urlComponents?.url,
-                                             of: OpenWeather.self) { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success(let openWeather):
-                    configureContent(openWeather: openWeather)
-                case .failure(let error):
-                    presentNetworkErrorAlert(error: error)
+        let api = APIURL.openWeather(coordinate.latitude, coordinate.longitude, "kr", "metric")
+        var urlComponents = URLComponents(string: api.endpoint)
+        urlComponents?.queryItems = api.query?.map { key, value in
+            URLQueryItem(name: key, value: value)
+        }
+        
+        guard let url = urlComponents?.url else { return }
+        
+        do {
+            let request = try URLRequest(url: url, method: .get, headers: api.headers)
+            
+            DispatchQueue.global().async {
+                NetworkManager.shared.requestAPI(request: request,
+                                                 of: OpenWeather.self) { [weak self] result in
+                    guard let self else { return }
+                    switch result {
+                    case .success(let openWeather):
+                        configureContent(openWeather: openWeather)
+                    case .failure(let error):
+                        presentNetworkErrorAlert(error: error)
+                    }
                 }
             }
+        } catch {
+            presentNetworkErrorAlert(error: .failedRequest)
         }
     }
 }
