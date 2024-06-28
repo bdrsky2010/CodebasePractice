@@ -5,7 +5,7 @@
 //  Created by Minjae Kim on 6/25/24.
 //
 
-import Foundation
+import UIKit
 
 import Alamofire
 
@@ -75,7 +75,7 @@ final class NetworkManager {
         }
     }
     
-    func requestAPI<T: Decodable>(url: URL?, of type: T.Type, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    private func requestAPI<T: Decodable>(url: URL?, of type: T.Type, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
@@ -124,7 +124,7 @@ final class NetworkManager {
         }.resume()
     }
     
-    func requestAPI<T: Decodable>(request: URLRequest, of type: T.Type, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    private func requestAPI<T: Decodable>(request: URLRequest, of type: T.Type, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard error == nil else {
@@ -170,5 +170,57 @@ final class NetworkManager {
                 }
             }
         }.resume()
+    }
+}
+
+// MARK: 공통적으로 사용되는 API 요청 메서드 통합 & 에러 발생 시 뷰컨트롤러에 alert 보여줌
+extension NetworkManager {
+    
+    // MARK: qos 설정 불가능한 메서드
+    func requestAPIWithAlertOnViewController<T: Decodable>(viewController: UIViewController, api: APIURL, completionHandler: @escaping (T) -> Void) {
+        guard let url = api.urlComponents?.url else { return }
+        
+        do {
+            let request = try URLRequest(url: url, method: .get, headers: api.headers)
+            
+            DispatchQueue.global().async {
+                NetworkManager.shared.requestAPI(request: request, of: T.self) { [weak self] result in
+                    guard let self else { return }
+                    
+                    switch result {
+                    case .success(let value):
+                        completionHandler(value)
+                    case .failure(let error):
+                        viewController.presentNetworkErrorAlert(error: error)
+                    }
+                }
+            }
+        } catch {
+            viewController.presentNetworkErrorAlert(error: .failedRequest)
+        }
+    }
+    
+    // MARK: qos 설정 가능한 메서드
+    func requestAPIWithAlertOnViewController<T: Decodable>(qos: DispatchQoS.QoSClass, viewController: UIViewController, api: APIURL, completionHandler: @escaping (T) -> Void) {
+        guard let url = api.urlComponents?.url else { return }
+        
+        do {
+            let request = try URLRequest(url: url, method: .get, headers: api.headers)
+            
+            DispatchQueue.global(qos: qos).async {
+                NetworkManager.shared.requestAPI(request: request, of: T.self) { [weak self] result in
+                    guard let self else { return }
+                    
+                    switch result {
+                    case .success(let value):
+                        completionHandler(value)
+                    case .failure(let error):
+                        viewController.presentNetworkErrorAlert(error: error)
+                    }
+                }
+            }
+        } catch {
+            viewController.presentNetworkErrorAlert(error: .failedRequest)
+        }
     }
 }
