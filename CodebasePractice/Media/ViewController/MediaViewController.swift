@@ -11,7 +11,7 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-enum TMDBTrendOption {
+fileprivate enum TMDBTrendOption {
     case movie
     case tv
 }
