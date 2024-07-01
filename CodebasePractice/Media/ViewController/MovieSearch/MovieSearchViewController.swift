@@ -112,9 +112,14 @@ extension MovieSearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.row
         let tmdbMovie = tmdbMovieSearch.results[index]
-        requestTMDBMovieCreditAPI(tmdbMovie.id)
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            requestTMDBMovieCreditAPI(tmdbMovie.id, dispatchGroup: group)
+        }
         
-        DispatchQueue.main.async { [weak self] in
+        group.notify(queue: .main) { [weak self] in
             guard let self else { return }
             let movieTrendDetailViewController = MovieTrendDetailViewController()
             movieTrendDetailViewController.tmdbMovie = tmdbMovie
@@ -152,45 +157,31 @@ extension MovieSearchViewController {
     private func requestMovieSearchAPI(_ query: String, page: Int) {
         let api = APIURL.tmdbMovieSearch(query, page)
         
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: TMDBMovieSearch.self) { [weak self] result in
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieSearch: TMDBMovieSearch) in
             guard let self else { return }
-            switch result {
-            case .success(let value):
-                isEnd = page == value.total_pages
-                
-                if page > 1 {
-                    tmdbMovieSearch.results.append(contentsOf: value.results)
-                } else {
-                    tmdbMovieSearch = value
-                    movieSearchView.movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                }
-            case .failure(let error):
-                print(error)
+            isEnd = page == movieSearch.total_pages
+            
+            if page > 1 {
+                tmdbMovieSearch.results.append(contentsOf: movieSearch.results)
+            } else if movieSearch.total_results != 0 {
+                print(movieSearch)
+                tmdbMovieSearch = movieSearch
+                movieSearchView.movieCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            } else {
+                presentNetworkErrorAlert(error: .noData)
             }
         }
     }
     
-    private func requestTMDBMovieCreditAPI(_ id: Int) {
+    private func requestTMDBMovieCreditAPI(_ id: Int, dispatchGroup group: DispatchGroup) {
         let api = APIURL.tmdbMovieCredit(id)
         
-        NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                         method: .get,
-                                         parameters: api.parameters,
-                                         encoding: URLEncoding.queryString,
-                                         headers: api.headers,
-                                         of: TMDBMovieCredit.self) { [weak self] result in
+        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieCredit: TMDBMovieCredit) in
             guard let self else { return }
-            switch result {
-            case .success(let value):
-                castList = value.cast
-            case .failure(let error):
-                print(error)
-            }
+            castList = movieCredit.cast
+            group.leave()
+        } failureCompletionHandler: { _ in
+            group.leave()
         }
     }
 }
