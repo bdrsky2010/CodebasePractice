@@ -113,10 +113,6 @@ extension WeatherBotViewController {
             guard let self else { return }
             configureContent(openWeather: openWeather)
         }
-//        requestAPI(api: api) { [weak self] (openWeather: OpenWeather) in
-//            guard let self else { return }
-//            configureContent(openWeather: openWeather)
-//        }
     }
 }
 
