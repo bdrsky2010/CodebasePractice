@@ -144,19 +144,6 @@ extension LottoViewController: UIPickerViewDelegate {
             lottoView.pickerTextField.text = "\(number) 회"
             lottoView.resultTitleLabel.attributedText = "\(lottoView.pickerTextField.text ?? "??") 당첨결과".changedSearchTextColor("\(lottoView.pickerTextField.text ?? "??")")
         }
-        
-//        guard let url = URL(string: api.endpoint) else { return }
-//        NetworkManager.shared.requestAPI(url: url, of: Lotto.self) { [weak self] result in
-//            guard let self else { return }
-//            switch result {
-//            case .success(let lotto):
-//                configureContent(lotto: lotto)
-//                lottoView.pickerTextField.text = "\(number) 회"
-//                lottoView.resultTitleLabel.attributedText = "\(lottoView.pickerTextField.text ?? "??") 당첨결과".changedSearchTextColor("\(lottoView.pickerTextField.text ?? "??")")
-//            case .failure(let error):
-//                presentNetworkErrorAlert(error: error)
-//            }
-//        }
     }
 }
 
