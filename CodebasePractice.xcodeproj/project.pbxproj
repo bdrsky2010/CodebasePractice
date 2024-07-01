@@ -17,7 +17,6 @@
 		7B1BF5512C17615500FC02AC /* MediaDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5502C17615500FC02AC /* MediaDelegate.swift */; };
 		7B1BF5622C18458300FC02AC /* MovieSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5612C18458300FC02AC /* MovieSearchCollectionViewCell.swift */; };
 		7B1BF5642C18462500FC02AC /* MovieSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5632C18462500FC02AC /* MovieSearchViewController.swift */; };
-		7B1BF5662C18473F00FC02AC /* UICollectionViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5652C18473F00FC02AC /* UICollectionViewCell+.swift */; };
 		7B5C13612C0EFAEB0096DE9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */; };
 		7B5C13632C0EFAEB0096DE9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */; };
 		7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13642C0EFAEB0096DE9E /* ViewController.swift */; };
@@ -36,12 +35,15 @@
 		7B5C13C92C11DC670096DE9E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7B5C13C82C11DC670096DE9E /* Alamofire */; };
 		7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13CA2C11E2170096DE9E /* APIKey.swift */; };
 		7B5C13CD2C11F2960096DE9E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5C13CC2C11F2960096DE9E /* String+.swift */; };
+		7B72EB3B2C32B75C007CFAAF /* RandomNasaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB3A2C32B75C007CFAAF /* RandomNasaImageView.swift */; };
+		7B72EB3D2C32B768007CFAAF /* RandomNasaImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB3C2C32B768007CFAAF /* RandomNasaImageViewController.swift */; };
 		7B823D4E2C22AF1E009567EE /* WeatherBotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */; };
 		7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */; };
 		7B823D532C22D8B1009567EE /* PopupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D522C22D8B1009567EE /* PopupMapViewController.swift */; };
 		7B823D552C22DFB1009567EE /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D542C22DFB1009567EE /* MessageTableViewCell.swift */; };
 		7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D562C22E285009567EE /* ImageTableViewCell.swift */; };
 		7B823D592C22ECF5009567EE /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D582C22ECF5009567EE /* Date+.swift */; };
+		7B8BD3C82C2EFDEB007A7E63 /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD3C72C2EFDEB007A7E63 /* NSObject+.swift */; };
 		7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */; };
 		7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */; };
 		7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */; };
@@ -62,7 +64,6 @@
 		7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */; };
 		7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */; };
 		7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CB02C131340001F8E3F /* UIViewController+.swift */; };
-		7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,7 +77,6 @@
 		7B1BF5502C17615500FC02AC /* MediaDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDelegate.swift; sourceTree = "<group>"; };
 		7B1BF5612C18458300FC02AC /* MovieSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		7B1BF5632C18462500FC02AC /* MovieSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchViewController.swift; sourceTree = "<group>"; };
-		7B1BF5652C18473F00FC02AC /* UICollectionViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+.swift"; sourceTree = "<group>"; };
 		7B5C135D2C0EFAEB0096DE9E /* CodebasePractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodebasePractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,12 +94,15 @@
 		7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
 		7B5C13CA2C11E2170096DE9E /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7B5C13CC2C11F2960096DE9E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		7B72EB3A2C32B75C007CFAAF /* RandomNasaImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNasaImageView.swift; sourceTree = "<group>"; };
+		7B72EB3C2C32B768007CFAAF /* RandomNasaImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNasaImageViewController.swift; sourceTree = "<group>"; };
 		7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBotViewController.swift; sourceTree = "<group>"; };
 		7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherModel.swift; sourceTree = "<group>"; };
 		7B823D522C22D8B1009567EE /* PopupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMapViewController.swift; sourceTree = "<group>"; };
 		7B823D542C22DFB1009567EE /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		7B823D562C22E285009567EE /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		7B823D582C22ECF5009567EE /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		7B8BD3C72C2EFDEB007A7E63 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		7B9BCB732C2960D60082AE38 /* TMDBRecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBRecommendViewController.swift; sourceTree = "<group>"; };
 		7B9BCB752C2978790082AE38 /* RecommendMovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		7B9BCB792C2981B70082AE38 /* RecommendMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendMovieTableViewCell.swift; sourceTree = "<group>"; };
@@ -120,7 +123,6 @@
 		7BD80CA72C12F3EA001F8E3F /* BoxOfficeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewController.swift; sourceTree = "<group>"; };
 		7BD80CAD2C13130B001F8E3F /* BoxOfficeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeTableViewCell.swift; sourceTree = "<group>"; };
 		7BD80CB02C131340001F8E3F /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
-		7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 				7B5C13C02C11B9720096DE9E /* BoxOffice */,
 				7B1BF53B2C16CFDF00FC02AC /* Media */,
 				7B823D4C2C22AE2A009567EE /* WeatherBot */,
+				7B72EB362C32B56A007CFAAF /* RandomNasaImage */,
 				7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */,
 				7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */,
 				7B5C13642C0EFAEB0096DE9E /* ViewController.swift */,
@@ -259,13 +262,37 @@
 				7B5C13C42C11D0480096DE9E /* UINavigationController+.swift */,
 				7B5C13CC2C11F2960096DE9E /* String+.swift */,
 				7BD80CB02C131340001F8E3F /* UIViewController+.swift */,
-				7BD80CB22C13134C001F8E3F /* UITableViewCell+.swift */,
-				7B1BF5652C18473F00FC02AC /* UICollectionViewCell+.swift */,
 				7B1BF5462C171F2900FC02AC /* UIImageView+.swift */,
 				7B823D582C22ECF5009567EE /* Date+.swift */,
 				7B9BCBEC2C2C583A0082AE38 /* UIButton.Configuration+.swift */,
+				7B8BD3C72C2EFDEB007A7E63 /* NSObject+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		7B72EB362C32B56A007CFAAF /* RandomNasaImage */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB392C32B73F007CFAAF /* View */,
+				7B72EB382C32B73B007CFAAF /* ViewController */,
+			);
+			path = RandomNasaImage;
+			sourceTree = "<group>";
+		};
+		7B72EB382C32B73B007CFAAF /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB3C2C32B768007CFAAF /* RandomNasaImageViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B72EB392C32B73F007CFAAF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB3A2C32B75C007CFAAF /* RandomNasaImageView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		7B823D4C2C22AE2A009567EE /* WeatherBot */ = {
@@ -546,12 +573,12 @@
 				7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */,
 				7B1BF54F2C1754B800FC02AC /* CastTableViewCell.swift in Sources */,
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
+				7B72EB3D2C32B768007CFAAF /* RandomNasaImageViewController.swift in Sources */,
 				7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */,
 				7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */,
 				7B823D592C22ECF5009567EE /* Date+.swift in Sources */,
 				7B9BCBA42C2ABC670082AE38 /* BaseView.swift in Sources */,
 				7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */,
-				7BD80CB32C13134C001F8E3F /* UITableViewCell+.swift in Sources */,
 				7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */,
 				7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */,
 				7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */,
@@ -564,10 +591,10 @@
 				7B9BCBE72C2C55000082AE38 /* MovieTrendDetailView.swift in Sources */,
 				7B5C13CB2C11E2170096DE9E /* APIKey.swift in Sources */,
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
+				7B72EB3B2C32B75C007CFAAF /* RandomNasaImageView.swift in Sources */,
 				7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */,
 				7B9BCBDE2C2C4F7D0082AE38 /* WeatherView.swift in Sources */,
 				7B1BF54D2C1754AD00FC02AC /* OverViewTableViewCell.swift in Sources */,
-				7B1BF5662C18473F00FC02AC /* UICollectionViewCell+.swift in Sources */,
 				7B823D552C22DFB1009567EE /* MessageTableViewCell.swift in Sources */,
 				7B1BF5412C16DC0800FC02AC /* MediaModel.swift in Sources */,
 				7B9BCBED2C2C583A0082AE38 /* UIButton.Configuration+.swift in Sources */,
@@ -575,6 +602,7 @@
 				7B5C13862C0F13200096DE9E /* ConfigureViewProtocol.swift in Sources */,
 				7BD80CB12C131340001F8E3F /* UIViewController+.swift in Sources */,
 				7B5C13632C0EFAEB0096DE9E /* SceneDelegate.swift in Sources */,
+				7B8BD3C82C2EFDEB007A7E63 /* NSObject+.swift in Sources */,
 				7B9BCBA02C2ABC5A0082AE38 /* BaseTableViewCell.swift in Sources */,
 				7B823D4E2C22AF1E009567EE /* WeatherBotViewController.swift in Sources */,
 			);
