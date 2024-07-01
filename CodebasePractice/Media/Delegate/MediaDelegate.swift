@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MediaDelegate {
+protocol MediaDelegate: AnyObject {
     func reloadOverViewCell()
 }
