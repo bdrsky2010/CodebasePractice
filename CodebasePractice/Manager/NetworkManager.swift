@@ -177,50 +177,47 @@ final class NetworkManager {
 extension NetworkManager {
     
     // MARK: qos 설정 불가능한 메서드
-    func requestAPIWithAlertOnViewController<T: Decodable>(viewController: UIViewController, api: APIURL, completionHandler: @escaping (T) -> Void) {
+    func requestAPIWithAlertOnViewController<T: Decodable>(viewController: UIViewController,
+                                                           api: APIURL,
+                                                           completionHandler: @escaping (T) -> Void,
+                                                           failureCompletionHandler: ((NetworkError) -> Void)? = nil) {
         guard let url = api.urlComponents?.url else { return }
-        
-        do {
-            let request = try URLRequest(url: url, method: .get, headers: api.headers)
-            
-            DispatchQueue.global().async {
-                NetworkManager.shared.requestAPI(request: request, of: T.self) { [weak self] result in
-                    guard let self else { return }
-                    
-                    switch result {
-                    case .success(let value):
-                        completionHandler(value)
-                    case .failure(let error):
-                        viewController.presentNetworkErrorAlert(error: error)
-                    }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = api.headers
+        DispatchQueue.global().async {
+            NetworkManager.shared.requestAPI(request: request, of: T.self) { result in
+                switch result {
+                case .success(let value):
+                    completionHandler(value)
+                case .failure(let error):
+                    failureCompletionHandler?(error)
+                    viewController.presentNetworkErrorAlert(error: error)
                 }
             }
-        } catch {
-            viewController.presentNetworkErrorAlert(error: .failedRequest)
         }
     }
     
     // MARK: qos 설정 가능한 메서드
-    func requestAPIWithAlertOnViewController<T: Decodable>(qos: DispatchQoS.QoSClass, viewController: UIViewController, api: APIURL, completionHandler: @escaping (T) -> Void) {
+    func requestAPIWithAlertOnViewController<T: Decodable>(qos: DispatchQoS.QoSClass,
+                                                           viewController: UIViewController,
+                                                           api: APIURL,
+                                                           completionHandler: @escaping (T) -> Void,
+                                                           failureCompletionHandler: ((NetworkError) -> Void)?) {
         guard let url = api.urlComponents?.url else { return }
-        
-        do {
-            let request = try URLRequest(url: url, method: .get, headers: api.headers)
-            
-            DispatchQueue.global(qos: qos).async {
-                NetworkManager.shared.requestAPI(request: request, of: T.self) { [weak self] result in
-                    guard let self else { return }
-                    
-                    switch result {
-                    case .success(let value):
-                        completionHandler(value)
-                    case .failure(let error):
-                        viewController.presentNetworkErrorAlert(error: error)
-                    }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = api.headers
+        DispatchQueue.global(qos: qos).async {
+            NetworkManager.shared.requestAPI(request: request, of: T.self) { result in
+                switch result {
+                case .success(let value):
+                    completionHandler(value)
+                case .failure(let error):
+                    failureCompletionHandler?(error)
+                    viewController.presentNetworkErrorAlert(error: error)
                 }
             }
-        } catch {
-            viewController.presentNetworkErrorAlert(error: .failedRequest)
         }
     }
 }
