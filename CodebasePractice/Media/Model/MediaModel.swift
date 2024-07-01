@@ -59,6 +59,48 @@ struct TMDBMovie: Decodable {
     }
 }
 
+// MARK: TMDB Movie Trend Model
+struct TMDBTVTrend: Decodable {
+    let results: [TMDBTV]
+}
+
+struct TMDBTV: Decodable {
+    let backdrop_path: String
+    let id: Int
+    let overview: String
+    let poster_path: String
+    let name: String
+    let original_name: String
+    let genre_ids: [Int]
+    let first_air_date: String
+    let vote_average: Double
+    
+    enum CodingKeys: CodingKey {
+        case backdrop_path
+        case id
+        case overview
+        case poster_path
+        case name
+        case original_name
+        case genre_ids
+        case first_air_date
+        case vote_average
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.backdrop_path = try container.decodeIfPresent(String.self, forKey: .backdrop_path) ?? ""
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.overview = try container.decode(String.self, forKey: .overview)
+        self.poster_path = try container.decode(String.self, forKey: .poster_path)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.original_name = try container.decode(String.self, forKey: .original_name)
+        self.genre_ids = try container.decode([Int].self, forKey: .genre_ids)
+        self.first_air_date = try container.decode(String.self, forKey: .first_air_date)
+        self.vote_average = try container.decode(Double.self, forKey: .vote_average)
+    }
+}
+
 // MARK: TMDB Movie Genre Model
 struct TMDBMovieGenre: Decodable {
     let genres: [Genre]
@@ -79,6 +121,17 @@ struct Cast: Decodable {
     let name: String
     let profile_path: String?
     let character: String? // 역할
+}
+
+struct TMDBTrendTVVideo: Decodable {
+    let results: [TMDBVideo]
+}
+
+struct TMDBVideo: Decodable {
+    let name: String
+    let site: String
+    let key: String
+    let type: String
 }
 
 struct TMDBMovieSearch: Decodable {
