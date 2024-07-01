@@ -171,81 +171,36 @@ extension TMDBRecommendViewController {
         group.enter()
         DispatchQueue.global().async {
             let api = APIURL.tmdbMovieSimiliar(tmdbMovie.id)
-            NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                             method: .get,
-                                             parameters: api.parameters,
-                                             encoding: URLEncoding.queryString,
-                                             headers: api.headers,
-                                             of: TMDBMovieTrend.self) { [weak self] result in
+            NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieTrend: TMDBMovieTrend) in
                 guard let self else { return }
-                switch result {
-                case .success(let value):
-                    movieList[0] = value.results
-                    group.leave()
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
-                        presentAlert(option: .oneButton,
-                                     title: "네트워크 통신 에러",
-                                     message: "비슷한 영화 리스트를 가져오는데 실패하였습니다",
-                                     checkAlertTitle: "확인")
-                    }
-                }
+                movieList[0] = movieTrend.results
+                group.leave()
+            } failureCompletionHandler: { _ in
+                group.leave()
             }
         }
         
         group.enter()
         DispatchQueue.global().async {
             let api = APIURL.tmdbMovieRecommendations(tmdbMovie.id)
-            NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                             method: .get,
-                                             parameters: api.parameters,
-                                             encoding: URLEncoding.queryString,
-                                             headers: api.headers,
-                                             of: TMDBMovieTrend.self) { [weak self] result in
+            NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieTrend: TMDBMovieTrend) in
                 guard let self else { return }
-                switch result {
-                case .success(let value):
-                    movieList[1] = value.results
-                    group.leave()
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
-                        presentAlert(option: .oneButton,
-                                     title: "네트워크 통신 에러",
-                                     message: "추천 영화 리스트를 가져오는데 실패하였습니다",
-                                     checkAlertTitle: "확인")
-                    }
-                }
+                movieList[1] = movieTrend.results
+                group.leave()
+            } failureCompletionHandler: { _ in
+                group.leave()
             }
         }
         
         group.enter()
         DispatchQueue.global().async {
             let api = APIURL.tmdbMovieImages(tmdbMovie.id)
-            NetworkManager.shared.requestAPI(urlString: api.endpoint,
-                                             method: .get,
-                                             parameters: api.parameters,
-                                             encoding: URLEncoding.queryString,
-                                             headers: api.headers,
-                                             of: TMDBMoviePoster.self) { [weak self] result in
+            NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (moviePoster: TMDBMoviePoster) in
                 guard let self else { return }
-                switch result {
-                case .success(let value):
-                    movieList[2] = value.backdrops.map { $0.filePath }
-                    group.leave()
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
-                        presentAlert(option: .oneButton,
-                                     title: "네트워크 통신 에러",
-                                     message: "영화 포스터를 가져오는데 실패하였습니다",
-                                     checkAlertTitle: "확인")
-                    }
-                }
+                movieList[2] = moviePoster.backdrops.map { $0.filePath }
+                group.leave()
+            } failureCompletionHandler: { _ in
+                group.leave()
             }
         }
         
