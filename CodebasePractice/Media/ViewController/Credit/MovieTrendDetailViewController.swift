@@ -17,6 +17,7 @@ final class MovieTrendDetailViewController: BaseViewController {
     private var isMore = false
     
     var tmdbMovie: TMDBMovie?
+    var tmdbTV: TMDBTV?
     var castList: [Cast] = []
     
     override func loadView() {
@@ -58,9 +59,18 @@ final class MovieTrendDetailViewController: BaseViewController {
     
     @objc
     private func rightButtonClicked() {
-        let tmdbRecommendViewController = TMDBRecommendViewController()
-        tmdbRecommendViewController.tmdbMovie = tmdbMovie
-        navigationController?.pushViewController(tmdbRecommendViewController, animated: true)
+        if let tmdbMovie {
+            let tmdbRecommendViewController = TMDBRecommendViewController()
+            tmdbRecommendViewController.tmdbMovie = tmdbMovie
+            navigationController?.pushViewController(tmdbRecommendViewController, animated: true)
+        }
+        if let tmdbTV {
+            let tmdbVideoViewController = TMDBVideoViewController()
+            tmdbVideoViewController.configureBackdropImageView(backdropPath: tmdbTV.backdrop_path, posterPath: tmdbTV.poster_path, name: tmdbTV.name)
+            tmdbVideoViewController.requestTMDBTVVideo(id: tmdbTV.id)
+            let navigationController = UINavigationController(rootViewController: tmdbVideoViewController)
+            present(navigationController, animated: true)
+        }
     }
     
     private func configureTableView() {
@@ -112,7 +122,11 @@ extension MovieTrendDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewTableViewCell.identifier, for: indexPath) as? OverViewTableViewCell else { return UITableViewCell() }
             cell.mediaDelegate = self
             cell.configureCell(isMore: isMore)
+            
             if let overView = tmdbMovie?.overview {
+                cell.configureContent(overView: overView)
+            }
+            if let overView = tmdbTV?.overview {
                 cell.configureContent(overView: overView)
             }
             return cell

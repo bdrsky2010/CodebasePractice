@@ -11,15 +11,28 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
-class MediaViewController: BaseViewController {
+enum TMDBTrendOption {
+    case movie
+    case tv
+}
+
+final class MediaViewController: BaseViewController {
 
     private let movieTrendTableView = UITableView()
     
     private var tmdbTrendMovieList: [TMDBMovie] = [] {
         didSet {
             tmdbTrendMovieList.forEach { tmdbMovie in
-                requestTMDBMovieGenreAPI()
-                requestTMDBMovieCreditAPI(tmdbMovie.id)
+                requestTMDBMovieGenreAPI(option: tmdbTrendOption)
+                requestTMDBMovieCreditAPI(option: tmdbTrendOption, id: tmdbMovie.id)
+            }
+        }
+    }
+    private var tmdbTrendTVList: [TMDBTV] = [] {
+        didSet {
+            tmdbTrendTVList.forEach { tmdbTV in
+                requestTMDBMovieGenreAPI(option: tmdbTrendOption)
+                requestTMDBMovieCreditAPI(option: tmdbTrendOption, id: tmdbTV.id)
             }
         }
     }
@@ -30,11 +43,12 @@ class MediaViewController: BaseViewController {
         }
     }
     private var tmdbMovieGenreList: [Int: String] = [:]
+    private var tmdbTrendOption: TMDBTrendOption = .movie
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        requestTMDBMovieTrendAPI(timeWindow: .week)
+        requestTMDBMovieTrendAPI(option: tmdbTrendOption, timeWindow: .week)
         configureTableView()
     }
     
@@ -60,8 +74,8 @@ class MediaViewController: BaseViewController {
                                                      action: #selector(firstLeftBarButtonClicked))
         
         let menuActionList = configureMenuAction()
-        let menu = UIMenu(title: "Select Time Window Type\n(default: week)", children: menuActionList)
-        let secondLeftBarButtonItem = UIBarButtonItem(title: "sort", menu: menu)
+        let menu = UIMenu(title: "Select Movie OR TVShow\n(default: Movie)", children: menuActionList)
+        let secondLeftBarButtonItem = UIBarButtonItem(title: "Category", menu: menu)
         
         navigationItem.leftBarButtonItems = [firstLeftBarButtonItem, secondLeftBarButtonItem]
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -80,18 +94,18 @@ class MediaViewController: BaseViewController {
     
     private func configureMenuAction() -> [UIMenuElement] {
         
-        let dayAction = UIAction(title: "Day", handler: { [weak self] _ in
+        let movieAction = UIAction(title: "Movie", handler: { [weak self] _ in
             guard let self else { return }
-            navigationItem.leftBarButtonItem?.title = "Day"
-            requestTMDBMovieTrendAPI(timeWindow: .day)
+            tmdbTrendOption = .movie
+            requestTMDBMovieTrendAPI(option: tmdbTrendOption, timeWindow: .week)
         })
-        let weekAction = UIAction(title: "Week", handler: { [weak self] _ in
+        let tvShowAction = UIAction(title: "TVShow", handler: { [weak self] _ in
             guard let self else { return }
-            navigationItem.leftBarButtonItem?.title = "Week"
-            requestTMDBMovieTrendAPI(timeWindow: .week)
+            tmdbTrendOption = .tv
+            requestTMDBMovieTrendAPI(option: tmdbTrendOption, timeWindow: .week)
         })
         
-        let menuActionList = [dayAction, weekAction]
+        let menuActionList = [movieAction, tvShowAction]
         
         return menuActionList
     }
@@ -124,17 +138,37 @@ extension MediaViewController: UITableViewDelegate {
         
         let movieTrendDetailViewController = MovieTrendDetailViewController()
         let index = indexPath.row
-        let tmdbMovie = tmdbTrendMovieList[index]
-        let castList = tmdbMovieCreditCastList[tmdbMovie.id] ?? []
-        movieTrendDetailViewController.tmdbMovie = tmdbMovie
-        movieTrendDetailViewController.castList = castList
         
-        let backdropImageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
-        let posterImageUrl = ImageURL.tmdbMovie(tmdbMovie.poster_path).urlString.stringToURL
-        let movieTitle = tmdbMovie.title
-        
-        movieTrendDetailViewController.configureContent(backdropImageUrl: backdropImageUrl,
-                                                        posterImageUrl: posterImageUrl, movieTitle: movieTitle)
+        switch tmdbTrendOption {
+        case .movie:
+            
+            let tmdbMovie = tmdbTrendMovieList[index]
+            let castList = tmdbMovieCreditCastList[tmdbMovie.id] ?? []
+            movieTrendDetailViewController.tmdbMovie = tmdbMovie
+            movieTrendDetailViewController.castList = castList
+            
+            let backdropImageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
+            let posterImageUrl = ImageURL.tmdbMovie(tmdbMovie.poster_path).urlString.stringToURL
+            let movieTitle = tmdbMovie.title
+            
+            movieTrendDetailViewController.configureContent(backdropImageUrl: backdropImageUrl,
+                                                            posterImageUrl: posterImageUrl, movieTitle: movieTitle)
+            
+        case .tv:
+            
+            let tmdbTV = tmdbTrendTVList[index]
+            let castList = tmdbMovieCreditCastList[tmdbTV.id] ?? []
+            movieTrendDetailViewController.tmdbTV = tmdbTV
+            movieTrendDetailViewController.castList = castList
+            
+            let backdropImageUrl = ImageURL.tmdbMovie(tmdbTV.backdrop_path).urlString.stringToURL
+            let posterImageUrl = ImageURL.tmdbMovie(tmdbTV.poster_path).urlString.stringToURL
+            let tvName = tmdbTV.name
+            
+            movieTrendDetailViewController.configureContent(backdropImageUrl: backdropImageUrl,
+                                                            posterImageUrl: posterImageUrl, movieTitle: tvName)
+            
+        }
         
         navigationController?.pushViewController(movieTrendDetailViewController, animated: true)
     }
@@ -148,7 +182,7 @@ extension MediaViewController: UITableViewDelegate {
 extension MediaViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tmdbTrendMovieList.count
+        return tmdbTrendOption == .movie ? tmdbTrendMovieList.count : tmdbTrendTVList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -158,17 +192,31 @@ extension MediaViewController: UITableViewDataSource {
         }
         
         let index = indexPath.row
-        let tmdbMovie = tmdbTrendMovieList[index]
         
-        let releaseDate = tmdbMovie.release_date
-        let genre = tmdbMovie.genre_ids.map { "#\(tmdbMovieGenreList[$0] ?? "")" }.joined(separator: " ")
-        let imageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
-        let voteAverage = roundTwo(num: tmdbMovie.vote_average)
-        let movieTitle = tmdbMovie.title
-        let cast = (tmdbMovieCreditCastList[tmdbMovie.id] ?? []).map { $0.name }.joined(separator: ", ")
-        
-        
-        cell.configureContent(releaseDate: releaseDate, genre: genre, imageUrl: imageUrl, voteAverage: voteAverage, movieTitle: movieTitle, cast: cast)
+        switch tmdbTrendOption {
+        case .movie:
+            let tmdbMovie = tmdbTrendMovieList[index]
+            
+            let releaseDate = tmdbMovie.release_date
+            let genre = tmdbMovie.genre_ids.map { "#\(tmdbMovieGenreList[$0] ?? "")" }.joined(separator: " ")
+            let imageUrl = ImageURL.tmdbMovie(tmdbMovie.backdrop_path).urlString.stringToURL
+            let voteAverage = roundTwo(num: tmdbMovie.vote_average)
+            let movieTitle = tmdbMovie.title
+            let cast = (tmdbMovieCreditCastList[tmdbMovie.id] ?? []).map { $0.name }.joined(separator: ", ")
+            cell.configureContent(releaseDate: releaseDate, genre: genre, imageUrl: imageUrl, voteAverage: voteAverage, movieTitle: movieTitle, cast: cast)
+            
+        case .tv:
+            let tmdbTV = tmdbTrendTVList[index]
+            
+            let releaseDate = tmdbTV.first_air_date
+            let genre = tmdbTV.genre_ids.map { "#\(tmdbMovieGenreList[$0] ?? "")" }.joined(separator: " ")
+            let imageUrl = ImageURL.tmdbMovie(tmdbTV.backdrop_path).urlString.stringToURL
+            let voteAverage = roundTwo(num: tmdbTV.vote_average)
+            let movieTitle = tmdbTV.name
+            let cast = (tmdbMovieCreditCastList[tmdbTV.id] ?? []).map { $0.name }.joined(separator: ", ")
+            
+            cell.configureContent(releaseDate: releaseDate, genre: genre, imageUrl: imageUrl, voteAverage: voteAverage, movieTitle: movieTitle, cast: cast)
+        }
         
         return cell
     }
@@ -181,17 +229,25 @@ extension MediaViewController: UITableViewDataSource {
 
 extension MediaViewController {
     
-    private func requestTMDBMovieTrendAPI(timeWindow: TimeWindowType) {
-        let api = APIURL.tmdbMovie(timeWindow.string)
+    private func requestTMDBMovieTrendAPI(option tmdbTrendOption: TMDBTrendOption, timeWindow: TimeWindowType) {
+        let api = tmdbTrendOption == .movie ? APIURL.tmdbMovie(TimeWindowType.week.string) : APIURL.tmdbTV(TimeWindowType.week.string)
         
-        NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieTrend: TMDBMovieTrend) in
-            guard let self else { return }
-            tmdbTrendMovieList = movieTrend.results
+        switch tmdbTrendOption {
+        case .movie:
+            NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieTrend: TMDBMovieTrend) in
+                guard let self else { return }
+                tmdbTrendMovieList = movieTrend.results
+            }
+        case .tv:
+            NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (tvTrend: TMDBTVTrend) in
+                guard let self else { return }
+                tmdbTrendTVList = tvTrend.results
+            }
         }
     }
     
-    private func requestTMDBMovieGenreAPI() {
-        let api = APIURL.tmdbMovieGenre
+    private func requestTMDBMovieGenreAPI(option tmdbTrendOption: TMDBTrendOption) {
+        let api = tmdbTrendOption == .movie ? APIURL.tmdbMovieGenre : APIURL.tmdbTVGenre
         
         NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieGenre: TMDBMovieGenre) in
             movieGenre.genres.forEach { [weak self] genre in
@@ -201,8 +257,8 @@ extension MediaViewController {
         }
     }
     
-    private func requestTMDBMovieCreditAPI(_ id: Int) {
-        let api = APIURL.tmdbMovieCredit(id)
+    private func requestTMDBMovieCreditAPI(option tmdbTrendOption: TMDBTrendOption, id: Int) {
+        let api = tmdbTrendOption == .movie ? APIURL.tmdbMovieCredit(id) : APIURL.tmdbTVCredit(id)
         
         NetworkManager.shared.requestAPIWithAlertOnViewController(viewController: self, api: api) { [weak self] (movieCredit: TMDBMovieCredit) in
             guard let self else { return }
