@@ -43,10 +43,18 @@ final class MovieTrendDetailViewController: BaseViewController {
                                                  target: self,
                                                  action: #selector(dismissButtonClicked))
         
-        let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "movieclapper"),
+        var rightBarButtonItem: UIBarButtonItem
+        if let _ = tmdbMovie {
+            rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "movieclapper"),
+                                                     style: .plain,
+                                                     target: self,
+                                                     action: #selector(rightButtonClicked))
+        } else {
+            rightBarButtonItem = UIBarButtonItem(title: "Youtube",
                                                  style: .plain,
                                                  target: self,
                                                  action: #selector(rightButtonClicked))
+        }
         
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
