@@ -166,6 +166,7 @@ final class NetworkManager {
                     let result = try decoder.decode(T.self, from: data)
                     completionHandler(.success(result))
                 } catch {
+                    print(error)
                     completionHandler(.failure(.invalidData))
                 }
             }
