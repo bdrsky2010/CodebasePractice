@@ -73,15 +73,37 @@ final class ReminderMainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
-        configureCollectionView()
+        configureTableView()
+    }
+    
+    override func configureView() {
+        view.backgroundColor = UIColor.secondarySystemBackground
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.tintColor = UIColor.systemBlue
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.setToolbarHidden(false, animated: false)
+        
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.backgroundColor = UIColor.secondarySystemBackground
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationAppearance
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.setToolbarHidden(true, animated: false)
+        
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.backgroundColor = UIColor.systemBackground
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationAppearance
     }
     
     private func configureNavigation() {
+        navigationItem.title = "목록"
+        
         let menu = UIMenu(children: configureMenuAction())
         let rightBarMenuButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), menu: menu)
         navigationItem.rightBarButtonItem = rightBarMenuButton
@@ -99,7 +121,10 @@ final class ReminderMainViewController: BaseViewController {
         let rightToolBarItem = UIBarButtonItem(title: "목록 추가", style: .plain, target: self, action: #selector(addCatalogButtonClicked))
         let flexibleSpace = UIBarButtonItem(systemItem: .flexibleSpace)
         toolbarItems = [leftToolBarItem, flexibleSpace, rightToolBarItem]
-        navigationController?.setToolbarHidden(false, animated: false)
+        
+        let toolbarAppearance = UIToolbarAppearance()
+        toolbarAppearance.backgroundColor = UIColor.secondarySystemBackground
+        navigationController?.toolbar.scrollEdgeAppearance = toolbarAppearance
     }
     
     @objc
@@ -115,12 +140,42 @@ final class ReminderMainViewController: BaseViewController {
         print(#function)
     }
     
-    private func configureCollectionView() {
-        reminderMainView.reminderMainCollectionView.delegate = self
-        reminderMainView.reminderMainCollectionView.dataSource = self
-        reminderMainView.reminderMainCollectionView.register(ReminderMainCollectionViewCell.self,
-                                                             forCellWithReuseIdentifier: ReminderMainCollectionViewCell.identifier)
+    private func configureTableView() {
+        reminderMainView.reminderMainTableView.delegate = self
+        reminderMainView.reminderMainTableView.dataSource = self
+        reminderMainView.reminderMainTableView.register(ReminderMainTableViewCell.self,
+                                                        forCellReuseIdentifier: ReminderMainTableViewCell.identifier)
+        reminderMainView.reminderMainTableView.separatorStyle = .none
+        reminderMainView.reminderMainTableView.backgroundColor = UIColor.clear
     }
+}
+
+extension ReminderMainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let width = windowScene.screen.bounds.width - 48
+            let height = (width / 2 * 0.45) * 3 + (10 * 4)
+            return height
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderMainTableViewCell.identifier, for: indexPath) as? ReminderMainTableViewCell else { return UITableViewCell() }
+        cell.backgroundColor = .clear
+        cell.reminderMainCollectionView.delegate = self
+        cell.reminderMainCollectionView.dataSource = self
+        cell.reminderMainCollectionView.register(ReminderMainCollectionViewCell.self,
+                                                             forCellWithReuseIdentifier: ReminderMainCollectionViewCell.identifier)
+        
+        return cell
+    }
+    
+    
 }
 
 extension ReminderMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -198,6 +253,7 @@ extension ReminderMainViewController {
 extension ReminderMainViewController: ReminderUpdateDelegate {
     func reloadMainCollectionView() {
         print(#function)
-        reminderMainView.reminderMainCollectionView.reloadData()
+        let reminderMainCollectionView = (reminderMainView.reminderMainTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ReminderMainTableViewCell)?.reminderMainCollectionView
+        reminderMainCollectionView?.reloadData()
     }
 }
