@@ -41,4 +41,16 @@ final class DeadlineTableViewCell: BaseTableViewCell {
         deadlineLabel.textColor = UIColor.systemBlue
         deadlineLabel.isHidden = true
     }
+    
+    func remakeConstraintsWithCalendar() {
+        deadlineLabel.isHidden = false
+        titleLabel.snp.remakeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.bottom.equalTo(toggleButton.snp.centerY).offset(-2)
+        }
+        deadlineLabel.snp.remakeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(toggleButton.snp.centerY).offset(2)
+        }
+    }
 }
