@@ -21,4 +21,16 @@ extension Date {
         formatter.dateFormat = "yyyy년 M월 d일 EEEE"
         return formatter.string(from: self)
     }
+    
+    var isToday: Bool {
+        var calendar = Calendar.current
+        calendar.locale = Locale(identifier: "ko_KR")
+        let deadlineComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        let nowComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        return nowComponents == deadlineComponents
+    }
+    
+    var isSchedule: Bool {
+        return Int(Date().timeIntervalSince(self)) < 0
+    }
 }

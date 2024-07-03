@@ -49,9 +49,9 @@
 		7B72EB642C3423DD007CFAAF /* ReminderMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB632C3423DD007CFAAF /* ReminderMainView.swift */; };
 		7B72EB662C343363007CFAAF /* CreateReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB652C343363007CFAAF /* CreateReminderViewController.swift */; };
 		7B72EB682C343368007CFAAF /* CreateReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB672C343368007CFAAF /* CreateReminderView.swift */; };
-		7B72EB6B2C344F81007CFAAF /* DeadlineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6A2C344F81007CFAAF /* DeadlineTableViewCell.swift */; };
+		7B72EB6B2C344F81007CFAAF /* ReminderSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6A2C344F81007CFAAF /* ReminderSwitchTableViewCell.swift */; };
 		7B72EB6D2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6C2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift */; };
-		7B72EB6F2C34C430007CFAAF /* AllReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */; };
+		7B72EB6F2C34C430007CFAAF /* ReminderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6E2C34C430007CFAAF /* ReminderListViewController.swift */; };
 		7B72EB712C34C436007CFAAF /* AllReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB702C34C436007CFAAF /* AllReminderView.swift */; };
 		7B72EB732C34C631007CFAAF /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */; };
 		7B72EB762C34CEB9007CFAAF /* ReminderUpdateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB752C34CEB9007CFAAF /* ReminderUpdateDelegate.swift */; };
@@ -59,6 +59,9 @@
 		7B72EB792C3500D0007CFAAF /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 7B72EB5A2C341BB3007CFAAF /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7B72EB7C2C353E72007CFAAF /* ReminderTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB7B2C353E72007CFAAF /* ReminderTextViewTableViewCell.swift */; };
 		7B72EB7E2C35423C007CFAAF /* ReminderDatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB7D2C35423C007CFAAF /* ReminderDatePickerTableViewCell.swift */; };
+		7B72EB822C3561E1007CFAAF /* ReminderImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB812C3561E1007CFAAF /* ReminderImageTableViewCell.swift */; };
+		7B72EB842C35634C007CFAAF /* ReminderLeadingButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB832C35634C007CFAAF /* ReminderLeadingButtonTableViewCell.swift */; };
+		7B72EB862C3564D3007CFAAF /* ReminderPopupButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB852C3564D3007CFAAF /* ReminderPopupButtonTableViewCell.swift */; };
 		7B823D4E2C22AF1E009567EE /* WeatherBotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */; };
 		7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */; };
 		7B823D532C22D8B1009567EE /* PopupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D522C22D8B1009567EE /* PopupMapViewController.swift */; };
@@ -142,15 +145,18 @@
 		7B72EB632C3423DD007CFAAF /* ReminderMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderMainView.swift; sourceTree = "<group>"; };
 		7B72EB652C343363007CFAAF /* CreateReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderViewController.swift; sourceTree = "<group>"; };
 		7B72EB672C343368007CFAAF /* CreateReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderView.swift; sourceTree = "<group>"; };
-		7B72EB6A2C344F81007CFAAF /* DeadlineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB6A2C344F81007CFAAF /* ReminderSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		7B72EB6C2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderMainCollectionViewCell.swift; sourceTree = "<group>"; };
-		7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReminderViewController.swift; sourceTree = "<group>"; };
+		7B72EB6E2C34C430007CFAAF /* ReminderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListViewController.swift; sourceTree = "<group>"; };
 		7B72EB702C34C436007CFAAF /* AllReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReminderView.swift; sourceTree = "<group>"; };
 		7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
 		7B72EB752C34CEB9007CFAAF /* ReminderUpdateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderUpdateDelegate.swift; sourceTree = "<group>"; };
 		7B72EB772C34E6CE007CFAAF /* ReminderMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderMainTableViewCell.swift; sourceTree = "<group>"; };
 		7B72EB7B2C353E72007CFAAF /* ReminderTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTextViewTableViewCell.swift; sourceTree = "<group>"; };
 		7B72EB7D2C35423C007CFAAF /* ReminderDatePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB812C3561E1007CFAAF /* ReminderImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderImageTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB832C35634C007CFAAF /* ReminderLeadingButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderLeadingButtonTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB852C3564D3007CFAAF /* ReminderPopupButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPopupButtonTableViewCell.swift; sourceTree = "<group>"; };
 		7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBotViewController.swift; sourceTree = "<group>"; };
 		7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherModel.swift; sourceTree = "<group>"; };
 		7B823D522C22D8B1009567EE /* PopupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMapViewController.swift; sourceTree = "<group>"; };
@@ -388,7 +394,7 @@
 			children = (
 				7B72EB612C3423BD007CFAAF /* ReminderMainViewController.swift */,
 				7B72EB652C343363007CFAAF /* CreateReminderViewController.swift */,
-				7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */,
+				7B72EB6E2C34C430007CFAAF /* ReminderListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -414,12 +420,15 @@
 		7B72EB692C344F21007CFAAF /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				7B72EB6A2C344F81007CFAAF /* DeadlineTableViewCell.swift */,
+				7B72EB6A2C344F81007CFAAF /* ReminderSwitchTableViewCell.swift */,
+				7B72EB832C35634C007CFAAF /* ReminderLeadingButtonTableViewCell.swift */,
+				7B72EB812C3561E1007CFAAF /* ReminderImageTableViewCell.swift */,
 				7B72EB772C34E6CE007CFAAF /* ReminderMainTableViewCell.swift */,
 				7B72EB6C2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift */,
 				7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */,
 				7B72EB7B2C353E72007CFAAF /* ReminderTextViewTableViewCell.swift */,
 				7B72EB7D2C35423C007CFAAF /* ReminderDatePickerTableViewCell.swift */,
+				7B72EB852C3564D3007CFAAF /* ReminderPopupButtonTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -708,8 +717,8 @@
 				7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */,
 				7B72EB712C34C436007CFAAF /* AllReminderView.swift in Sources */,
 				7B9BCBCE2C2C06290082AE38 /* Lotto.swift in Sources */,
-				7B72EB6B2C344F81007CFAAF /* DeadlineTableViewCell.swift in Sources */,
-				7B72EB6F2C34C430007CFAAF /* AllReminderViewController.swift in Sources */,
+				7B72EB6B2C344F81007CFAAF /* ReminderSwitchTableViewCell.swift in Sources */,
+				7B72EB6F2C34C430007CFAAF /* ReminderListViewController.swift in Sources */,
 				7B1BF5512C17615500FC02AC /* MediaDelegate.swift in Sources */,
 				7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */,
 				7B72EB602C341C21007CFAAF /* ReminderModel.swift in Sources */,
@@ -722,6 +731,7 @@
 				7BD80CA82C12F3EA001F8E3F /* BoxOfficeViewController.swift in Sources */,
 				7B823D532C22D8B1009567EE /* PopupMapViewController.swift in Sources */,
 				7B1BF5642C18462500FC02AC /* MovieSearchViewController.swift in Sources */,
+				7B72EB822C3561E1007CFAAF /* ReminderImageTableViewCell.swift in Sources */,
 				7B72EB452C32E5A1007CFAAF /* TMDBVideoView.swift in Sources */,
 				7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */,
 				7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */,
@@ -734,6 +744,7 @@
 				7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */,
 				7B72EB662C343363007CFAAF /* CreateReminderViewController.swift in Sources */,
 				7B823D592C22ECF5009567EE /* Date+.swift in Sources */,
+				7B72EB842C35634C007CFAAF /* ReminderLeadingButtonTableViewCell.swift in Sources */,
 				7B9BCBA42C2ABC670082AE38 /* BaseView.swift in Sources */,
 				7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */,
 				7B72EB402C32E543007CFAAF /* TMDBVideoViewController.swift in Sources */,
@@ -741,6 +752,7 @@
 				7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */,
 				7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */,
 				7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */,
+				7B72EB862C3564D3007CFAAF /* ReminderPopupButtonTableViewCell.swift in Sources */,
 				7B72EB6D2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift in Sources */,
 				7B9BCBDC2C2C0ED70082AE38 /* BoxOfficeView.swift in Sources */,
 				7B9BCB9E2C2ABC410082AE38 /* BaseViewController.swift in Sources */,

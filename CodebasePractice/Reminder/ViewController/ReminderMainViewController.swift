@@ -9,7 +9,7 @@ import UIKit
 
 import RealmSwift
 
-fileprivate enum ReminderOption: CaseIterable {
+enum ReminderOption: Int, CaseIterable {
     case today
     case schedule
     case all
@@ -181,11 +181,11 @@ extension ReminderMainViewController: UITableViewDelegate, UITableViewDataSource
 extension ReminderMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 2 {
-            let allReminderViewController = AllReminderViewController()
-            allReminderViewController.delegate = self
-            navigationController?.pushViewController(allReminderViewController, animated: true)
-        }
+        let reminderListViewController = ReminderListViewController()
+        reminderListViewController.reminderOption = ReminderOption.allCases[indexPath.row]
+        reminderListViewController.delegate = self
+//        reminderListViewController.configureList(reminderOption: ReminderOption.allCases[indexPath.row])
+        navigationController?.pushViewController(reminderListViewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -202,19 +202,39 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         }
         cell.configureTitle(title: option.title)
         
+        let realm = try! Realm()
         switch option {
         case .today:
-            cell.configureCount(count: 0)
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline >= %@ ").count
+            print(count)
+//            let count = realm.objects(Reminder.self)
+//                .where { $0.deadline != nil }
+//                .filter {
+//                    if let deadline = $0.deadline {
+//                        return deadline.isToday
+//                    }
+//                    return false
+//                }.count
+            cell.configureCount(count: count)
         case .schedule:
-            cell.configureCount(count: 0)
+            let count = realm.objects(Reminder.self)
+                .where { $0.deadline != nil }
+                .filter {
+                    if let deadline = $0.deadline {
+                        return deadline.isSchedule
+                    }
+                    return false
+                }.count
+            cell.configureCount(count: count)
         case .all:
-            let realm = try! Realm()
             let count = realm.objects(Reminder.self).count
             cell.configureCount(count: count)
         case .flag:
-            cell.configureCount(count: 0)
+            let count = realm.objects(Reminder.self).where { $0.flag }.count
+            cell.configureCount(count: count)
         case .completed:
-            cell.configureCount(count: 0)
+            let count = realm.objects(Reminder.self).where { $0.isComplete }.count
+            cell.configureCount(count: count)
         }
         return cell
     }

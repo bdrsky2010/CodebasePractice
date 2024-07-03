@@ -10,6 +10,7 @@ import Foundation
 import RealmSwift
 
 enum Priority: String, PersistableEnum {
+    case none = "없음"
     case low = "낮음"
     case mid = "중간"
     case high = "높음"
@@ -17,23 +18,25 @@ enum Priority: String, PersistableEnum {
 
 class Reminder: Object {
     @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted var isComplete: Bool
     @Persisted var title: String
     @Persisted var content: String?
     @Persisted var deadline: Date?
     @Persisted var time: Date?
     @Persisted var tag: List<String>
     @Persisted var flag: Bool
-    @Persisted var priority: Priority?
+    @Persisted var priority: Priority
     @Persisted var registerDate: Date
     
-    convenience init(title: String, content: String? = nil, deadline: Date? = nil, time: Date? = nil, tag: List<String> = List<String>(), priority: Priority? = nil) {
+    convenience init(title: String, content: String? = nil, deadline: Date? = nil, time: Date? = nil, tag: List<String> = List<String>(), flag: Bool, priority: Priority) {
         self.init()
+        self.isComplete = false
         self.title = title
         self.content = content
         self.deadline = deadline
         self.time = time
         self.tag = tag
-        self.flag = false
+        self.flag = flag
         self.priority = priority
         self.registerDate = Date()
     }

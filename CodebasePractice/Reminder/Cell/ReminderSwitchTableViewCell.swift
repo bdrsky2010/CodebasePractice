@@ -1,5 +1,5 @@
 //
-//  DeadlineTableViewCell.swift
+//  ReminderSwitchTableViewCell.swift
 //  CodebasePractice
 //
 //  Created by Minjae Kim on 7/3/24.
@@ -9,8 +9,7 @@ import UIKit
 
 import SnapKit
 
-
-final class DeadlineTableViewCell: BaseTableViewCell {
+final class ReminderSwitchTableViewCell: BaseTableViewCell {
     
     let toggleButton = UISwitch()
     let titleLabel = UILabel()
@@ -18,13 +17,20 @@ final class DeadlineTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        
+
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        deadlineLabel.font = UIFont.systemFont(ofSize: 12)
+        deadlineLabel.textColor = UIColor.systemBlue
+        deadlineLabel.isHidden = true
+    }
+    
+    override func configureHierarchy() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(deadlineLabel)
         contentView.addSubview(toggleButton)
-        
-        
+    }
+    
+    override func configureLayout() {
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(20)
             make.centerY.equalToSuperview()
@@ -34,12 +40,6 @@ final class DeadlineTableViewCell: BaseTableViewCell {
             make.trailing.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
         }
-        
-        titleLabel.text = "마감일"
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        deadlineLabel.font = UIFont.systemFont(ofSize: 12)
-        deadlineLabel.textColor = UIColor.systemBlue
-        deadlineLabel.isHidden = true
     }
     
     func remakeConstraintsWithCalendar() {

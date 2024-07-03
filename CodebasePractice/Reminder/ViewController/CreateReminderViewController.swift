@@ -12,13 +12,17 @@ import RealmSwift
 fileprivate enum ReminderCategory: String, CaseIterable {
     case content
     case deadline = "마감일"
+    case tag = "태그"
+    case flag = "깃발"
+    case priority = "우선 순위"
+    case image = "이미지 추가"
 }
 
 final class CreateReminderViewController: BaseViewController {
     
     private let createReminderView = CreateReminderView()
     
-    private var isShowCalendar = false {
+    private var isShowDatePicker = false {
         didSet {
             createReminderView.contentTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
@@ -26,6 +30,8 @@ final class CreateReminderViewController: BaseViewController {
     private var reminderTitle = ""
     private var reminderContents: String?
     private var reminderDeadline = Date()
+    private var reminderFlag = false
+    private var reminderPriority = Priority.none
     
     weak var delegate: ReminderUpdateDelegate?
     
@@ -57,7 +63,7 @@ final class CreateReminderViewController: BaseViewController {
     @objc
     private func addButtonClicked() {
         let realm = try! Realm()
-        let reminder = Reminder(title: reminderTitle, content: reminderContents, deadline: reminderDeadline)
+        let reminder = Reminder(title: reminderTitle, content: reminderContents, deadline: reminderDeadline, flag: reminderFlag, priority: reminderPriority)
         try! realm.write {
             realm.add(reminder)
             print("Realm Create Succeed")
@@ -70,13 +76,18 @@ final class CreateReminderViewController: BaseViewController {
         createReminderView.contentTableView.delegate = self
         createReminderView.contentTableView.dataSource = self
         createReminderView.contentTableView.rowHeight = UITableView.automaticDimension
-        
-        createReminderView.contentTableView.register(ReminderTextViewTableViewCell.self,
-                                                     forCellReuseIdentifier: ReminderTextViewTableViewCell.identifier)
-        createReminderView.contentTableView.register(DeadlineTableViewCell.self,
-                                                     forCellReuseIdentifier: DeadlineTableViewCell.identifier)
-        createReminderView.contentTableView.register(ReminderDatePickerTableViewCell.self,
-                                                     forCellReuseIdentifier: ReminderDatePickerTableViewCell.identifier)
+        createReminderView.contentTableView.keyboardDismissMode = .onDrag
+        let tableViewCellList = [
+            ReminderTextViewTableViewCell.self,
+            ReminderSwitchTableViewCell.self,
+            ReminderDatePickerTableViewCell.self,
+            ReminderImageTableViewCell.self,
+            ReminderLeadingButtonTableViewCell.self,
+            ReminderPopupButtonTableViewCell.self
+        ]
+        tableViewCellList.forEach {
+            createReminderView.contentTableView.register($0.self, forCellReuseIdentifier: $0.identifier)
+        }
     }
 }
 
@@ -90,7 +101,9 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
         case .content:
             return 2
         case .deadline:
-            return isShowCalendar ? 2 : 1
+            return isShowDatePicker ? 2 : 1
+        default:
+            return 1
         }
     }
     
@@ -103,6 +116,7 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
                                                            for: indexPath) as? ReminderTextViewTableViewCell else { return UITableViewCell() }
             cell.textView.delegate = self
             cell.textView.tag = indexPath.row
+            
             if indexPath.row == 0 {
                 cell.configureLayout(option: .title)
                 configureTextViewPlaceholder(cell.textView, placeholder: "제목")
@@ -113,38 +127,98 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
             return cell
             
         case .deadline:
-            if isShowCalendar, indexPath.row == 1 {
+            if isShowDatePicker, indexPath.row == 1 {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderDatePickerTableViewCell.identifier,
                                                                for: indexPath) as? ReminderDatePickerTableViewCell else { return UITableViewCell() }
                 
                 cell.datePicker.addTarget(self, action: #selector(changedValueDatePicker), for: .valueChanged)
                 return cell
             } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: DeadlineTableViewCell.identifier,
-                                                               for: indexPath) as? DeadlineTableViewCell else { return UITableViewCell() }
-                cell.toggleButton.setOn(isShowCalendar, animated: true)
-                cell.toggleButton.addTarget(self, action: #selector(changedValuetoggleButton), for: .valueChanged)
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderSwitchTableViewCell.identifier,
+                                                               for: indexPath) as? ReminderSwitchTableViewCell else { return UITableViewCell() }
+                cell.titleLabel.text = category.rawValue
+                cell.toggleButton.setOn(isShowDatePicker, animated: true)
+                cell.toggleButton.addTarget(self, action: #selector(changedValueIsShowDatePickerSwitch), for: .valueChanged)
                 
-                if isShowCalendar {
+                if isShowDatePicker {
                     cell.remakeConstraintsWithCalendar()
                     cell.deadlineLabel.text = reminderDeadline.reminderString
                 }
                 return cell
             }
+            
+        case .tag:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderImageTableViewCell.identifier,
+                                                           for: indexPath) as? ReminderImageTableViewCell else { return UITableViewCell() }
+            cell.titleLabel.text = category.rawValue
+            cell.trailingImageView.image = UIImage(systemName: "chevron.forward")
+            return cell
+            
+        case .flag:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderSwitchTableViewCell.identifier,
+                                                           for: indexPath) as? ReminderSwitchTableViewCell else { return UITableViewCell() }
+            cell.titleLabel.text = category.rawValue
+            cell.toggleButton.setOn(isShowDatePicker, animated: true)
+            cell.toggleButton.addTarget(self, action: #selector(changedValueReminderFlagSwitch), for: .valueChanged)
+            return cell
+            
+        case .priority:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderPopupButtonTableViewCell.identifier,
+                                                           for: indexPath) as? ReminderPopupButtonTableViewCell else { return UITableViewCell() }
+            let popButtonHandler = { [weak self] (action: UIAction) in
+                guard let self else { return }
+                switch action.title {
+                case Priority.none.rawValue:
+                    reminderPriority = .none
+                case Priority.low.rawValue:
+                    reminderPriority = .low
+                case Priority.mid.rawValue:
+                    reminderPriority = .mid
+                case Priority.high.rawValue:
+                    reminderPriority = .high
+                default:
+                    reminderPriority = .none
+                }
+                tableView.reloadRows(at: [indexPath], with: .none)
+            }
+            cell.titleLabel.text = category.rawValue
+            cell.popupButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: reminderPriority.rawValue,
+                                                                                                  attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
+            cell.popupButton.menu = UIMenu(children: Priority.allCases.map { UIAction(title: $0.rawValue, handler: popButtonHandler) })
+            cell.popupButton.showsMenuAsPrimaryAction = true
+            return cell
+            
+        case .image:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderLeadingButtonTableViewCell.identifier,
+                                                           for: indexPath) as? ReminderLeadingButtonTableViewCell else { return UITableViewCell() }
+            cell.titleButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: category.rawValue,
+                                                                                                  attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
+            cell.titleButton.addTarget(self, action: #selector(addImageButtonClicked), for: .touchUpInside)
+            return cell
         }
     }
     
     @objc
     private func changedValueDatePicker(sender: UIDatePicker) {
-        if let cell = createReminderView.contentTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DeadlineTableViewCell {
+        if let cell = createReminderView.contentTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ReminderSwitchTableViewCell {
             cell.deadlineLabel.text = sender.date.reminderString
             reminderDeadline = sender.date
         }
     }
     
     @objc
-    private func changedValuetoggleButton(sender: UISwitch) {
-        isShowCalendar.toggle()
+    private func changedValueIsShowDatePickerSwitch(sender: UISwitch) {
+        isShowDatePicker.toggle()
+    }
+    
+    @objc
+    private func changedValueReminderFlagSwitch(sender: UISwitch) {
+        reminderFlag.toggle()
+    }
+    
+    @objc
+    private func addImageButtonClicked() {
+        print(#function)
     }
     
     private func configureTextViewPlaceholder(_ textView: UITextView, placeholder: String) {

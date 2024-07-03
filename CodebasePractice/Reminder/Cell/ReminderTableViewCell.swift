@@ -15,16 +15,30 @@ final class ReminderTableViewCell: BaseTableViewCell {
     let titleLable = UILabel()
     let contentLabel = UILabel()
     let dateLabel = UILabel()
+    let flagImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "flag.fill")
+        imageView.tintColor = UIColor.systemOrange
+        imageView.isHidden = true
+        return imageView
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(titleLable)
+        contentView.addSubview(flagImageView)
         contentView.addSubview(contentLabel)
         contentView.addSubview(dateLabel)
         
         titleLable.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(8)
+            make.trailing.equalTo(flagImageView.snp.leading).offset(-8)
+        }
+        
+        flagImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLable.snp.centerY)
+            make.trailing.equalToSuperview().inset(20)
         }
         
         contentLabel.snp.makeConstraints { make in
@@ -47,7 +61,7 @@ final class ReminderTableViewCell: BaseTableViewCell {
         dateLabel.font = UIFont.systemFont(ofSize: 14)
     }
     
-    func configureContent(title: String, content: String? = nil, date: Date? = nil) {
+    func configureContent(title: String, content: String? = nil, date: Date? = nil, flag: Bool) {
         titleLable.text = title
         if let content {
             contentLabel.text = content
@@ -58,5 +72,6 @@ final class ReminderTableViewCell: BaseTableViewCell {
             formatter.dateFormat = "yyyy년 M월 d일 EEEE"
             dateLabel.text = formatter.string(from: date)
         }
+        flagImageView.isHidden = !flag
     }
 }
