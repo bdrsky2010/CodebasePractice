@@ -25,9 +25,9 @@ final class CreateReminderViewController: BaseViewController {
     }
     private var reminderTitle = ""
     private var reminderContents: String?
-    private var reminderDeadline: Date?
+    private var reminderDeadline = Date()
     
-    var delegate: ReminderUpdateDelegate?
+    weak var delegate: ReminderUpdateDelegate?
     
     override func loadView() {
         view = createReminderView
@@ -70,7 +70,13 @@ final class CreateReminderViewController: BaseViewController {
         createReminderView.contentTableView.delegate = self
         createReminderView.contentTableView.dataSource = self
         createReminderView.contentTableView.rowHeight = UITableView.automaticDimension
-        createReminderView.contentTableView.register(DeadlineTableViewCell.self, forCellReuseIdentifier: DeadlineTableViewCell.identifier)
+        
+        createReminderView.contentTableView.register(ReminderTextViewTableViewCell.self,
+                                                     forCellReuseIdentifier: ReminderTextViewTableViewCell.identifier)
+        createReminderView.contentTableView.register(DeadlineTableViewCell.self,
+                                                     forCellReuseIdentifier: DeadlineTableViewCell.identifier)
+        createReminderView.contentTableView.register(ReminderDatePickerTableViewCell.self,
+                                                     forCellReuseIdentifier: ReminderDatePickerTableViewCell.identifier)
     }
 }
 
@@ -89,74 +95,49 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        
         let category = ReminderCategory.allCases[indexPath.section]
         
         switch category {
         case .content:
-            let textView = UITextView()
-            textView.delegate = self
-            textView.backgroundColor = .clear
-            textView.tag = indexPath.row
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderTextViewTableViewCell.identifier,
+                                                           for: indexPath) as? ReminderTextViewTableViewCell else { return UITableViewCell() }
+            cell.textView.delegate = self
+            cell.textView.tag = indexPath.row
             if indexPath.row == 0 {
-                configurePlaceholder(textView: textView, placeholder: "제목")
-                cell.contentView.addSubview(textView)
-                textView.snp.makeConstraints { make in
-                    make.horizontalEdges.equalToSuperview().inset(12)
-                    make.verticalEdges.equalToSuperview()
-                    make.height.equalTo(44)
-                }
+                cell.configureLayout(option: .title)
+                configureTextViewPlaceholder(cell.textView, placeholder: "제목")
             } else {
-                configurePlaceholder(textView: textView, placeholder: "메모")
-                cell.contentView.addSubview(textView)
-                textView.snp.makeConstraints { make in
-                    make.horizontalEdges.equalToSuperview().inset(12)
-                    make.verticalEdges.equalToSuperview()
-                    make.height.equalTo(88)
-                }
+                cell.configureLayout(option: .content)
+                configureTextViewPlaceholder(cell.textView, placeholder: "메모")
             }
+            return cell
             
         case .deadline:
             if isShowCalendar, indexPath.row == 1 {
-                let datePicker = UIDatePicker()
-                datePicker.locale = Locale(identifier: "ko_KR")
-                datePicker.datePickerMode = .date
-                datePicker.preferredDatePickerStyle = .inline
-                datePicker.addTarget(self, action: #selector(changedValueDatePicker), for: .valueChanged)
-
-                cell.contentView.addSubview(datePicker)
-                datePicker.snp.makeConstraints { make in
-                    make.edges.equalToSuperview()
-                }
-                reminderDeadline = datePicker.date
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderDatePickerTableViewCell.identifier,
+                                                               for: indexPath) as? ReminderDatePickerTableViewCell else { return UITableViewCell() }
+                
+                cell.datePicker.addTarget(self, action: #selector(changedValueDatePicker), for: .valueChanged)
+                return cell
             } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: DeadlineTableViewCell.identifier, for: indexPath) as? DeadlineTableViewCell else { return UITableViewCell() }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: DeadlineTableViewCell.identifier,
+                                                               for: indexPath) as? DeadlineTableViewCell else { return UITableViewCell() }
                 cell.toggleButton.setOn(isShowCalendar, animated: true)
                 cell.toggleButton.addTarget(self, action: #selector(changedValuetoggleButton), for: .valueChanged)
+                
+                if isShowCalendar {
+                    cell.remakeConstraintsWithCalendar()
+                    cell.deadlineLabel.text = reminderDeadline.reminderString
+                }
                 return cell
             }
         }
-        return cell
     }
     
     @objc
     private func changedValueDatePicker(sender: UIDatePicker) {
         if let cell = createReminderView.contentTableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DeadlineTableViewCell {
-            cell.deadlineLabel.isHidden = false
-            cell.titleLabel.snp.remakeConstraints { make in
-                make.leading.equalToSuperview().offset(20)
-                make.bottom.equalTo(cell.toggleButton.snp.centerY).offset(-2)
-            }
-            cell.deadlineLabel.snp.remakeConstraints { make in
-                make.leading.equalToSuperview().offset(20)
-                make.top.equalTo(cell.toggleButton.snp.centerY).offset(2)
-            }
-            
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "ko_KR")
-            formatter.dateFormat = "yyyy년 M월 d일 EEEE"
-            cell.deadlineLabel.text = formatter.string(from: sender.date)
+            cell.deadlineLabel.text = sender.date.reminderString
             reminderDeadline = sender.date
         }
     }
@@ -164,12 +145,9 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
     @objc
     private func changedValuetoggleButton(sender: UISwitch) {
         isShowCalendar.toggle()
-        if !isShowCalendar {
-            reminderDeadline = nil
-        }
     }
     
-    private func configurePlaceholder(textView: UITextView, placeholder: String) {
+    private func configureTextViewPlaceholder(_ textView: UITextView, placeholder: String) {
         textView.text = placeholder
         textView.textColor = UIColor.systemGray
         textView.font = UIFont.boldSystemFont(ofSize: 14)
@@ -218,9 +196,9 @@ extension CreateReminderViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             
             if textView.tag == 0 {
-                configurePlaceholder(textView: textView, placeholder: "제목")
+                configureTextViewPlaceholder(textView, placeholder: "제목")
             } else {
-                configurePlaceholder(textView: textView, placeholder: "메모")
+                configureTextViewPlaceholder(textView, placeholder: "메모")
             }
         }
     }
