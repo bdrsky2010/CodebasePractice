@@ -27,6 +27,8 @@ final class CreateReminderViewController: BaseViewController {
     private var reminderContents: String?
     private var reminderDeadline: Date?
     
+    var delegate: ReminderUpdateDelegate?
+    
     override func loadView() {
         view = createReminderView
     }
@@ -60,6 +62,7 @@ final class CreateReminderViewController: BaseViewController {
             realm.add(reminder)
             print("Realm Create Succeed")
         }
+        delegate?.reloadMainCollectionView()
         dismiss(animated: true)
     }
     
@@ -156,7 +159,6 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
             cell.deadlineLabel.text = formatter.string(from: sender.date)
             reminderDeadline = sender.date
         }
-        
     }
     
     @objc

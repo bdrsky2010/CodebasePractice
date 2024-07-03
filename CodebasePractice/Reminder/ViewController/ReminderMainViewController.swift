@@ -105,6 +105,7 @@ final class ReminderMainViewController: BaseViewController {
     @objc
     private func createReminderButtonClicked() {
         let createReminderViewController = CreateReminderViewController()
+        createReminderViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: createReminderViewController)
         present(navigationController, animated: true)
     }
@@ -127,6 +128,7 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 2 {
             let allReminderViewController = AllReminderViewController()
+            allReminderViewController.delegate = self
             navigationController?.pushViewController(allReminderViewController, animated: true)
         }
     }
@@ -144,8 +146,8 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
             cell.configureImage(image: image, tintColor: option.tintColor)
         }
         cell.configureTitle(title: option.title)
+        
         switch option {
-            
         case .today:
             cell.configureCount(count: 0)
         case .schedule:
@@ -159,7 +161,6 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         case .completed:
             cell.configureCount(count: 0)
         }
-        
         return cell
     }
     
@@ -191,5 +192,12 @@ extension ReminderMainViewController {
             
         }
         return [editListAction, templateAction]
+    }
+}
+
+extension ReminderMainViewController: ReminderUpdateDelegate {
+    func reloadMainCollectionView() {
+        print(#function)
+        reminderMainView.reminderMainCollectionView.reloadData()
     }
 }

@@ -15,6 +15,8 @@ final class AllReminderViewController: BaseViewController {
     
     private var allReminderList: Results<Reminder>!
     
+    var delegate: ReminderUpdateDelegate?
+    
     override func loadView() {
         view = allReminderView
     }
@@ -58,6 +60,7 @@ extension AllReminderViewController: UITableViewDelegate, UITableViewDataSource 
                 realm.delete(reminder)
             }
             tableView.deleteRows(at: [indexPath], with: .bottom)
+            delegate?.reloadMainCollectionView()
             success(true)
         }
         deleteAction.image = UIImage(systemName: "trash.fill")

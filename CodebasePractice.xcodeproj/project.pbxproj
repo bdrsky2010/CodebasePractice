@@ -54,6 +54,7 @@
 		7B72EB6F2C34C430007CFAAF /* AllReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */; };
 		7B72EB712C34C436007CFAAF /* AllReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB702C34C436007CFAAF /* AllReminderView.swift */; };
 		7B72EB732C34C631007CFAAF /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */; };
+		7B72EB762C34CEB9007CFAAF /* ReminderUpdateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB752C34CEB9007CFAAF /* ReminderUpdateDelegate.swift */; };
 		7B823D4E2C22AF1E009567EE /* WeatherBotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */; };
 		7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */; };
 		7B823D532C22D8B1009567EE /* PopupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D522C22D8B1009567EE /* PopupMapViewController.swift */; };
@@ -128,6 +129,7 @@
 		7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReminderViewController.swift; sourceTree = "<group>"; };
 		7B72EB702C34C436007CFAAF /* AllReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReminderView.swift; sourceTree = "<group>"; };
 		7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB752C34CEB9007CFAAF /* ReminderUpdateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderUpdateDelegate.swift; sourceTree = "<group>"; };
 		7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBotViewController.swift; sourceTree = "<group>"; };
 		7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherModel.swift; sourceTree = "<group>"; };
 		7B823D522C22D8B1009567EE /* PopupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMapViewController.swift; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 		7B72EB542C3413D2007CFAAF /* Reminder */ = {
 			isa = PBXGroup;
 			children = (
+				7B72EB742C34CE6F007CFAAF /* Delegate */,
 				7B72EB692C344F21007CFAAF /* Cell */,
 				7B72EB582C341470007CFAAF /* Model */,
 				7B72EB572C34146D007CFAAF /* View */,
@@ -395,6 +398,14 @@
 				7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		7B72EB742C34CE6F007CFAAF /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB752C34CEB9007CFAAF /* ReminderUpdateDelegate.swift */,
+			);
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 		7B823D4C2C22AE2A009567EE /* WeatherBot */ = {
@@ -688,6 +699,7 @@
 				7BD80CAE2C13130B001F8E3F /* BoxOfficeTableViewCell.swift in Sources */,
 				7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */,
 				7B1BF54F2C1754B800FC02AC /* CastTableViewCell.swift in Sources */,
+				7B72EB762C34CEB9007CFAAF /* ReminderUpdateDelegate.swift in Sources */,
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
 				7B72EB3D2C32B768007CFAAF /* RandomNasaImageViewController.swift in Sources */,
 				7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */,
