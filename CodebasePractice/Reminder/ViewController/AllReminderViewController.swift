@@ -15,7 +15,7 @@ final class AllReminderViewController: BaseViewController {
     
     private var allReminderList: Results<Reminder>!
     
-    var delegate: ReminderUpdateDelegate?
+    weak var delegate: ReminderUpdateDelegate?
     
     override func loadView() {
         view = allReminderView
@@ -31,8 +31,13 @@ final class AllReminderViewController: BaseViewController {
         configureTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     private func configureNavigation() {
-        
+        navigationItem.title = "전체"
     }
     
     private func configureTableView() {
