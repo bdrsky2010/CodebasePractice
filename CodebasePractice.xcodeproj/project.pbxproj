@@ -42,6 +42,18 @@
 		7B72EB452C32E5A1007CFAAF /* TMDBVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB442C32E5A1007CFAAF /* TMDBVideoView.swift */; };
 		7B72EB472C32E5B6007CFAAF /* TMDBVideoYoutubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB462C32E5B6007CFAAF /* TMDBVideoYoutubeView.swift */; };
 		7B72EB492C32E741007CFAAF /* TMDBVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB482C32E741007CFAAF /* TMDBVideoTableViewCell.swift */; };
+		7B72EB5B2C341BB3007CFAAF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B72EB5A2C341BB3007CFAAF /* RealmSwift */; };
+		7B72EB5E2C341BC5007CFAAF /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B72EB5D2C341BC5007CFAAF /* IQKeyboardManagerSwift */; };
+		7B72EB602C341C21007CFAAF /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB5F2C341C21007CFAAF /* ReminderModel.swift */; };
+		7B72EB622C3423BD007CFAAF /* ReminderMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB612C3423BD007CFAAF /* ReminderMainViewController.swift */; };
+		7B72EB642C3423DD007CFAAF /* ReminderMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB632C3423DD007CFAAF /* ReminderMainView.swift */; };
+		7B72EB662C343363007CFAAF /* CreateReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB652C343363007CFAAF /* CreateReminderViewController.swift */; };
+		7B72EB682C343368007CFAAF /* CreateReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB672C343368007CFAAF /* CreateReminderView.swift */; };
+		7B72EB6B2C344F81007CFAAF /* DeadlineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6A2C344F81007CFAAF /* DeadlineTableViewCell.swift */; };
+		7B72EB6D2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6C2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift */; };
+		7B72EB6F2C34C430007CFAAF /* AllReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */; };
+		7B72EB712C34C436007CFAAF /* AllReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB702C34C436007CFAAF /* AllReminderView.swift */; };
+		7B72EB732C34C631007CFAAF /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */; };
 		7B823D4E2C22AF1E009567EE /* WeatherBotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */; };
 		7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */; };
 		7B823D532C22D8B1009567EE /* PopupMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D522C22D8B1009567EE /* PopupMapViewController.swift */; };
@@ -106,6 +118,16 @@
 		7B72EB442C32E5A1007CFAAF /* TMDBVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBVideoView.swift; sourceTree = "<group>"; };
 		7B72EB462C32E5B6007CFAAF /* TMDBVideoYoutubeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBVideoYoutubeView.swift; sourceTree = "<group>"; };
 		7B72EB482C32E741007CFAAF /* TMDBVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBVideoTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB5F2C341C21007CFAAF /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
+		7B72EB612C3423BD007CFAAF /* ReminderMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderMainViewController.swift; sourceTree = "<group>"; };
+		7B72EB632C3423DD007CFAAF /* ReminderMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderMainView.swift; sourceTree = "<group>"; };
+		7B72EB652C343363007CFAAF /* CreateReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderViewController.swift; sourceTree = "<group>"; };
+		7B72EB672C343368007CFAAF /* CreateReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderView.swift; sourceTree = "<group>"; };
+		7B72EB6A2C344F81007CFAAF /* DeadlineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineTableViewCell.swift; sourceTree = "<group>"; };
+		7B72EB6C2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderMainCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReminderViewController.swift; sourceTree = "<group>"; };
+		7B72EB702C34C436007CFAAF /* AllReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReminderView.swift; sourceTree = "<group>"; };
+		7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
 		7B823D4D2C22AF1E009567EE /* WeatherBotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBotViewController.swift; sourceTree = "<group>"; };
 		7B823D4F2C22B54F009567EE /* OpenWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherModel.swift; sourceTree = "<group>"; };
 		7B823D522C22D8B1009567EE /* PopupMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMapViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +162,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B72EB5E2C341BC5007CFAAF /* IQKeyboardManagerSwift in Frameworks */,
+				7B72EB5B2C341BB3007CFAAF /* RealmSwift in Frameworks */,
 				7B5C13C92C11DC670096DE9E /* Alamofire in Frameworks */,
 				7B5C137B2C0EFED70096DE9E /* Kingfisher in Frameworks */,
 				7B5C13782C0EFECC0096DE9E /* SnapKit in Frameworks */,
@@ -220,6 +244,7 @@
 				7B1BF53B2C16CFDF00FC02AC /* Media */,
 				7B823D4C2C22AE2A009567EE /* WeatherBot */,
 				7B72EB362C32B56A007CFAAF /* RandomNasaImage */,
+				7B72EB542C3413D2007CFAAF /* Reminder */,
 				7B5C13602C0EFAEB0096DE9E /* AppDelegate.swift */,
 				7B5C13622C0EFAEB0096DE9E /* SceneDelegate.swift */,
 				7B5C13642C0EFAEB0096DE9E /* ViewController.swift */,
@@ -321,6 +346,55 @@
 				7B72EB462C32E5B6007CFAAF /* TMDBVideoYoutubeView.swift */,
 			);
 			path = YoutubeVideo;
+			sourceTree = "<group>";
+		};
+		7B72EB542C3413D2007CFAAF /* Reminder */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB692C344F21007CFAAF /* Cell */,
+				7B72EB582C341470007CFAAF /* Model */,
+				7B72EB572C34146D007CFAAF /* View */,
+				7B72EB562C34146A007CFAAF /* ViewController */,
+			);
+			path = Reminder;
+			sourceTree = "<group>";
+		};
+		7B72EB562C34146A007CFAAF /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB612C3423BD007CFAAF /* ReminderMainViewController.swift */,
+				7B72EB652C343363007CFAAF /* CreateReminderViewController.swift */,
+				7B72EB6E2C34C430007CFAAF /* AllReminderViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B72EB572C34146D007CFAAF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB632C3423DD007CFAAF /* ReminderMainView.swift */,
+				7B72EB672C343368007CFAAF /* CreateReminderView.swift */,
+				7B72EB702C34C436007CFAAF /* AllReminderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B72EB582C341470007CFAAF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB5F2C341C21007CFAAF /* ReminderModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7B72EB692C344F21007CFAAF /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7B72EB6A2C344F81007CFAAF /* DeadlineTableViewCell.swift */,
+				7B72EB6C2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift */,
+				7B72EB722C34C631007CFAAF /* ReminderTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		7B823D4C2C22AE2A009567EE /* WeatherBot */ = {
@@ -524,6 +598,8 @@
 				7B5C13772C0EFECC0096DE9E /* SnapKit */,
 				7B5C137A2C0EFED70096DE9E /* Kingfisher */,
 				7B5C13C82C11DC670096DE9E /* Alamofire */,
+				7B72EB5A2C341BB3007CFAAF /* RealmSwift */,
+				7B72EB5D2C341BC5007CFAAF /* IQKeyboardManagerSwift */,
 			);
 			productName = CodebasePractice;
 			productReference = 7B5C135D2C0EFAEB0096DE9E /* CodebasePractice.app */;
@@ -557,6 +633,8 @@
 				7B5C13762C0EFECC0096DE9E /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7B5C13792C0EFED70096DE9E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				7B5C13C72C11DC670096DE9E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7B72EB592C341BB3007CFAAF /* XCRemoteSwiftPackageReference "realm-swift" */,
+				7B72EB5C2C341BC5007CFAAF /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 7B5C135E2C0EFAEB0096DE9E /* Products */;
 			projectDirPath = "";
@@ -587,12 +665,17 @@
 			files = (
 				7B9BCBEB2C2C55170082AE38 /* MovieSearchView.swift in Sources */,
 				7B5C13C32C11B9F30096DE9E /* LottoViewController.swift in Sources */,
+				7B72EB682C343368007CFAAF /* CreateReminderView.swift in Sources */,
 				7B1BF5622C18458300FC02AC /* MovieSearchCollectionViewCell.swift in Sources */,
 				7B9BCB9B2C2AA5FC0082AE38 /* NetworkManager.swift in Sources */,
 				7B5C13C52C11D0480096DE9E /* UINavigationController+.swift in Sources */,
+				7B72EB712C34C436007CFAAF /* AllReminderView.swift in Sources */,
 				7B9BCBCE2C2C06290082AE38 /* Lotto.swift in Sources */,
+				7B72EB6B2C344F81007CFAAF /* DeadlineTableViewCell.swift in Sources */,
+				7B72EB6F2C34C430007CFAAF /* AllReminderViewController.swift in Sources */,
 				7B1BF5512C17615500FC02AC /* MediaDelegate.swift in Sources */,
 				7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */,
+				7B72EB602C341C21007CFAAF /* ReminderModel.swift in Sources */,
 				7B72EB492C32E741007CFAAF /* TMDBVideoTableViewCell.swift in Sources */,
 				7B9BCBDA2C2C08970082AE38 /* LottoView.swift in Sources */,
 				7B5C137F2C0F02670096DE9E /* HomeViewController.swift in Sources */,
@@ -608,14 +691,18 @@
 				7B5C13822C0F02B00096DE9E /* NewAndHotViewController.swift in Sources */,
 				7B72EB3D2C32B768007CFAAF /* RandomNasaImageViewController.swift in Sources */,
 				7B9BCB762C2978790082AE38 /* RecommendMovieCollectionViewCell.swift in Sources */,
+				7B72EB622C3423BD007CFAAF /* ReminderMainViewController.swift in Sources */,
 				7B1BF5472C171F2900FC02AC /* UIImageView+.swift in Sources */,
+				7B72EB662C343363007CFAAF /* CreateReminderViewController.swift in Sources */,
 				7B823D592C22ECF5009567EE /* Date+.swift in Sources */,
 				7B9BCBA42C2ABC670082AE38 /* BaseView.swift in Sources */,
 				7B823D572C22E285009567EE /* ImageTableViewCell.swift in Sources */,
 				7B72EB402C32E543007CFAAF /* TMDBVideoViewController.swift in Sources */,
+				7B72EB732C34C631007CFAAF /* ReminderTableViewCell.swift in Sources */,
 				7B823D502C22B54F009567EE /* OpenWeatherModel.swift in Sources */,
 				7B9BCBC92C2BF4270082AE38 /* BoxOffice.swift in Sources */,
 				7B9BCB742C2960D60082AE38 /* TMDBRecommendViewController.swift in Sources */,
+				7B72EB6D2C34B8D3007CFAAF /* ReminderMainCollectionViewCell.swift in Sources */,
 				7B9BCBDC2C2C0ED70082AE38 /* BoxOfficeView.swift in Sources */,
 				7B9BCB9E2C2ABC410082AE38 /* BaseViewController.swift in Sources */,
 				7B9BCBE02C2C50190082AE38 /* PopupMapView.swift in Sources */,
@@ -628,6 +715,7 @@
 				7B5C13882C0FDE480096DE9E /* LoginViewController.swift in Sources */,
 				7B72EB3B2C32B75C007CFAAF /* RandomNasaImageView.swift in Sources */,
 				7B5C13842C0F02C80096DE9E /* SaveContentsViewController.swift in Sources */,
+				7B72EB642C3423DD007CFAAF /* ReminderMainView.swift in Sources */,
 				7B9BCBDE2C2C4F7D0082AE38 /* WeatherView.swift in Sources */,
 				7B1BF54D2C1754AD00FC02AC /* OverViewTableViewCell.swift in Sources */,
 				7B823D552C22DFB1009567EE /* MessageTableViewCell.swift in Sources */,
@@ -891,6 +979,22 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		7B72EB592C341BB3007CFAAF /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		7B72EB5C2C341BC5007CFAAF /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -908,6 +1012,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B5C13C72C11DC670096DE9E /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		7B72EB5A2C341BB3007CFAAF /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B72EB592C341BB3007CFAAF /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		7B72EB5D2C341BC5007CFAAF /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B72EB5C2C341BC5007CFAAF /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
