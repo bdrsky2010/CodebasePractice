@@ -57,36 +57,10 @@ final class ReminderListViewController: BaseViewController {
         let tempList = realm.objects(Reminder.self).sorted(byKeyPath: "registerDate", ascending: true).filter { _ in true }
         switch reminderOption {
         case .today:
-//            list = tempList.filter {
-//                if let deadline = $0.deadline {
-//                    return deadline.isToday
-//                }
-//                return false
-//            }
-//            reminderList = tempList.filter {
-//                if let deadline = $0.deadline {
-//                    return deadline.isToday
-//                }
-//                return false
-//            }
             reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date())
         case .schedule:
-//            list = tempList.filter {
-//                if let deadline = $0.deadline {
-//                    return deadline.isSchedule
-//                }
-//                return false
-//            }
-//            
-//            reminderList = tempList.filter {
-//                if let deadline = $0.deadline {
-//                    return deadline.isSchedule
-//                }
-//                return false
-//            }
-            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline >= %@", Date())
+            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@} or deadline > %@", Date(timeInterval: -86400, since: Date()), Date(), Date())
         case .all:
-//            list = tempList.filter{ _ in true }
             reminderList = realm.objects(Reminder.self)
         case .flag:
             list = tempList.filter { $0.flag }

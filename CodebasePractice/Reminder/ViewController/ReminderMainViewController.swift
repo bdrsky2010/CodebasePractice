@@ -208,40 +208,26 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         switch option {
         case .today:
             let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date()).count
-//            let count = realm.objects(Reminder.self)
-//                .where { $0.deadline != nil }
-//                .filter {
-//                    if let deadline = $0.deadline {
-//                        return deadline.isToday
-//                    }
-//                    return false
-//                }.count
             cell.configureCount(count: count)
+            
         case .schedule:
-            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline > %@", Date()).count
-//            let count = realm.objects(Reminder.self)
-//                .where { $0.deadline != nil }
-//                .filter {
-//                    if let deadline = $0.deadline {
-//                        return deadline.isSchedule
-//                    }
-//                    return false
-//                }.count
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@} or deadline > %@", Date(timeInterval: -86400, since: Date()), Date(), Date()).count
             cell.configureCount(count: count)
+            
         case .all:
             let count = realm.objects(Reminder.self).count
             cell.configureCount(count: count)
+            
         case .flag:
             let count = realm.objects(Reminder.self).where { $0.flag }.count
             cell.configureCount(count: count)
+            
         case .completed:
             let count = realm.objects(Reminder.self).where { $0.isComplete }.count
             cell.configureCount(count: count)
         }
         return cell
     }
-    
-    
 }
 
 extension ReminderMainViewController: UISearchBarDelegate {
