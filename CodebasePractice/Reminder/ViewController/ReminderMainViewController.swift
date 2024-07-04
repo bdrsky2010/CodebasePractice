@@ -207,8 +207,7 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         let realm = try! Realm()
         switch option {
         case .today:
-            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline >= %@ AND deadline < %@", Date(), Date(timeInterval: 86400, since: Date())).count
-            print(count)
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date()).count
 //            let count = realm.objects(Reminder.self)
 //                .where { $0.deadline != nil }
 //                .filter {

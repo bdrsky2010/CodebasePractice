@@ -69,7 +69,7 @@ final class ReminderListViewController: BaseViewController {
 //                }
 //                return false
 //            }
-            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline == %@", Date())
+            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date())
         case .schedule:
 //            list = tempList.filter {
 //                if let deadline = $0.deadline {
