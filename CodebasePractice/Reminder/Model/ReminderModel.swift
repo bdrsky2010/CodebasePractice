@@ -22,22 +22,22 @@ class Reminder: Object {
     @Persisted var title: String
     @Persisted var content: String?
     @Persisted var deadline: Date?
-    @Persisted var time: Date?
     @Persisted var tag: List<String>
     @Persisted var flag: Bool
     @Persisted var priority: Priority
+    @Persisted var imageIDs: List<String>
     @Persisted var registerDate: Date
     
-    convenience init(title: String, content: String? = nil, deadline: Date? = nil, time: Date? = nil, tag: List<String> = List<String>(), flag: Bool, priority: Priority) {
+    convenience init(title: String, content: String? = nil, deadline: Date? = nil, tag: List<String>, flag: Bool, priority: Priority, imageIDs: List<String>) {
         self.init()
         self.isComplete = false
         self.title = title
         self.content = content
         self.deadline = deadline
-        self.time = time
         self.tag = tag
         self.flag = flag
         self.priority = priority
+        self.imageIDs = imageIDs
         self.registerDate = Date()
     }
 }
