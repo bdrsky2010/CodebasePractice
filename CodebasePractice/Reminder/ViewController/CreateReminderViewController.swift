@@ -30,8 +30,10 @@ final class CreateReminderViewController: BaseViewController {
     private var reminderTitle = ""
     private var reminderContents: String?
     private var reminderDeadline: Date?
+    private var reminderTag = List<String>()
     private var reminderFlag = false
     private var reminderPriority = Priority.none
+    private var reminderImageIDs = List<String>()
     
     weak var delegate: ReminderUpdateDelegate?
     
@@ -63,7 +65,7 @@ final class CreateReminderViewController: BaseViewController {
     @objc
     private func addButtonClicked() {
         let realm = try! Realm()
-        let reminder = Reminder(title: reminderTitle, content: reminderContents, deadline: reminderDeadline, flag: reminderFlag, priority: reminderPriority)
+        let reminder = Reminder(title: reminderTitle, content: reminderContents, deadline: reminderDeadline, tag: reminderTag, flag: reminderFlag, priority: reminderPriority, imageIDs: reminderImageIDs)
         try! realm.write {
             realm.add(reminder)
             print("Realm Create Succeed")
