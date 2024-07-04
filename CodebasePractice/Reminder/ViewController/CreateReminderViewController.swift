@@ -29,7 +29,7 @@ final class CreateReminderViewController: BaseViewController {
     }
     private var reminderTitle = ""
     private var reminderContents: String?
-    private var reminderDeadline = Date()
+    private var reminderDeadline: Date?
     private var reminderFlag = false
     private var reminderPriority = Priority.none
     
@@ -142,7 +142,7 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
                 
                 if isShowDatePicker {
                     cell.remakeConstraintsWithCalendar()
-                    cell.deadlineLabel.text = reminderDeadline.reminderString
+                    cell.deadlineLabel.text = reminderDeadline?.reminderString
                 }
                 return cell
             }
@@ -209,6 +209,14 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
     @objc
     private func changedValueIsShowDatePickerSwitch(sender: UISwitch) {
         isShowDatePicker.toggle()
+        if !isShowDatePicker { // 데이트 피커가 화면에 사라지면 데이트 피커 데이터를 받아왔던 프로퍼티에 nil 대입
+            reminderDeadline = nil
+        } else { // 데이트 피커가 화면에 보여지면 데이트 피커의 날짜 데이터를 받아오고 테이블뷰를 리로드하여 날짜 레이블을 갱신
+            if let cell = createReminderView.contentTableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ReminderDatePickerTableViewCell {
+                reminderDeadline = cell.datePicker.date
+                createReminderView.contentTableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .none)
+            }
+        }
     }
     
     @objc
