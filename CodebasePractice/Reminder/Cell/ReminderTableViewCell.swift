@@ -11,7 +11,7 @@ import SnapKit
 
 
 final class ReminderTableViewCell: BaseTableViewCell {
-    
+    let completeButton = UIButton(type: .system)
     let titleLable = UILabel()
     let contentLabel = UILabel()
     let dateLabel = UILabel()
@@ -25,14 +25,27 @@ final class ReminderTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        configureUI()
+    }
+    
+    override func configureHierarchy() {
+        contentView.addSubview(completeButton)
         contentView.addSubview(titleLable)
         contentView.addSubview(flagImageView)
         contentView.addSubview(contentLabel)
         contentView.addSubview(dateLabel)
+    }
+    
+    override func configureLayout() {
+        completeButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview().offset(20)
+            make.width.equalTo(completeButton.snp.height)
+        }
         
         titleLable.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(8)
+            make.centerY.equalTo(completeButton.snp.centerY)
+            make.leading.equalTo(completeButton.snp.trailing).offset(16)
             make.trailing.equalTo(flagImageView.snp.leading).offset(-8)
         }
         
@@ -43,14 +56,20 @@ final class ReminderTableViewCell: BaseTableViewCell {
         
         contentLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLable.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(8)
+            make.leading.equalTo(titleLable.snp.leading)
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(8)
-            make.bottom.equalToSuperview().inset(8)
+            make.leading.equalTo(titleLable.snp.leading)
+            make.bottom.equalToSuperview().inset(12)
         }
+    }
+    
+    private func configureUI() {
+        completeButton.configuration = .plain()
+        completeButton.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 14, weight: .bold)
+        completeButton.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         titleLable.textColor = UIColor.label
         titleLable.font = UIFont.boldSystemFont(ofSize: 14)
@@ -61,7 +80,8 @@ final class ReminderTableViewCell: BaseTableViewCell {
         dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
     }
     
-    func configureContent(title: String, content: String? = nil, date: Date? = nil, flag: Bool) {
+    func configureContent(isComplete: Bool, title: String, content: String? = nil, date: Date? = nil, flag: Bool) {
+        configureButtonContent(isComplete: isComplete)
         titleLable.text = title
         if let content {
             contentLabel.text = content
@@ -73,5 +93,15 @@ final class ReminderTableViewCell: BaseTableViewCell {
             dateLabel.text = formatter.string(from: date)
         }
         flagImageView.isHidden = !flag
+    }
+    
+    private func configureButtonContent(isComplete: Bool) {
+        if isComplete {
+            completeButton.configuration?.image = UIImage(systemName: "largecircle.fill.circle")
+            completeButton.configuration?.baseForegroundColor = UIColor.systemOrange
+        } else {
+            completeButton.configuration?.image = UIImage(systemName: "circle")
+            completeButton.configuration?.baseForegroundColor = UIColor.systemGray
+        }
     }
 }

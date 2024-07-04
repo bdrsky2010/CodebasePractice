@@ -36,6 +36,11 @@ final class ReminderListViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let appearance = UINavigationBarAppearance()
+        appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: reminderOption?.tintColor ?? UIColor.label]
+        appearance.backgroundColor = UIColor.clear.withAlphaComponent(1)
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
@@ -135,7 +140,7 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
         let index = indexPath.row
         let reminder = reminderList[index]
 //        let reminder = list[index]
-        cell.configureContent(title: reminder.title, content: reminder.content, date: reminder.deadline, flag: reminder.flag)
+        cell.configureContent(isComplete: reminder.isComplete, title: reminder.title, content: reminder.content, date: reminder.deadline, flag: reminder.flag)
         
         return cell
     }
