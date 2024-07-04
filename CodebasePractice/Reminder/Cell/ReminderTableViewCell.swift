@@ -53,12 +53,12 @@ final class ReminderTableViewCell: BaseTableViewCell {
         }
         
         titleLable.textColor = UIColor.label
-        titleLable.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLable.font = UIFont.boldSystemFont(ofSize: 14)
         
         contentLabel.textColor = UIColor.systemGray
-        contentLabel.font = UIFont.systemFont(ofSize: 14)
+        contentLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
         dateLabel.textColor = UIColor.systemGray
-        dateLabel.font = UIFont.systemFont(ofSize: 14)
+        dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
     }
     
     func configureContent(title: String, content: String? = nil, date: Date? = nil, flag: Bool) {
