@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B08577D2C36C8CE008422EA /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B08577C2C36C8CE008422EA /* ReminderManager.swift */; };
 		7B1BF53D2C16D9C300FC02AC /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */; };
 		7B1BF5412C16DC0800FC02AC /* MediaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5402C16DC0800FC02AC /* MediaModel.swift */; };
 		7B1BF5452C17078700FC02AC /* MovieTrendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */; };
@@ -106,6 +107,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7B08577C2C36C8CE008422EA /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
 		7B1BF53C2C16D9C300FC02AC /* MediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		7B1BF5402C16DC0800FC02AC /* MediaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModel.swift; sourceTree = "<group>"; };
 		7B1BF5442C17078700FC02AC /* MovieTrendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTrendTableViewCell.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				7B9BCB9A2C2AA5FC0082AE38 /* NetworkManager.swift */,
+				7B08577C2C36C8CE008422EA /* ReminderManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -723,6 +726,7 @@
 				7B9BCB7A2C2981B70082AE38 /* RecommendMovieTableViewCell.swift in Sources */,
 				7B72EB602C341C21007CFAAF /* ReminderModel.swift in Sources */,
 				7B72EB492C32E741007CFAAF /* TMDBVideoTableViewCell.swift in Sources */,
+				7B08577D2C36C8CE008422EA /* ReminderManager.swift in Sources */,
 				7B9BCBDA2C2C08970082AE38 /* LottoView.swift in Sources */,
 				7B5C137F2C0F02670096DE9E /* HomeViewController.swift in Sources */,
 				7B5C13652C0EFAEB0096DE9E /* ViewController.swift in Sources */,
