@@ -13,8 +13,8 @@ final class ReminderListViewController: BaseViewController {
     
     private let allReminderView = AllReminderView()
     
+    private var reminderList: Results<Reminder>!
 //    private var reminderList: LazyFilterSequence<Results<Reminder>>!
-    private var reminderList: LazyFilterSequence<Results<Reminder>>!
     private var list: [Reminder] = []
     
     weak var delegate: ReminderUpdateDelegate?
@@ -40,7 +40,9 @@ final class ReminderListViewController: BaseViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = "전체"
+        if let reminderOption {
+            navigationItem.title = reminderOption.title
+        }
     }
     
     private func configureTableView() {
@@ -55,41 +57,43 @@ final class ReminderListViewController: BaseViewController {
         let tempList = realm.objects(Reminder.self).sorted(byKeyPath: "registerDate", ascending: true).filter { _ in true }
         switch reminderOption {
         case .today:
-            list = tempList.filter {
-                if let deadline = $0.deadline {
-                    return deadline.isToday
-                }
-                return false
-            }
-            reminderList = tempList.filter {
-                if let deadline = $0.deadline {
-                    return deadline.isToday
-                }
-                return false
-            }
+//            list = tempList.filter {
+//                if let deadline = $0.deadline {
+//                    return deadline.isToday
+//                }
+//                return false
+//            }
+//            reminderList = tempList.filter {
+//                if let deadline = $0.deadline {
+//                    return deadline.isToday
+//                }
+//                return false
+//            }
+            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline == %@", Date())
         case .schedule:
-            list = tempList.filter {
-                if let deadline = $0.deadline {
-                    return deadline.isSchedule
-                }
-                return false
-            }
-            
-            reminderList = tempList.filter {
-                if let deadline = $0.deadline {
-                    return deadline.isSchedule
-                }
-                return false
-            }
+//            list = tempList.filter {
+//                if let deadline = $0.deadline {
+//                    return deadline.isSchedule
+//                }
+//                return false
+//            }
+//            
+//            reminderList = tempList.filter {
+//                if let deadline = $0.deadline {
+//                    return deadline.isSchedule
+//                }
+//                return false
+//            }
+            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline >= %@", Date())
         case .all:
-            list = tempList.filter{ _ in true }
-            reminderList = tempList
+//            list = tempList.filter{ _ in true }
+            reminderList = realm.objects(Reminder.self)
         case .flag:
             list = tempList.filter { $0.flag }
-            reminderList = tempList.filter { $0.flag }
+            reminderList = realm.objects(Reminder.self).where { $0.flag }
         case .completed:
             list = tempList.filter { $0.isComplete }
-            reminderList = tempList.filter { $0.isComplete }
+            reminderList = realm.objects(Reminder.self).where { $0.isComplete }
         }
         allReminderView.reminderTableView.reloadData()
     }
@@ -147,16 +151,16 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return reminderList.count
-        return list.count
+        return reminderList.count
+//        return list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderTableViewCell.identifier, for: indexPath) as? ReminderTableViewCell else { return UITableViewCell()}
         
         let index = indexPath.row
-//        let reminder = reminderList[index]
-        let reminder = list[index]
+        let reminder = reminderList[index]
+//        let reminder = list[index]
         cell.configureContent(title: reminder.title, content: reminder.content, date: reminder.deadline, flag: reminder.flag)
         
         return cell

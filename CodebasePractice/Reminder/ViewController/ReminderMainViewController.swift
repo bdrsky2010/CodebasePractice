@@ -74,6 +74,8 @@ final class ReminderMainViewController: BaseViewController {
         super.viewDidLoad()
         configureNavigation()
         configureTableView()
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
     }
     
     override func configureView() {
@@ -205,7 +207,7 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         let realm = try! Realm()
         switch option {
         case .today:
-            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline >= %@ ").count
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline >= %@ AND deadline < %@", Date(), Date(timeInterval: 86400, since: Date())).count
             print(count)
 //            let count = realm.objects(Reminder.self)
 //                .where { $0.deadline != nil }
@@ -217,14 +219,15 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
 //                }.count
             cell.configureCount(count: count)
         case .schedule:
-            let count = realm.objects(Reminder.self)
-                .where { $0.deadline != nil }
-                .filter {
-                    if let deadline = $0.deadline {
-                        return deadline.isSchedule
-                    }
-                    return false
-                }.count
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline > %@", Date()).count
+//            let count = realm.objects(Reminder.self)
+//                .where { $0.deadline != nil }
+//                .filter {
+//                    if let deadline = $0.deadline {
+//                        return deadline.isSchedule
+//                    }
+//                    return false
+//                }.count
             cell.configureCount(count: count)
         case .all:
             let count = realm.objects(Reminder.self).count
