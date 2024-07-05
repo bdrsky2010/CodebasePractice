@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AVFoundation
+import PhotosUI
 
 import RealmSwift
 
@@ -48,6 +50,7 @@ final class CreateReminderViewController: BaseViewController {
     private var reminderFlag = false
     private var reminderPriority = Priority.none
     private var reminderImageIDs = List<String>()
+    private var selectedImageList = [UIImage]()
     
     weak var delegate: ReminderUpdateDelegate?
     
@@ -93,6 +96,8 @@ final class CreateReminderViewController: BaseViewController {
         createReminderView.contentTableView.dataSource = self
         createReminderView.contentTableView.rowHeight = UITableView.automaticDimension
         createReminderView.contentTableView.keyboardDismissMode = .onDrag
+        createReminderView.contentTableView.allowsSelection = false
+        
         let tableViewCellList = [
             ReminderTextViewTableViewCell.self,
             ReminderSwitchTableViewCell.self,
@@ -210,11 +215,11 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
                 guard let self else { return }
                 switch action.title {
                 case ImageAddOption.film.rawValue:
-                    print(action.title)
+                    presentCamera()
                 case ImageAddOption.album.rawValue:
-                    print(action.title)
+                    presentPHPicker()
                 default:
-                    return
+                    presentPHPicker()
                 }
             }
             
@@ -225,6 +230,29 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
             cell.titleButton.showsMenuAsPrimaryAction = true
             return cell
         }
+    }
+    
+    private func presentCamera() {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] isAuthorized in
+            guard let self else { return }
+            guard isAuthorized else {
+                presentAlertMoveToSetting()
+                return
+            }
+        }
+    }
+    
+    private func presentAlertMoveToSetting() {
+        
+    }
+    
+    private func presentPHPicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images, .livePhotos, .screenshots])
+        let photoPicker = PHPickerViewController(configuration: configuration)
+        photoPicker.delegate = self
+        present(photoPicker, animated: true)
     }
     
     @objc
@@ -257,6 +285,26 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
         textView.text = placeholder
         textView.textColor = UIColor.systemGray
         textView.font = UIFont.boldSystemFont(ofSize: 14)
+    }
+}
+
+extension CreateReminderViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        if let itemProvider = results.first?.itemProvider,
+           itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                if let error {
+                    print(error)
+                } else {
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self, let image = image as? UIImage else { return }
+                        selectedImageList.append(image)
+                        print(selectedImageList)
+                    }
+                }
+            }
+        }
+        dismiss(animated: true)
     }
 }
 
