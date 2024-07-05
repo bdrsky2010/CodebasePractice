@@ -18,6 +18,20 @@ fileprivate enum ReminderCategory: String, CaseIterable {
     case image = "이미지 추가"
 }
 
+fileprivate enum ImageAddOption: String, CaseIterable {
+    case film = "사진 찍기"
+    case album = "사진 보관함"
+    
+    var image: UIImage? {
+        switch self {
+        case .film:
+            return UIImage(systemName: "camera")
+        case .album:
+            return UIImage(systemName: "photo.on.rectangle")
+        }
+    }
+}
+
 final class CreateReminderViewController: BaseViewController {
     
     private let createReminderView = CreateReminderView()
@@ -167,7 +181,7 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
         case .priority:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderPopupButtonTableViewCell.identifier,
                                                            for: indexPath) as? ReminderPopupButtonTableViewCell else { return UITableViewCell() }
-            let popButtonHandler = { [weak self] (action: UIAction) in
+            let popupButtonHandler = { [weak self] (action: UIAction) in
                 guard let self else { return }
                 switch action.title {
                 case Priority.none.rawValue:
@@ -184,18 +198,31 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
                 tableView.reloadRows(at: [indexPath], with: .none)
             }
             cell.titleLabel.text = category.rawValue
-            cell.popupButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: reminderPriority.rawValue,
-                                                                                                  attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
-            cell.popupButton.menu = UIMenu(children: Priority.allCases.map { UIAction(title: $0.rawValue, handler: popButtonHandler) })
+            cell.popupButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: reminderPriority.rawValue, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
+            cell.popupButton.menu = UIMenu(children: Priority.allCases.map { UIAction(title: $0.rawValue, handler: popupButtonHandler) })
             cell.popupButton.showsMenuAsPrimaryAction = true
             return cell
             
         case .image:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderLeadingButtonTableViewCell.identifier,
                                                            for: indexPath) as? ReminderLeadingButtonTableViewCell else { return UITableViewCell() }
-            cell.titleButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: category.rawValue,
-                                                                                                  attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
-            cell.titleButton.addTarget(self, action: #selector(addImageButtonClicked), for: .touchUpInside)
+            let pulldownButtonHandler = { [weak self] (action: UIAction) in
+                guard let self else { return }
+                switch action.title {
+                case ImageAddOption.film.rawValue:
+                    print(action.title)
+                case ImageAddOption.album.rawValue:
+                    print(action.title)
+                default:
+                    return
+                }
+            }
+            
+            cell.titleButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: category.rawValue, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
+            cell.titleButton.menu = UIMenu(children: ImageAddOption.allCases.map {
+                UIAction(title: $0.rawValue, image: $0.image, handler: pulldownButtonHandler)
+            })
+            cell.titleButton.showsMenuAsPrimaryAction = true
             return cell
         }
     }
@@ -224,11 +251,6 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
     @objc
     private func changedValueReminderFlagSwitch(sender: UISwitch) {
         reminderFlag.toggle()
-    }
-    
-    @objc
-    private func addImageButtonClicked() {
-        print(#function)
     }
     
     private func configureTextViewPlaceholder(_ textView: UITextView, placeholder: String) {
