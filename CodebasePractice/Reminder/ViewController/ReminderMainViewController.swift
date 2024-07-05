@@ -113,6 +113,7 @@ final class ReminderMainViewController: BaseViewController {
         let searchController = UISearchController()
         searchController.searchBar.placeholder = "검색"
         searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
+        searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         
