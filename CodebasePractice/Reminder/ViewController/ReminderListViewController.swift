@@ -38,7 +38,7 @@ final class ReminderListViewController: BaseViewController {
         super.viewWillAppear(animated)
         let appearance = UINavigationBarAppearance()
         appearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: reminderOption?.tintColor ?? UIColor.label]
-        appearance.backgroundColor = UIColor.clear.withAlphaComponent(1)
+        appearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(1)
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         navigationController?.navigationBar.prefersLargeTitles = true
