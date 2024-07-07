@@ -10,6 +10,7 @@ import AVFoundation
 import PhotosUI
 
 import RealmSwift
+import Realm
 
 fileprivate enum ReminderCategory: String, CaseIterable {
     case content
@@ -82,8 +83,16 @@ final class CreateReminderViewController: BaseViewController {
     
     @objc
     private func addButtonClicked() {
+        // 선택한 사진을 저장하기 위해 UUID().uuidString으로 문자열로된 uuid값을 갖는 배열의 요소를 생성(선택한 사진의 갯수만큼)
+        selectedImageList.forEach { _ in reminderImageIDs.append(UUID().uuidString) }
+        
+        // 위에서 생성해주는 UUID().uuidString 값을 갖는 배열을 순회하면서 Document에 이미지 저장
+        reminderImageIDs.indices.forEach { ReminderManager.shared.saveImageToDocument(image: selectedImageList[$0], filename: reminderImageIDs[$0]) }
+        
+        // 해당 뷰컨트롤러에서 저장하려는 데이터를 기반으로 Reminder 객체 생성
         let reminder = Reminder(title: reminderTitle, content: reminderContents, deadline: reminderDeadline, tag: reminderTag, flag: reminderFlag, priority: reminderPriority, imageIDs: reminderImageIDs)
         
+        // Reminder 객체를 RealmDatabase를 통해 Document에 저장
         do {
             try repository.createReminder(reminder)
         } catch {
@@ -110,7 +119,8 @@ final class CreateReminderViewController: BaseViewController {
             ReminderDatePickerTableViewCell.self,
             ReminderImageTableViewCell.self,
             ReminderLeadingButtonTableViewCell.self,
-            ReminderPopupButtonTableViewCell.self
+            ReminderPopupButtonTableViewCell.self,
+            ReminderImageAddAndEditTableViewCell.self
         ]
         tableViewCellList.forEach {
             createReminderView.contentTableView.register($0.self, forCellReuseIdentifier: $0.identifier)
@@ -243,26 +253,33 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
             return cell
             
         case .image:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderLeadingButtonTableViewCell.identifier,
-                                                           for: indexPath) as? ReminderLeadingButtonTableViewCell else { return UITableViewCell() }
-            let pulldownButtonHandler = { [weak self] (action: UIAction) in
-                guard let self else { return }
-                switch action.title {
-                case ImageAddOption.film.rawValue:
-                    presentCamera()
-                case ImageAddOption.album.rawValue:
-                    presentPHPicker()
-                default:
-                    presentPHPicker()
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderLeadingButtonTableViewCell.identifier,
+                                                               for: indexPath) as? ReminderLeadingButtonTableViewCell else { return UITableViewCell() }
+                let pulldownButtonHandler = { [weak self] (action: UIAction) in
+                    guard let self else { return }
+                    switch action.title {
+                    case ImageAddOption.film.rawValue:
+                        presentCamera()
+                    case ImageAddOption.album.rawValue:
+                        presentPHPicker()
+                    default:
+                        presentPHPicker()
+                    }
                 }
+                
+                cell.titleButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: category.rawValue, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
+                cell.titleButton.menu = UIMenu(children: ImageAddOption.allCases.map {
+                    UIAction(title: $0.rawValue, image: $0.image, handler: pulldownButtonHandler)
+                })
+                cell.titleButton.showsMenuAsPrimaryAction = true
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: ReminderImageAddAndEditTableViewCell.identifier,
+                                                               for: indexPath) as? ReminderImageAddAndEditTableViewCell else { return UITableViewCell() }
+                cell.configureImage(image: selectedImageList[indexPath.row - 1])
+                return cell
             }
-            
-            cell.titleButton.configuration?.attributedTitle = AttributedString(NSAttributedString(string: category.rawValue, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
-            cell.titleButton.menu = UIMenu(children: ImageAddOption.allCases.map {
-                UIAction(title: $0.rawValue, image: $0.image, handler: pulldownButtonHandler)
-            })
-            cell.titleButton.showsMenuAsPrimaryAction = true
-            return cell
         }
     }
     
