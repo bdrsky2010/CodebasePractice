@@ -14,7 +14,6 @@ final class ReminderListViewController: BaseViewController {
     private let allReminderView = AllReminderView()
     
     private var reminderList: Results<Reminder>!
-//    private var reminderList: LazyFilterSequence<Results<Reminder>>!
     private var list: [Reminder] = []
     
     weak var delegate: ReminderUpdateDelegate?
@@ -55,23 +54,22 @@ final class ReminderListViewController: BaseViewController {
         allReminderView.reminderTableView.dataSource = self
         allReminderView.reminderTableView.register(ReminderTableViewCell.self, forCellReuseIdentifier: ReminderTableViewCell.identifier)
         allReminderView.reminderTableView.rowHeight = UITableView.automaticDimension
+        allReminderView.reminderTableView.allowsSelection = false
     }
     
     func configureList(reminderOption: ReminderOption) {
         let realm = try! Realm()
-        let tempList = realm.objects(Reminder.self).sorted(byKeyPath: "registerDate", ascending: true).filter { _ in true }
+        let sortList = realm.objects(Reminder.self).sorted(byKeyPath: "registerDate", ascending: true)
         switch reminderOption {
         case .today:
-            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date())
+            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil && !$0.isComplete }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date())
         case .schedule:
-            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@} or deadline > %@", Date(timeInterval: -86400, since: Date()), Date(), Date())
+            reminderList = realm.objects(Reminder.self).where { $0.deadline != nil && !$0.isComplete }.filter("deadline BETWEEN {%@, %@} or deadline > %@", Date(timeInterval: -86400, since: Date()), Date(), Date())
         case .all:
-            reminderList = realm.objects(Reminder.self)
+            reminderList = realm.objects(Reminder.self).where { !$0.isComplete }
         case .flag:
-            list = tempList.filter { $0.flag }
-            reminderList = realm.objects(Reminder.self).where { $0.flag }
+            reminderList = realm.objects(Reminder.self).where { $0.flag && !$0.isComplete }
         case .completed:
-            list = tempList.filter { $0.isComplete }
             reminderList = realm.objects(Reminder.self).where { $0.isComplete }
         }
         allReminderView.reminderTableView.reloadData()
@@ -80,9 +78,6 @@ final class ReminderListViewController: BaseViewController {
 
 extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // 1. 추가나 삭제 등 데이터가 바뀌면 테이블뷰도 갱신
-        // 2. 왜 항상 try 구문 내에서 코드를 써야 하나? transaction
-        // 3. 테이블 컬럼이 변경되면 왜 앱이 꺼지지???
         let reminder = reminderList[indexPath.row]
         let realm = try! Realm()
         
@@ -131,7 +126,6 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reminderList.count
-//        return list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,15 +133,40 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
         
         let index = indexPath.row
         let reminder = reminderList[index]
-//        let reminder = list[index]
+        
         if let reminderOption {
             cell.configureContent(reminder, optionColor: reminderOption.tintColor)
             cell.selectedImageIDs = reminder.imageIDs.map { String($0) }
         }
         
+        cell.completeButton.tag = index
+        cell.completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
+        
         cell.imageHorizontalCollectionView.delegate = self
         
         return cell
+    }
+    
+    @objc
+    private func completeButtonClicked(sender: UIButton) {
+        print(#function)
+        let index = sender.tag
+        let realm = try! Realm()
+        let reminder = reminderList[index]
+        
+        try! realm.write {
+            reminder.isComplete.toggle()
+        }
+        if let cell = allReminderView.reminderTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? ReminderTableViewCell {
+            cell.configureButtonContent(isComplete: reminder.isComplete)
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                allReminderView.reminderTableView.reloadData()
+            }
+        }
+        delegate?.reloadMainCollectionView()
     }
 }
 
