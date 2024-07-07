@@ -36,3 +36,11 @@ extension String {
         return URL(string: self)
     }
 }
+
+extension String {
+    var fontSize: CGSize {
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .medium)]
+        let size = (self as NSString).size(withAttributes: attributes)
+        return size
+    }
+}
