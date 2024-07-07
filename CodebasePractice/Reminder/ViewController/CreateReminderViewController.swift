@@ -110,7 +110,7 @@ final class CreateReminderViewController: BaseViewController {
         createReminderView.contentTableView.dataSource = self
         createReminderView.contentTableView.rowHeight = UITableView.automaticDimension
         createReminderView.contentTableView.keyboardDismissMode = .onDrag
-        createReminderView.contentTableView.allowsSelection = false
+//        createReminderView.contentTableView.allowsSelection = false
         createReminderView.contentTableView.isEditing = true
         
         let tableViewCellList = [
@@ -217,6 +217,9 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
                                                            for: indexPath) as? ReminderImageTableViewCell else { return UITableViewCell() }
             cell.titleLabel.text = category.rawValue
             cell.trailingImageView.image = UIImage(systemName: "chevron.forward")
+            cell.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tagCellTapped))
+            cell.addGestureRecognizer(tapGesture)
             return cell
             
         case .flag:
@@ -281,6 +284,21 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
                 return cell
             }
         }
+    }
+    
+    @objc
+    private func tagCellTapped() {
+        let completeHandler: ([String]) -> Void = { tagList in
+            tagList.forEach { [weak self] in
+                guard let self else { return }
+                reminderTag.append($0)
+            }
+        }
+        let reminderAddTagViewController = ReminderAddTagViewController()
+        reminderAddTagViewController.onComplete = completeHandler
+        
+        let navigationViewController = UINavigationController(rootViewController: reminderAddTagViewController)
+        present(navigationViewController, animated: true)
     }
     
     private func presentCamera() {
