@@ -187,7 +187,6 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         let reminderListViewController = ReminderListViewController()
         reminderListViewController.reminderOption = ReminderOption.allCases[indexPath.row]
         reminderListViewController.delegate = self
-//        reminderListViewController.configureList(reminderOption: ReminderOption.allCases[indexPath.row])
         navigationController?.pushViewController(reminderListViewController, animated: true)
     }
     
