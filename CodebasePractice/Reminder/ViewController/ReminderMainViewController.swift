@@ -200,8 +200,8 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         
         let index = indexPath.row
         let option = ReminderOption.allCases[index]
-        if let image = option.image {
-            cell.configureImage(image: image, tintColor: option.tintColor)
+        if let image = option.image?.applyingSymbolConfiguration(.init(paletteColors: [.white, option.tintColor])) {
+            cell.configureImage(image: image)
         }
         cell.configureTitle(title: option.title)
         

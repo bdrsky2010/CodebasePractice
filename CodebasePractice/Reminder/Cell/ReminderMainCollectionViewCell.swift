@@ -12,8 +12,8 @@ import SnapKit
 
 final class ReminderMainCollectionViewCell: BaseCollectionViewCell {
     
-    let cellBackgroundView = UIView()
-    let imageBackgroundView = UIView()
+    private let cellBackgroundView = UIView()
+    
     let imageView = UIImageView()
     let titleLabel = UILabel()
     let countLabel = UILabel()
@@ -25,12 +25,10 @@ final class ReminderMainCollectionViewCell: BaseCollectionViewCell {
     
     override func configureView() {
         cellBackgroundView.backgroundColor = UIColor.systemBackground
-        imageBackgroundView.backgroundColor = UIColor.white
     }
     
     override func configureHierarchy() {
         addSubview(cellBackgroundView)
-        cellBackgroundView.addSubview(imageBackgroundView)
         cellBackgroundView.addSubview(imageView)
         cellBackgroundView.addSubview(titleLabel)
         cellBackgroundView.addSubview(countLabel)
@@ -39,11 +37,6 @@ final class ReminderMainCollectionViewCell: BaseCollectionViewCell {
     override func configureLayout() {
         cellBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        
-        imageBackgroundView.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().offset(12)
-            make.size.equalTo(24)
         }
         
         imageView.snp.makeConstraints { make in
@@ -64,7 +57,6 @@ final class ReminderMainCollectionViewCell: BaseCollectionViewCell {
     private func configureUI() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            imageBackgroundView.layer.cornerRadius = imageBackgroundView.bounds.width / 2
             imageView.layer.cornerRadius = imageView.bounds.width / 2
         }
         cellBackgroundView.layer.cornerRadius = 10
@@ -73,9 +65,8 @@ final class ReminderMainCollectionViewCell: BaseCollectionViewCell {
         countLabel.font = UIFont.systemFont(ofSize: 28, weight: .black)
     }
     
-    func configureImage(image: UIImage, tintColor: UIColor) {
+    func configureImage(image: UIImage) {
         imageView.image = image
-        imageView.tintColor = tintColor
     }
     
     func configureTitle(title: String) {
