@@ -11,18 +11,59 @@ import SnapKit
 
 
 final class ReminderTableViewCell: BaseTableViewCell {
+    lazy var imageHorizontalCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    
+    private let layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 4
+        layout.itemSize = CGSize(width: 28, height: 28)
+        return layout
+    }()
+    
     let completeButton = UIButton(type: .system)
-    let priorityLabel = UILabel()
-    let titleLable = UILabel()
-    let contentLabel = UILabel()
-    let dateLabel = UILabel()
-    let flagImageView: UIImageView = {
+    
+    private let priorityLabel: UILabel = {
+        let label = UILabel()
+        label.isHidden = true
+        return label
+    }()
+    
+    private let flagImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "flag.fill")
         imageView.tintColor = UIColor.systemOrange
         imageView.isHidden = true
         return imageView
     }()
+    
+    private let titleLable = UILabel()
+    private let contentLabel = UILabel()
+    private let dateLabel = UILabel()
+    
+    var selectedImageIDs: [String] = [] {
+        didSet {
+            if !selectedImageIDs.isEmpty {
+                configureImageCollectionView()
+                
+                imageHorizontalCollectionView.snp.makeConstraints { make in
+                    make.top.equalTo(dateLabel.snp.bottom).offset(8)
+                    make.height.equalTo(28)
+                    make.leading.equalTo(completeButton.snp.trailing).offset(8)
+                    make.trailing.equalToSuperview().offset(-20)
+                    make.bottom.equalToSuperview().offset(-8)
+                }
+                
+                dateLabel.snp.remakeConstraints { make in
+                    make.top.equalTo(contentLabel.snp.bottom)
+                    make.leading.equalTo(completeButton.snp.trailing).offset(8)
+                    make.bottom.equalTo(imageHorizontalCollectionView.snp.top).offset(-8)
+                }
+            } else {
+                imageHorizontalCollectionView.isHidden = true
+            }
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,6 +77,7 @@ final class ReminderTableViewCell: BaseTableViewCell {
         contentView.addSubview(flagImageView)
         contentView.addSubview(contentLabel)
         contentView.addSubview(dateLabel)
+        contentView.addSubview(imageHorizontalCollectionView)
     }
     
     override func configureLayout() {
@@ -45,33 +87,21 @@ final class ReminderTableViewCell: BaseTableViewCell {
             make.width.equalTo(completeButton.snp.height)
         }
         
-        priorityLabel.snp.makeConstraints { make in
+        titleLable.snp.makeConstraints { make in
             make.centerY.equalTo(completeButton.snp.centerY)
             make.leading.equalTo(completeButton.snp.trailing).offset(8)
-            make.trailing.equalTo(titleLable.snp.leading).offset(-8)
-        }
-        
-        titleLable.snp.remakeConstraints { make in
-            make.centerY.equalTo(completeButton.snp.centerY)
-            make.leading.equalTo(priorityLabel.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().offset(-8)
-        }
-        
-        flagImageView.snp.makeConstraints { make in
-            make.centerY.equalTo(titleLable.snp.centerY)
-            make.size.equalTo(titleLable.snp.height)
             make.trailing.equalToSuperview().offset(-20)
         }
         
         contentLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLable.snp.bottom)
-            make.leading.equalTo(titleLable.snp.leading)
+            make.leading.equalTo(completeButton.snp.trailing).offset(8)
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom)
-            make.leading.equalTo(titleLable.snp.leading)
-            make.bottom.equalToSuperview().inset(8)
+            make.leading.equalTo(completeButton.snp.trailing).offset(8)
+            make.bottom.equalToSuperview().offset(-8)
         }
     }
     
@@ -84,6 +114,8 @@ final class ReminderTableViewCell: BaseTableViewCell {
         titleLable.font = UIFont.boldSystemFont(ofSize: 14)
         
         priorityLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
+        priorityLabel.layer.borderColor = UIColor.red.cgColor
+        priorityLabel.layer.borderWidth = 1
         
         contentLabel.textColor = UIColor.systemGray
         contentLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
@@ -92,32 +124,70 @@ final class ReminderTableViewCell: BaseTableViewCell {
         dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
     }
     
-    func configureContent(isComplete: Bool, title: String, content: String? = nil, date: Date? = nil, flag: Bool, priority: Priority, optionColor: UIColor) {
-        configureButtonContent(isComplete: isComplete)
-        titleLable.text = title
+    func configureContent(_ reminder: Reminder, optionColor: UIColor) {
+        configureButtonContent(isComplete: reminder.isComplete)
+        
+        priorityLabel.text = reminder.priority.text
+        priorityLabel.textColor = optionColor
+        
+        if !reminder.priority.text.isEmpty {
+            priorityLabel.isHidden = false
+               
+            priorityLabel.snp.makeConstraints { make in
+                make.centerY.equalTo(completeButton.snp.centerY)
+                make.leading.equalTo(completeButton.snp.trailing).offset(8)
+                make.trailing.equalTo(titleLable.snp.leading).offset(-8)
+            }
+            
+            titleLable.snp.remakeConstraints { make in
+                make.centerY.equalTo(completeButton.snp.centerY)
+                make.leading.equalTo(priorityLabel.snp.trailing).offset(8)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+        }
+        
+        if reminder.flag {
+            flagImageView.isHidden = false
+            flagImageView.snp.makeConstraints { make in
+                make.centerY.equalTo(titleLable.snp.centerY)
+                make.size.equalTo(titleLable.snp.height)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+            
+            if reminder.priority.text.isEmpty {
+                titleLable.snp.remakeConstraints { make in
+                    make.centerY.equalTo(completeButton.snp.centerY)
+                    make.leading.equalTo(completeButton.snp.trailing).offset(8)
+                    make.trailing.equalTo(flagImageView.snp.leading).offset(-8)
+                }
+            } else {
+                titleLable.snp.remakeConstraints { make in
+                    make.centerY.equalTo(completeButton.snp.centerY)
+                    make.leading.equalTo(priorityLabel.snp.trailing).offset(8)
+                    make.trailing.equalTo(flagImageView.snp.leading).offset(-8)
+                }
+            }
+        }
+        
+        titleLable.text = reminder.title
         titleLable.numberOfLines = 0
         
-        if let content {
+        if let content = reminder.content {
             contentLabel.text = content
             contentLabel.numberOfLines = 0
         }
-        if let date {
+        if let date = reminder.deadline {
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "ko_KR")
             formatter.dateFormat = "yyyy년 M월 d일 EEEE"
             dateLabel.text = formatter.string(from: date)
         }
-        if flag {
-            flagImageView.isHidden = !flag
-            titleLable.snp.remakeConstraints { make in
-                make.centerY.equalTo(completeButton.snp.centerY)
-                make.leading.equalTo(priorityLabel.snp.trailing).offset(8)
-                make.trailing.equalTo(flagImageView.snp.leading).offset(-8)
-            }
-        }
-        
-        priorityLabel.text = priority.text
-        priorityLabel.textColor = optionColor
+    }
+    
+    private func configureImageCollectionView() {
+        imageHorizontalCollectionView.allowsSelection = false
+        imageHorizontalCollectionView.dataSource = self
+        imageHorizontalCollectionView.register(ReminderSelectedImageCollectionViewCell.self, forCellWithReuseIdentifier: ReminderSelectedImageCollectionViewCell.identifier)
     }
     
     private func configureButtonContent(isComplete: Bool) {
@@ -128,5 +198,18 @@ final class ReminderTableViewCell: BaseTableViewCell {
             completeButton.configuration?.image = UIImage(systemName: "circle")
             completeButton.configuration?.baseForegroundColor = UIColor.systemGray
         }
+    }
+}
+
+extension ReminderTableViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectedImageIDs.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = imageHorizontalCollectionView.dequeueReusableCell(withReuseIdentifier: ReminderSelectedImageCollectionViewCell.identifier, for: indexPath) as? ReminderSelectedImageCollectionViewCell else { return UICollectionViewCell() }
+        let id = selectedImageIDs[indexPath.row]
+        cell.configureImage(image: ReminderManager.shared.loadImageToDocument(filename: id))
+        return cell
     }
 }
