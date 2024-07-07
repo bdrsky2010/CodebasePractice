@@ -16,15 +16,7 @@ final class ReminderPopupButtonTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        popupButton.configuration = .plain()
-        popupButton.configuration?.baseForegroundColor = UIColor.systemGray
-        popupButton.configuration?.image = UIImage(systemName: "chevron.up.chevron.down")
-        popupButton.configuration?.imagePlacement = .trailing
-        popupButton.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 10, weight: .bold)
-        popupButton.configuration?.imagePadding = 4
-        popupButton.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        configureUI()
     }
     
     override func configureHierarchy() {
@@ -42,5 +34,16 @@ final class ReminderPopupButtonTableViewCell: BaseTableViewCell {
             make.trailing.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
         }
+    }
+    
+    private func configureUI() {
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        popupButton.configuration = .plain()
+        popupButton.configuration?.baseForegroundColor = UIColor.systemGray
+        popupButton.configuration?.image = UIImage(systemName: "chevron.up.chevron.down")
+        popupButton.configuration?.imagePlacement = .trailing
+        popupButton.configuration?.preferredSymbolConfigurationForImage = .init(pointSize: 10, weight: .bold)
+        popupButton.configuration?.imagePadding = 4
+        popupButton.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
     }
 }
