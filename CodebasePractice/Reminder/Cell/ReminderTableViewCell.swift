@@ -40,6 +40,7 @@ final class ReminderTableViewCell: BaseTableViewCell {
     private let titleLable = UILabel()
     private let contentLabel = UILabel()
     private let dateLabel = UILabel()
+    private let tagLabel = UILabel()
     
     var selectedImageIDs: [String] = [] {
         didSet {
@@ -47,15 +48,15 @@ final class ReminderTableViewCell: BaseTableViewCell {
                 configureImageCollectionView()
                 
                 imageHorizontalCollectionView.snp.makeConstraints { make in
-                    make.top.equalTo(dateLabel.snp.bottom).offset(8)
+                    make.top.equalTo(tagLabel.snp.bottom).offset(8)
                     make.height.equalTo(28)
                     make.leading.equalTo(completeButton.snp.trailing).offset(8)
                     make.trailing.equalToSuperview().offset(-20)
                     make.bottom.equalToSuperview().offset(-8)
                 }
                 
-                dateLabel.snp.remakeConstraints { make in
-                    make.top.equalTo(contentLabel.snp.bottom)
+                tagLabel.snp.remakeConstraints { make in
+                    make.top.equalTo(dateLabel.snp.bottom)
                     make.leading.equalTo(completeButton.snp.trailing).offset(8)
                     make.bottom.equalTo(imageHorizontalCollectionView.snp.top).offset(-8)
                 }
@@ -77,10 +78,12 @@ final class ReminderTableViewCell: BaseTableViewCell {
         contentView.addSubview(flagImageView)
         contentView.addSubview(contentLabel)
         contentView.addSubview(dateLabel)
+        contentView.addSubview(tagLabel)
         contentView.addSubview(imageHorizontalCollectionView)
     }
     
     override func configureLayout() {
+        print(#function)
         completeButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(8)
             make.leading.equalToSuperview().offset(20)
@@ -101,6 +104,11 @@ final class ReminderTableViewCell: BaseTableViewCell {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(contentLabel.snp.bottom)
             make.leading.equalTo(completeButton.snp.trailing).offset(8)
+        }
+        
+        tagLabel.snp.makeConstraints { make in
+            make.top.equalTo(dateLabel.snp.bottom)
+            make.leading.equalTo(completeButton.snp.trailing).offset(8)
             make.bottom.equalToSuperview().offset(-8)
         }
     }
@@ -120,9 +128,13 @@ final class ReminderTableViewCell: BaseTableViewCell {
         
         dateLabel.textColor = UIColor.systemGray
         dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
+        
+        tagLabel.textColor = UIColor.systemIndigo
+        tagLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
     }
     
     func configureContent(_ reminder: Reminder, optionColor: UIColor) {
+        print(#function)
         configureButtonContent(isComplete: reminder.isComplete)
         
         priorityLabel.text = reminder.priority.text
@@ -174,12 +186,16 @@ final class ReminderTableViewCell: BaseTableViewCell {
             contentLabel.text = content
             contentLabel.numberOfLines = 0
         }
+        
         if let date = reminder.deadline {
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "ko_KR")
             formatter.dateFormat = "yyyy년 M월 d일 EEEE"
             dateLabel.text = formatter.string(from: date)
         }
+        
+        tagLabel.text = reminder.tag.map { "#" + $0 }.joined(separator: " ")
+        tagLabel.numberOfLines = 0
     }
     
     private func configureImageCollectionView() {
@@ -188,7 +204,7 @@ final class ReminderTableViewCell: BaseTableViewCell {
         imageHorizontalCollectionView.register(ReminderSelectedImageCollectionViewCell.self, forCellWithReuseIdentifier: ReminderSelectedImageCollectionViewCell.identifier)
     }
     
-    private func configureButtonContent(isComplete: Bool) {
+    func configureButtonContent(isComplete: Bool) {
         if isComplete {
             completeButton.configuration?.image = UIImage(systemName: "largecircle.fill.circle")
             completeButton.configuration?.baseForegroundColor = UIColor.systemOrange
