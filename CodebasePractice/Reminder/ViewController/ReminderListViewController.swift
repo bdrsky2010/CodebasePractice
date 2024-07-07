@@ -141,10 +141,16 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
         let reminder = reminderList[index]
 //        let reminder = list[index]
         if let reminderOption {
-            cell.configureContent(isComplete: reminder.isComplete, title: reminder.title, content: reminder.content, date: reminder.deadline, flag: reminder.flag, priority: reminder.priority, optionColor: reminderOption.tintColor)
+            cell.configureContent(reminder, optionColor: reminderOption.tintColor)
+            cell.selectedImageIDs = reminder.imageIDs.map { String($0) }
         }
+        
+        cell.imageHorizontalCollectionView.delegate = self
+        
         return cell
     }
-    
+}
+
+extension ReminderListViewController: UICollectionViewDelegate {
     
 }
