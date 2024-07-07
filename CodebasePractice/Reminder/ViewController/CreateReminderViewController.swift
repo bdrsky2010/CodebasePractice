@@ -37,6 +37,7 @@ fileprivate enum ImageAddOption: String, CaseIterable {
 final class CreateReminderViewController: BaseViewController {
     
     private let createReminderView = CreateReminderView()
+    private let repository = ReminderRepository()
     
     private var isShowDatePicker = false {
         didSet {
@@ -81,12 +82,16 @@ final class CreateReminderViewController: BaseViewController {
     
     @objc
     private func addButtonClicked() {
-        let realm = try! Realm()
         let reminder = Reminder(title: reminderTitle, content: reminderContents, deadline: reminderDeadline, tag: reminderTag, flag: reminderFlag, priority: reminderPriority, imageIDs: reminderImageIDs)
-        try! realm.write {
-            realm.add(reminder)
-            print("Realm Create Succeed")
+        
+        do {
+            try repository.createReminder(reminder)
+        } catch {
+            if let error = error.asReminderDatabaseError {
+                ReminderManager.shared.presentAlertWithReminderError(viewController: self, error: error)
+            }
         }
+        
         delegate?.reloadMainCollectionView()
         dismiss(animated: true)
     }
