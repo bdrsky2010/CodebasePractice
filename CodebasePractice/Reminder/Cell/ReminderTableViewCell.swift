@@ -114,8 +114,6 @@ final class ReminderTableViewCell: BaseTableViewCell {
         titleLable.font = UIFont.boldSystemFont(ofSize: 14)
         
         priorityLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
-        priorityLabel.layer.borderColor = UIColor.red.cgColor
-        priorityLabel.layer.borderWidth = 1
         
         contentLabel.textColor = UIColor.systemGray
         contentLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
