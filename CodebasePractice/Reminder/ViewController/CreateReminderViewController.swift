@@ -102,6 +102,7 @@ final class CreateReminderViewController: BaseViewController {
         createReminderView.contentTableView.rowHeight = UITableView.automaticDimension
         createReminderView.contentTableView.keyboardDismissMode = .onDrag
         createReminderView.contentTableView.allowsSelection = false
+        createReminderView.contentTableView.isEditing = true
         
         let tableViewCellList = [
             ReminderTextViewTableViewCell.self,
@@ -118,6 +119,32 @@ final class CreateReminderViewController: BaseViewController {
 }
 
 extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        selectedImageList.remove(at: indexPath.row - 1)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        selectedImageList.swapAt(sourceIndexPath.row - 1, destinationIndexPath.row - 1)
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        return proposedDestinationIndexPath
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section == 5 && indexPath.row > 0
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section == 5 && indexPath.row > 0
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return ReminderCategory.allCases.count
     }
@@ -128,6 +155,8 @@ extension CreateReminderViewController: UITableViewDelegate, UITableViewDataSour
             return 2
         case .deadline:
             return isShowDatePicker ? 2 : 1
+        case .image:
+            return selectedImageList.isEmpty ? 1 : selectedImageList.count + 1
         default:
             return 1
         }
@@ -304,6 +333,7 @@ extension CreateReminderViewController: PHPickerViewControllerDelegate {
                     DispatchQueue.main.async { [weak self] in
                         guard let self, let image = image as? UIImage else { return }
                         selectedImageList.append(image)
+                        createReminderView.contentTableView.reloadSections(IndexSet(integer: 5), with: .automatic)
                         print(selectedImageList)
                     }
                 }
