@@ -14,6 +14,19 @@ enum Priority: String, PersistableEnum {
     case low = "낮음"
     case mid = "중간"
     case high = "높음"
+    
+    var text: String {
+        switch self {
+        case .none:
+            return ""
+        case .low:
+            return "!"
+        case .mid:
+            return "!!"
+        case .high:
+            return "!!!"
+        }
+    }
 }
 
 class Reminder: Object {

@@ -140,8 +140,9 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
         let index = indexPath.row
         let reminder = reminderList[index]
 //        let reminder = list[index]
-        cell.configureContent(isComplete: reminder.isComplete, title: reminder.title, content: reminder.content, date: reminder.deadline, flag: reminder.flag)
-        
+        if let reminderOption {
+            cell.configureContent(isComplete: reminder.isComplete, title: reminder.title, content: reminder.content, date: reminder.deadline, flag: reminder.flag, priority: reminder.priority, optionColor: reminderOption.tintColor)
+        }
         return cell
     }
     
