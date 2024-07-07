@@ -40,7 +40,7 @@ final class ReminderTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         completeButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(8)
             make.leading.equalToSuperview().offset(20)
             make.width.equalTo(completeButton.snp.height)
         }
@@ -64,14 +64,14 @@ final class ReminderTableViewCell: BaseTableViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLable.snp.bottom).offset(8)
+            make.top.equalTo(titleLable.snp.bottom)
             make.leading.equalTo(titleLable.snp.leading)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel.snp.bottom).offset(8)
+            make.top.equalTo(contentLabel.snp.bottom)
             make.leading.equalTo(titleLable.snp.leading)
-            make.bottom.equalToSuperview().inset(12)
+            make.bottom.equalToSuperview().inset(8)
         }
     }
     
@@ -96,8 +96,7 @@ final class ReminderTableViewCell: BaseTableViewCell {
         configureButtonContent(isComplete: isComplete)
         titleLable.text = title
         titleLable.numberOfLines = 0
-        titleLable.layer.borderColor = UIColor.red.cgColor
-        titleLable.layer.borderWidth = 1
+        
         if let content {
             contentLabel.text = content
             contentLabel.numberOfLines = 0
