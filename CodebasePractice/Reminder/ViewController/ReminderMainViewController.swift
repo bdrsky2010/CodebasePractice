@@ -207,19 +207,19 @@ extension ReminderMainViewController: UICollectionViewDelegate, UICollectionView
         let realm = try! Realm()
         switch option {
         case .today:
-            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date()).count
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil && !$0.isComplete }.filter("deadline BETWEEN {%@, %@}", Date(timeInterval: -86400, since: Date()), Date()).count
             cell.configureCount(count: count)
             
         case .schedule:
-            let count = realm.objects(Reminder.self).where { $0.deadline != nil }.filter("deadline BETWEEN {%@, %@} or deadline > %@", Date(timeInterval: -86400, since: Date()), Date(), Date()).count
+            let count = realm.objects(Reminder.self).where { $0.deadline != nil && !$0.isComplete }.filter("deadline BETWEEN {%@, %@} or deadline > %@", Date(timeInterval: -86400, since: Date()), Date(), Date()).count
             cell.configureCount(count: count)
             
         case .all:
-            let count = realm.objects(Reminder.self).count
+            let count = realm.objects(Reminder.self).where { !$0.isComplete }.count
             cell.configureCount(count: count)
             
         case .flag:
-            let count = realm.objects(Reminder.self).where { $0.flag }.count
+            let count = realm.objects(Reminder.self).where { $0.flag && !$0.isComplete }.count
             cell.configureCount(count: count)
             
         case .completed:
