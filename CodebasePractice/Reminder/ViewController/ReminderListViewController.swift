@@ -12,6 +12,7 @@ import RealmSwift
 final class ReminderListViewController: BaseViewController {
     
     private let allReminderView = AllReminderView()
+    private let repository = ReminderRepository()
     
     private var reminderList: Results<Reminder>!
     private var list: [Reminder] = []
@@ -98,12 +99,18 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
             }
             print("flagAction")
             
-            try! realm.write {
-                reminder.flag.toggle()
+            do {
+                let value = ["id": reminder.id, "flag": !reminder.flag]
+                try repository.updateReminder(value: value)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                delegate?.reloadMainCollectionView()
+                success(true)
+            } catch {
+                if let error = error.asReminderDatabaseError {
+                    ReminderManager.shared.presentAlertWithReminderError(viewController: self, error: error)
+                }
+                success(false)
             }
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            delegate?.reloadMainCollectionView()
-            success(true)
         }
         flagAction.backgroundColor = UIColor.systemOrange
         
@@ -113,12 +120,17 @@ extension ReminderListViewController: UITableViewDelegate, UITableViewDataSource
                 return
             }
 
-            try! realm.write {
-                realm.delete(reminder)
+            do {
+                try repository.deleteReminder(reminder)
+                tableView.deleteRows(at: [indexPath], with: .bottom)
+                delegate?.reloadMainCollectionView()
+                success(true)
+            } catch {
+                if let error = error.asReminderDatabaseError {
+                    ReminderManager.shared.presentAlertWithReminderError(viewController: self, error: error)
+                }
+                success(false)
             }
-            tableView.deleteRows(at: [indexPath], with: .bottom)
-            delegate?.reloadMainCollectionView()
-            success(true)
         }
         
         return UISwipeActionsConfiguration(actions: [deleteAction, flagAction, detailAction])

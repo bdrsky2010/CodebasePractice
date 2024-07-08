@@ -43,9 +43,32 @@ final class ReminderRepository {
         do {
             try realm.write {
                 realm.add(reminder)
+                print("Realm Create Succeed")
             }
         } catch {
             throw ReminderDatabaseError.create
+        }
+    }
+    
+    func updateReminder(value: [String: Any]) throws {
+        do {
+            try realm.write {
+                realm.create(Reminder.self, value: value, update: .modified)
+                print("Realm Update Succeed")
+            }
+        } catch {
+            throw ReminderDatabaseError.update
+        }
+    }
+    
+    func deleteReminder(_ reminder: Reminder) throws {
+        do {
+            try realm.write {
+                realm.delete(reminder)
+                print("Realm Delete Succeed")
+            }
+        } catch {
+            throw ReminderDatabaseError.delete
         }
     }
 }
