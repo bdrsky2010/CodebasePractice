@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
 
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    private let titleList = ["넷플릭스", "로또", "일간 박스오피스", "TMDB Movie Trend", "날씨봇", "NASA", "미리 알림"]
+    private let titleList = ["넷플릭스", "로또", "일간 박스오피스", "TMDB Movie Trend", "날씨봇", "NASA", "미리 알림", "Diffable + ListConfiguration"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ extension ViewController: UITableViewDelegate {
         
         let viewControllerList = [
             UITabBarController(), LottoViewController(), BoxOfficeViewController(), MediaViewController(),
-            WeatherBotViewController(), RandomNasaImageViewController(), ReminderMainViewController()
+            WeatherBotViewController(), RandomNasaImageViewController(), ReminderMainViewController(), DiffableTabBarController()
         ]
         
         let index = indexPath.row
