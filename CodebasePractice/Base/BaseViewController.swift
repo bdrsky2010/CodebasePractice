@@ -16,6 +16,10 @@ class BaseViewController: UIViewController, ConfigureViewProtocol {
         configureLayout()
     }
     
+    deinit {
+        print("\(String(describing: type(of: self))) deinit")
+    }
+    
     func configureView() { view.backgroundColor = .systemBackground }
     func configureHierarchy() { }
     func configureLayout() { }

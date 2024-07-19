@@ -16,6 +16,10 @@ class BaseCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol {
         configureLayout()
     }
     
+    deinit {
+        print("\(String(describing: type(of: self))) deinit")
+    }
+    
     func configureView() { }
     func configureHierarchy() { }
     func configureLayout() { }
