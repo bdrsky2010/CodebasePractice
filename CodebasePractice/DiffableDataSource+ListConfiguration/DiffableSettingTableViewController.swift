@@ -9,6 +9,11 @@ import UIKit
 
 import SnapKit
 
+fileprivate struct KakaoSetting: Hashable, Identifiable {
+    let id = UUID()
+    let title: String
+}
+
 fileprivate enum SettingCategory: CaseIterable {
     case entire
     case personal
@@ -48,11 +53,6 @@ fileprivate enum SettingCategory: CaseIterable {
     }
 }
 
-fileprivate struct KakaoSetting: Hashable, Identifiable {
-    let id = UUID()
-    let title: String
-}
-
 final class DiffableSettingTableViewController: BaseViewController {
     private let settingCollectionView: UICollectionView = {
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -69,7 +69,7 @@ final class DiffableSettingTableViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         view.addSubview(settingCollectionView)
         settingCollectionView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -80,7 +80,7 @@ final class DiffableSettingTableViewController: BaseViewController {
     
     private func configureDataSource() {
         var cellRegistration: UICollectionView.CellRegistration<UICollectionViewListCell, KakaoSetting>
-        cellRegistration = UICollectionView.CellRegistration() { cell, indexPath, itemIdentifier in
+        cellRegistration = UICollectionView.CellRegistration { cell, indexPath, itemIdentifier in
             // CollectionView SystemCell
             var content = UIListContentConfiguration.valueCell()
             content.text = itemIdentifier.title
@@ -99,7 +99,7 @@ final class DiffableSettingTableViewController: BaseViewController {
         }
         
         let headerRegistration: UICollectionView.SupplementaryRegistration<UICollectionViewListCell>
-        headerRegistration = UICollectionView.SupplementaryRegistration(elementKind: UICollectionView.elementKindSectionHeader, handler: { [weak self] supplementaryView, elementKind, indexPath in
+        headerRegistration = UICollectionView.SupplementaryRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, elementKind, indexPath in
             guard let self else { return }
             let headerITem = dataSource?.snapshot().sectionIdentifiers[indexPath.section]
             
@@ -108,7 +108,7 @@ final class DiffableSettingTableViewController: BaseViewController {
             config.textProperties.font = .systemFont(ofSize: 16)
             config.textProperties.color = .systemGray
             supplementaryView.contentConfiguration = config
-        })
+        }
         
         dataSource?.supplementaryViewProvider = { (collectionView, elementKind, indexPath) -> UICollectionReusableView in
             return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
