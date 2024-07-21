@@ -57,17 +57,18 @@ final class DiffableSettingTableViewController: BaseViewController {
     private let settingCollectionView: UICollectionView = {
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.backgroundColor = .black
+        configuration.headerMode = .supplementary
+        configuration.separatorConfiguration.color = .darkGray
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
     
     // <섹션을 구분해 줄 데이터 타입, 셀에 들어가는 데이터 타입>
-    private var dataSource: UICollectionViewDiffableDataSource<SettingCategory, KakaoSetting>!
+    private var dataSource: UICollectionViewDiffableDataSource<SettingCategory, KakaoSetting>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .black
         view.addSubview(settingCollectionView)
         settingCollectionView.snp.makeConstraints { make in
@@ -84,6 +85,7 @@ final class DiffableSettingTableViewController: BaseViewController {
             var content = UIListContentConfiguration.valueCell()
             content.text = itemIdentifier.title
             content.textProperties.color = .white
+            content.textProperties.font = .systemFont(ofSize: 12)
             cell.contentConfiguration = content
             
             var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
@@ -96,7 +98,21 @@ final class DiffableSettingTableViewController: BaseViewController {
             return cell
         }
         
+        let headerRegistration: UICollectionView.SupplementaryRegistration<UICollectionViewListCell>
+        headerRegistration = UICollectionView.SupplementaryRegistration(elementKind: UICollectionView.elementKindSectionHeader, handler: { [weak self] supplementaryView, elementKind, indexPath in
+            guard let self else { return }
+            let headerITem = dataSource?.snapshot().sectionIdentifiers[indexPath.section]
+            
+            var config = supplementaryView.defaultContentConfiguration()
+            config.text = headerITem?.title
+            config.textProperties.font = .systemFont(ofSize: 16)
+            config.textProperties.color = .systemGray
+            supplementaryView.contentConfiguration = config
+        })
         
+        dataSource?.supplementaryViewProvider = { (collectionView, elementKind, indexPath) -> UICollectionReusableView in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
     }
     
     private func updateSnapshot() {
@@ -112,6 +128,6 @@ final class DiffableSettingTableViewController: BaseViewController {
         settingCategories.forEach { snapshot.appendItems($0.detail, toSection: $0) }
         
         // 4. 사용할 데이터를 dataSource에 전달
-        dataSource.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 }
